@@ -1,0 +1,1748 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>조민주 · Backend Developer</title>
+<meta name="description" content="업무를 이해하고 서비스의 전체 흐름을 설계하는 개발자. Java·Spring 기반 백엔드 6년, 건설 사업관리 플랫폼(PMIS) 개발·운영.">
+
+<!-- ▼ 직접 넣어주세요 ① : 링크 공유 썸네일 (1200x630) 을 images/og.png 로 저장하면 자동 적용됩니다 -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="조민주 · Backend Developer">
+<meta property="og:description" content="업무를 이해하고 서비스의 전체 흐름을 설계하는 개발자">
+<meta property="og:image" content="images/og.png">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%2314654a'/><text y='69' x='50' text-anchor='middle' font-size='56' font-family='Georgia,serif' fill='%23f2f6f2'>M</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════
+   TOKENS  ─ 색을 바꾸려면 --accent 줄만 고치면 됩니다
+   ══════════════════════════════════════════ */
+:root{
+  --paper:#f3f6f2;
+  --paper-2:#eaf0e9;
+  --card:#ffffff;
+  --ink:#14201a;
+  --ink-2:#3c4a43;
+  --muted:#69796f;
+  --line:#dde5da;
+  --line-2:#eef2ec;
+
+  --accent:#14654a;        /* 딥 파인 그린 — 메인 포인트 */
+  --accent-2:#2e9b6f;      /* 밝은 그린 — 인터랙션 */
+  --accent-3:#0c3b2a;      /* 가장 진한 그린 — 헤드라인 */
+  --accent-wash:#e2efe8;
+  --accent-line:#bcd8c9;
+
+  --f-body:"IBM Plex Sans KR",-apple-system,sans-serif;
+  --f-disp:"Fraunces","Gowun Batang",Georgia,serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+
+  --pad:clamp(20px,5vw,64px);
+  --maxw:1200px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  /* 등장 애니메이션용 — 끝에서 아주 길게 감속하는 곡선 */
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-soft:cubic-bezier(.25,.46,.45,.94);
+  --r:14px;
+  --shadow:0 1px 2px rgba(20,32,26,.04),0 8px 24px -12px rgba(20,32,26,.14);
+  --shadow-lg:0 2px 4px rgba(20,32,26,.05),0 22px 48px -20px rgba(20,32,26,.24);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-weight:300;line-height:1.78;
+  word-break:keep-all;                 /* 한글이 단어 중간에서 안 끊기게 */
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* 종이 질감 */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply;
+}
+
+/* ══ NAV ══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px var(--pad);transition:.4s var(--ease);
+  border-bottom:1px solid transparent;
+}
+nav.stuck{background:rgba(243,246,242,.9);backdrop-filter:blur(14px);border-bottom-color:var(--line)}
+.brand{font-family:var(--f-disp);font-size:19px;letter-spacing:-.01em;color:var(--accent-3)}
+.brand b{color:var(--accent-2)}
+.navlinks{display:none;align-items:center;gap:26px}
+@media(min-width:880px){.navlinks{display:flex}}
+.navlinks a{font-size:13.5px;color:var(--ink-2);transition:color .25s;position:relative;padding:3px 0}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1.5px;background:var(--accent);transition:width .3s var(--ease)}
+.navlinks a:hover{color:var(--accent)}
+.navlinks a:hover::after{width:100%}
+.navcta{
+  border:1px solid var(--accent);border-radius:999px;padding:7px 18px;
+  font-size:13.5px;color:var(--accent);transition:.28s var(--ease);
+}
+.navcta:hover{background:var(--accent);color:#fff}
+.bar{position:fixed;top:0;left:0;height:2px;background:var(--accent-2);z-index:61;width:0}
+
+/* ══ 레이아웃 ══ */
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad);position:relative;z-index:1}
+section{padding-block:clamp(64px,8vw,110px);position:relative;z-index:1}
+.sec-head{margin-bottom:clamp(30px,4vw,52px)}
+.sec-num{
+  font-family:var(--f-mono);font-size:11.5px;letter-spacing:.2em;color:var(--accent-2);
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;text-transform:uppercase;
+}
+.sec-num::after{content:"";flex:1;height:1px;background:var(--line);max-width:120px}
+.sec-title{font-size:clamp(25px,3.6vw,38px);font-weight:400;letter-spacing:-.025em;line-height:1.28;color:var(--accent-3)}
+.sec-title em{font-family:var(--f-disp);font-style:italic;color:var(--accent-2);font-weight:400}
+.sec-desc{margin-top:14px;max-width:66ch;color:var(--ink-2);font-size:15px}
+
+/* ══ HERO ══ */
+.hero{padding-top:clamp(120px,15vw,170px);padding-bottom:clamp(50px,6vw,80px)}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:9px;font-family:var(--f-mono);font-size:11.5px;
+  letter-spacing:.16em;color:var(--accent);background:var(--accent-wash);
+  border:1px solid var(--accent-line);border-radius:999px;padding:6px 15px;margin-bottom:26px;
+}
+.hero-tag i{width:6px;height:6px;border-radius:50%;background:var(--accent-2);font-style:normal;animation:blip 2.4s var(--ease) infinite}
+@keyframes blip{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{font-size:clamp(38px,6.4vw,74px);font-weight:400;line-height:1.14;letter-spacing:-.035em;color:var(--accent-3);max-width:19ch}
+.hero h1 em{font-family:var(--f-disp);font-style:italic;color:var(--accent-2)}
+.hero-role{font-family:var(--f-mono);font-size:13px;letter-spacing:.1em;color:var(--muted);margin-top:20px}
+.hero-lede{margin-top:24px;max-width:60ch;font-size:clamp(15px,1.5vw,16.5px);color:var(--ink-2);line-height:1.95}
+.hero-lede b{color:var(--accent-3);font-weight:500}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;border-radius:999px;padding:11px 22px;
+  font-size:14px;transition:.28s var(--ease);border:1px solid var(--accent);
+}
+.btn--fill{background:var(--accent);color:#fff}
+.btn--fill:hover{background:var(--accent-3);translate:0 -2px;box-shadow:var(--shadow)}
+.btn--ghost{color:var(--accent);background:var(--card)}
+.btn--ghost:hover{background:var(--accent-wash);translate:0 -2px}
+
+/* 상단 지표 */
+.hero-stats{
+  display:grid;gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;margin-top:clamp(40px,5vw,60px);
+}
+@media(min-width:640px){.hero-stats{grid-template-columns:repeat(4,1fr)}}
+.hstat{background:var(--card);padding:22px 20px}
+.hstat strong{display:block;font-family:var(--f-disp);font-size:clamp(26px,3.2vw,34px);color:var(--accent);line-height:1;font-weight:600}
+.hstat span{display:block;font-size:12.5px;color:var(--muted);margin-top:10px}
+
+/* ══ ABOUT ══ */
+.about{display:grid;gap:clamp(26px,3.4vw,48px)}
+@media(min-width:900px){.about{grid-template-columns:1.1fr .9fr}}
+.about-body p+p{margin-top:16px}
+.about-body p{color:var(--ink-2);font-size:15px}
+.pull{
+  font-family:var(--f-disp);font-size:clamp(19px,2.3vw,25px);line-height:1.5;color:var(--accent-3);
+  border-left:3px solid var(--accent-2);padding-left:20px;margin-bottom:24px;
+}
+.caps{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(22px,2.6vw,30px);box-shadow:var(--shadow)}
+.caps h3{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;color:var(--accent-2);text-transform:uppercase;margin-bottom:18px;font-weight:500}
+.caps ul{display:grid;gap:11px;list-style:none}
+.caps li{font-size:14px;color:var(--ink-2);padding-left:22px;position:relative;line-height:1.7}
+.caps li::before{
+  content:"";position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:2px;
+  background:var(--accent-wash);border:1px solid var(--accent-line);
+}
+
+/* ══ CAREER ══ */
+.career{display:grid;gap:14px}
+.job{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(20px,2.4vw,26px);display:grid;gap:8px;transition:.3s var(--ease);
+}
+@media(min-width:780px){.job{grid-template-columns:210px 1fr auto;gap:26px;align-items:center}}
+.job:hover{border-color:var(--accent-line);box-shadow:var(--shadow);translate:0 -2px}
+.job-when{font-family:var(--f-mono);font-size:12.5px;color:var(--accent);letter-spacing:.02em}
+.job-when i{display:block;font-style:normal;color:var(--muted);font-size:11px;margin-top:3px}
+.job-who b{font-size:16px;font-weight:600;color:var(--accent-3)}
+.job-who span{display:block;font-size:13.5px;color:var(--ink-2);margin-top:3px}
+.job-what{font-size:13.5px;color:var(--muted);max-width:38ch}
+.menus{
+  margin-top:18px;background:var(--accent-wash);border:1px solid var(--accent-line);
+  border-radius:var(--r);padding:18px 22px;
+}
+.menus b{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;display:block;margin-bottom:10px}
+.menus p{font-size:14px;color:var(--ink-2);line-height:1.9}
+/* 경력 카드 안에 들어간 메뉴 목록은 카드 폭 전체를 쓴다 */
+.job .menus{grid-column:1/-1;margin-top:6px}
+
+/* ══ SKILLS ══ */
+.skills{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.srow{background:var(--card);padding:18px clamp(18px,2.2vw,26px);display:grid;gap:10px}
+@media(min-width:740px){.srow{grid-template-columns:200px 1fr;gap:24px;align-items:center}}
+.srow h4{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase;font-weight:500}
+.tags{display:flex;flex-wrap:wrap;gap:7px}
+.tag{
+  font-size:13px;color:var(--ink-2);background:var(--paper);border:1px solid var(--line);
+  border-radius:999px;padding:5px 13px;transition:.22s var(--ease);
+}
+.tag:hover{border-color:var(--accent-line);background:var(--accent-wash);color:var(--accent)}
+
+/* ══════════ PROJECT CARDS ══════════ */
+.cards{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
+.pcard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  overflow:hidden;display:flex;flex-direction:column;text-align:left;
+  transition:.35s var(--ease);
+}
+.pcard:hover{border-color:var(--accent-line);box-shadow:var(--shadow-lg);translate:0 -4px}
+.pcard:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* 카드 썸네일 (이미지 or 빈 자리) */
+.thumb{height:190px;background:var(--paper-2);border-bottom:1px solid var(--line);overflow:hidden;position:relative}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:.6s var(--ease)}
+.pcard:hover .thumb img{scale:1.04}
+.ph{
+  width:100%;height:100%;display:grid;place-content:center;justify-items:center;gap:9px;
+  background:repeating-linear-gradient(45deg,var(--paper-2),var(--paper-2) 11px,#e4ebe3 11px,#e4ebe3 22px);
+  border:1.5px dashed var(--accent-line);border-radius:0;text-align:center;padding:16px;
+}
+.ph svg{width:26px;height:26px;stroke:var(--accent-2);fill:none;stroke-width:1.4;opacity:.8}
+.ph span{font-size:13px;color:var(--accent);font-weight:500}
+.ph em{font-family:var(--f-mono);font-size:10.5px;font-style:normal;color:var(--muted);letter-spacing:.02em}
+
+.pbody{padding:22px clamp(18px,2.2vw,24px);display:flex;flex-direction:column;flex:1;gap:12px}
+.pmeta{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);letter-spacing:.02em}
+.pmeta em{font-style:normal;color:var(--accent-2)}
+.pcard h3{font-size:18.5px;font-weight:600;color:var(--accent-3);letter-spacing:-.02em;line-height:1.4}
+.pdesc{font-size:14px;color:var(--ink-2);line-height:1.75;flex:1}
+.pchip{display:flex;flex-wrap:wrap;gap:6px}
+.pchip span{
+  font-size:11.5px;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;
+  padding:4px 11px;background:var(--paper);
+}
+.pmore{
+  display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--accent);
+  padding-top:12px;border-top:1px solid var(--line-2);margin-top:2px;
+}
+.pmore svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;transition:translate .3s var(--ease)}
+.pcard:hover .pmore svg{translate:4px 0}
+.pbadge{
+  position:absolute;top:12px;left:12px;z-index:2;
+  font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;
+  background:var(--accent);color:#fff;border-radius:999px;padding:4px 11px;
+}
+
+/* ══════════ 상세 모달 ══════════ */
+.modal{
+  position:fixed;inset:0;z-index:100;display:none;
+  background:rgba(12,30,22,.5);backdrop-filter:blur(6px);
+  padding:clamp(12px,3vw,40px);overflow-y:auto;
+}
+.modal.on{display:block;animation:fade .28s var(--ease)}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.msheet{
+  max-width:940px;margin:0 auto;background:var(--paper);border-radius:var(--r);
+  box-shadow:0 40px 90px -30px rgba(12,30,22,.5);overflow:hidden;
+  animation:rise .38s var(--ease);
+}
+@keyframes rise{from{transform:translateY(22px);opacity:0}to{transform:none;opacity:1}}
+.mtop{
+  position:sticky;top:0;z-index:3;background:var(--accent-3);color:#eaf3ee;
+  padding:22px clamp(20px,3vw,34px);display:flex;gap:18px;align-items:flex-start;justify-content:space-between;
+}
+.mtop h2{font-size:clamp(19px,2.4vw,26px);font-weight:600;letter-spacing:-.02em;line-height:1.35}
+.mtop p{font-family:var(--f-mono);font-size:12px;color:#9ec7b2;margin-top:7px;letter-spacing:.03em}
+.mclose{
+  flex-shrink:0;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);
+  display:grid;place-items:center;color:#eaf3ee;transition:.25s var(--ease);
+}
+.mclose:hover{background:rgba(255,255,255,.14);rotate:90deg}
+.mclose svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
+.mbody{padding:clamp(22px,3vw,38px)}
+.mbody > * + *{margin-top:26px}
+.mbody h3{
+  font-family:var(--f-mono);font-size:11.5px;letter-spacing:.18em;color:var(--accent-2);
+  text-transform:uppercase;font-weight:500;display:flex;align-items:center;gap:11px;
+}
+.mbody h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.mbody h4{font-size:16px;font-weight:600;color:var(--accent-3);margin-bottom:10px}
+.mbody p{font-size:14.5px;color:var(--ink-2);line-height:1.9}
+.mbody p b{color:var(--accent-3);font-weight:600}
+.mlist{list-style:none;display:grid;gap:9px;margin-top:12px}
+.mlist li{font-size:14px;color:var(--ink-2);padding-left:19px;position:relative;line-height:1.8}
+.mlist li::before{content:"";position:absolute;left:1px;top:11px;width:7px;height:1.5px;background:var(--accent-2)}
+.mlist li b{color:var(--accent-3);font-weight:600}
+
+/* 정의형 표 (docx 표를 옮긴 것) */
+.dl{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:12px}
+.dl > div{background:var(--card);padding:16px 18px;display:grid;gap:8px}
+@media(min-width:700px){.dl > div{grid-template-columns:172px 1fr;gap:20px;align-items:start}}
+.dl dt{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.1em;color:var(--accent);text-transform:uppercase;padding-top:2px}
+.dl dd{font-size:14px;color:var(--ink-2);line-height:1.85}
+.dl dd ul{list-style:none;display:grid;gap:7px}
+.dl dd li{padding-left:17px;position:relative}
+.dl dd li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:1.5px;background:var(--accent-2)}
+code{
+  font-family:var(--f-mono);font-size:.9em;background:var(--accent-wash);
+  border:1px solid var(--accent-line);border-radius:4px;padding:1px 6px;color:var(--accent);
+}
+
+/* 문제해결 블록 */
+.case{border:1px solid var(--accent-line);border-radius:10px;overflow:hidden;margin-top:14px}
+.case-h{background:var(--accent-wash);padding:13px 18px;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.case-h b{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;color:#fff;background:var(--accent);border-radius:4px;padding:3px 9px}
+.case-h span{font-size:14.5px;font-weight:600;color:var(--accent-3)}
+.case .dl{margin:0;border:0;border-radius:0;border-top:1px solid var(--line)}
+.case .dl > div:last-child dd{color:var(--accent-3)}
+.case .dl > div:last-child dt{color:var(--accent-2)}
+
+/* 모달 안 이미지 자리 */
+.slots{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));margin-top:14px}
+.slot{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card)}
+.slot img{width:100%;height:200px;object-fit:contain;background:#eef1ee;cursor:zoom-in}
+.slot .ph{height:170px}
+.slot figcaption{font-size:12px;color:var(--muted);padding:10px 13px;border-top:1px solid var(--line-2)}
+
+/* ══ 성과 ══ */
+.wins{display:grid;gap:14px}
+.win{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(18px,2.2vw,24px);transition:.3s var(--ease);
+}
+.win:hover{border-color:var(--accent-line);box-shadow:var(--shadow)}
+.win b{display:block;font-size:15.5px;font-weight:600;color:var(--accent-3);margin-bottom:7px}
+.win p{font-size:14px;color:var(--ink-2);line-height:1.82}
+
+/* ══ 마무리 ══ */
+.closing{background:var(--accent-3);color:#e6f1eb;border-radius:var(--r);padding:clamp(30px,5vw,60px)}
+.closing h2{font-family:var(--f-disp);font-size:clamp(22px,3.2vw,34px);font-weight:400;line-height:1.45;margin-bottom:22px;color:#fff}
+.closing p{font-size:15px;line-height:2;color:#b9d3c6;max-width:72ch}
+.closing p+p{margin-top:14px}
+
+/* ══ 기타 ══ */
+.etc{display:grid;gap:14px}
+@media(min-width:780px){.etc{grid-template-columns:repeat(3,1fr)}}
+.ebox{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(20px,2.4vw,26px)}
+.ebox h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;color:var(--accent-2);text-transform:uppercase;margin-bottom:16px;font-weight:500}
+.ebox ul{list-style:none;display:grid;gap:13px}
+.ebox li{font-size:14px;color:var(--ink-2);line-height:1.6}
+.ebox li time{display:block;font-family:var(--f-mono);font-size:11.5px;color:var(--accent);margin-bottom:3px}
+
+/* ══ CONTACT ══ */
+#contact{border-top:1px solid var(--line)}
+.cgrid{display:grid;gap:clamp(26px,3.4vw,50px);align-items:center}
+@media(min-width:820px){.cgrid{grid-template-columns:1fr 1fr}}
+.cbig{font-family:var(--f-disp);font-size:clamp(34px,5.6vw,62px);font-weight:400;line-height:1.12;color:var(--accent-3);letter-spacing:-.02em}
+.cbig em{font-style:italic;color:var(--accent-2)}
+.clist{display:grid;gap:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.clist a,.clist div{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid var(--line-2);transition:.26s var(--ease)}
+.clist a:last-child,.clist div:last-child{border-bottom:0}
+.clist a:hover{background:var(--accent-wash);padding-left:26px}
+.clist b{font-family:var(--f-mono);font-size:11px;letter-spacing:.18em;color:var(--muted);font-weight:500;text-transform:uppercase}
+.clist span{font-size:14.5px;color:var(--ink-2)}
+.clist a:hover span{color:var(--accent)}
+footer{
+  padding:24px var(--pad);border-top:1px solid var(--line);text-align:center;
+  font-size:12.5px;color:var(--muted);position:relative;z-index:1;
+}
+
+/* ══ 라이트박스 ══ */
+#lb{position:fixed;inset:0;z-index:120;display:none;background:rgba(10,24,18,.93);overscroll-behavior:contain}
+#lb.on{display:block}
+/* 이미지가 놓이는 판 — 이 안에서 확대·이동이 일어난다 */
+.lb-stage{position:absolute;inset:0;overflow:hidden;cursor:zoom-in;touch-action:none}
+.lb-stage.zoomed{cursor:grab}
+.lb-stage.grabbing{cursor:grabbing}
+#lb img{
+  position:absolute;top:0;left:0;max-width:none;max-height:none;
+  background:#fff;border-radius:4px;transform-origin:0 0;
+  user-select:none;-webkit-user-drag:none;
+  box-shadow:0 20px 60px -20px rgba(0,0,0,.6);
+}
+/* 확대·축소 조작줄 */
+.lb-bar{
+  position:absolute;left:50%;bottom:22px;translate:-50% 0;z-index:2;
+  display:flex;align-items:center;gap:4px;
+  background:rgba(12,30,22,.82);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:5px 7px;
+}
+.lb-bar button{
+  width:36px;height:36px;border-radius:50%;color:#eaf3ee;font-size:17px;line-height:1;
+  display:grid;place-items:center;transition:.2s var(--ease);
+}
+.lb-bar button:hover{background:rgba(255,255,255,.16)}
+.lb-bar .lb-txt{width:auto;padding:0 14px;font-size:12.5px;border-radius:999px}
+#lbPct{
+  font-family:var(--f-mono);font-size:12px;color:#9ec7b2;min-width:52px;text-align:center;
+  letter-spacing:.02em;
+}
+.lb-hint{
+  position:absolute;left:0;right:0;top:20px;text-align:center;z-index:2;
+  font-size:12px;color:rgba(234,243,238,.55);padding-inline:16px;
+}
+@media(max-width:620px){.lb-hint{display:none}}
+
+/* ══════════════════════════════════════════
+   스크롤 등장 애니메이션
+   느리게 시작해 끝에서 길게 감속한다. transform·opacity 만 써서
+   브라우저가 GPU 로 처리하게 하고, --d 로 순서를 어긋나게 준다.
+   ══════════════════════════════════════════ */
+.rv{
+  opacity:0;
+  transform:translate3d(0,38px,0);
+  transition:
+    opacity 1.05s var(--ease-out) var(--d,0ms),
+    transform 1.15s var(--ease-out) var(--d,0ms),
+    filter .95s var(--ease-out) var(--d,0ms);
+  will-change:opacity,transform;
+}
+.rv.in{opacity:1;transform:none;filter:none}
+.rv[data-anim="blur"]{filter:blur(7px);transform:translate3d(0,30px,0)}
+.rv[data-anim="scale"]{transform:scale(.955) translate3d(0,26px,0)}
+.rv[data-anim="left"]{transform:translate3d(-26px,0,0)}
+.rv.done{will-change:auto}
+
+/* 카드·이미지는 안쪽에서 살짝 더 밀려 들어온다 */
+.rv .thumb img{transform:scale(1.07);transition:transform 1.5s var(--ease-out) var(--d,0ms)}
+.rv.in .thumb img{transform:scale(1)}
+
+/* ── 첫 화면 : 로드되자마자 순서대로 올라온다 ── */
+.h-in{opacity:0;transform:translate3d(0,30px,0);animation:heroIn 1.15s var(--ease-out) forwards}
+.h-in:nth-child(1){animation-delay:.08s}
+.h-in:nth-child(2){animation-delay:.20s}
+.h-in:nth-child(3){animation-delay:.34s}
+.h-in:nth-child(4){animation-delay:.44s}
+.h-in:nth-child(5){animation-delay:.56s}
+.h-in:nth-child(6){animation-delay:.68s}
+@keyframes heroIn{to{opacity:1;transform:none}}
+
+/* 첫 화면은 스크롤할 때 본문보다 천천히 밀려 올라간다 (시차) */
+.hero{will-change:transform}
+
+/* 섹션 제목 밑줄이 그어지듯 */
+.sec-num::after{transform-origin:left center;transform:scaleX(0);transition:transform 1.1s var(--ease-out) .1s}
+.rv.in .sec-num::after,.sec-head.in .sec-num::after{transform:scaleX(1)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv,.h-in{opacity:1!important;transform:none!important;filter:none!important}
+  .rv .thumb img{transform:none!important}
+  .sec-num::after{transform:scaleX(1)!important}
+  .hero{transform:none!important}
+  html{scroll-behavior:auto}
+}
+::selection{background:var(--accent);color:#fff}
+[hidden]{display:none!important}
+</style>
+</head>
+
+<body>
+<div class="bar" id="bar"></div>
+
+<nav id="nav">
+  <a href="#top" class="brand">chominju<b>.</b></a>
+  <div class="navlinks">
+    <a href="#about">About</a>
+    <a href="#career">Career</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#result">Result</a>
+    <a href="#contact" class="navcta">Contact</a>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero wrap" id="top">
+  <span class="hero-tag h-in"><i></i>Backend Developer · 6년차</span>
+
+  <h1 class="h-in">업무를 이해하고<br>서비스의 전체 흐름을<br><em>설계하는</em> 개발자</h1>
+  <p class="hero-role h-in">조민주 &nbsp;·&nbsp; Java · Spring Boot &nbsp;·&nbsp; 서울특별시 관악구</p>
+
+  <p class="hero-lede h-in">
+    Java·Spring 기반 백엔드 개발 6년. 통화 녹취 솔루션 구축을 거쳐 현재는
+    <b>건설 사업관리 플랫폼(PMIS)</b>에서 백엔드·SSR 프론트·인프라를 병행하고 있습니다.
+    요구사항을 받아 구현하는 데서 멈추지 않고
+    <b>업무 분석 → DB 설계 → 개발 → 운영</b>까지 하나의 흐름으로 책임지는 방식으로 일해왔습니다.
+  </p>
+
+  <div class="hero-cta h-in">
+    <a href="#projects" class="btn btn--fill">프로젝트 보기 →</a>
+    <a href="mailto:chominju48@gmail.com" class="btn btn--ghost">chominju48@gmail.com</a>
+  </div>
+
+  <div class="hero-stats h-in">
+    <div class="hstat"><strong data-count="10">10</strong><span>담당 업무 메뉴</span></div>
+    <div class="hstat"><strong data-count="5">5</strong><span>연동 외부 플랫폼</span></div>
+    <div class="hstat"><strong data-count="8">8</strong><span>운영 관리 서버</span></div>
+    <div class="hstat"><strong data-count="8.7" data-suffix="×">8.7×</strong><span>작업일지 집계 조회 개선</span></div>
+  </div>
+</header>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about" class="wrap">
+  <div class="sec-head rv" data-anim="blur">
+    <p class="sec-num">02 — About</p>
+    <h2 class="sec-title">무엇을 <em>중요하게</em> 여기는가</h2>
+  </div>
+
+  <div class="about">
+    <div class="about-body rv">
+      <p class="pull">“업무를 이해하고 서비스의 전체 흐름을 설계하는 개발자”</p>
+      <p>현장에서 실제 쓰는 실무 문서를 분석해 업무 프로세스를 정의하고, DB 설계와 UML 부터 화면·API·전자결재·리포트까지 신규 도메인을 end-to-end 로 구축해왔습니다.</p>
+      <p>담당 선임과 리더의 연이은 퇴사로 시스템을 단기간에 인수받은 이후에는 개발과 함께 배포·서버 운영·장애 대응까지 맡고 있습니다. 인수 문서가 충분하지 않은 상태였기에, 코드와 운영 이력을 역추적해 시스템 구조를 다시 정리하고 그 내용을 팀이 참고할 수 있는 문서로 남겼습니다.</p>
+      <p>새로운 기술을 쓰는 것보다, <b>업무를 정확히 이해하고 복잡한 문제를 구조로 정리해 안정적으로 돌아가게 만드는 것</b>에 가치를 둡니다.</p>
+    </div>
+
+    <div class="caps rv" data-anim="scale">
+      <h3>Core Competency</h3>
+      <ul>
+        <li>Java &amp; Spring 기반의 백엔드 개발자</li>
+        <li>RESTful API 를 활용한 다중 외부 플랫폼(유레카·PAD·PNS·공공가이아·아이큐브) 연동 구축·안정화</li>
+        <li>MyBatis / MapStruct 기반 데이터 접근 계층 설계 및 SQL 최적화</li>
+        <li>PostgreSQL·MariaDB·Oracle 등 다양한 RDBMS 쿼리 작성 및 튜닝 경험</li>
+        <li>Jenkins·Git 기반 CI/CD 및 운영 서버 관리(용량·로그·장애 대응) 경험</li>
+        <li>현장 실무 문서 분석 기반 요구사항 정의 및 UML·ERD 설계 역량 보유</li>
+        <li>DB 설계부터 화면·API·리포트까지 신규 도메인을 end-to-end 로 구축한 경험</li>
+        <li>계약·공정·기성·안전 등 업무 메뉴 10개를 담당하며 신규 개발과 운영을 병행</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CAREER ══════════ -->
+<section id="career" class="wrap">
+  <div class="sec-head rv" data-anim="blur">
+    <p class="sec-num">03 — Career</p>
+    <h2 class="sec-title">경력 <em>요약</em></h2>
+  </div>
+
+  <div class="career" data-stagger="90">
+    <div class="job">
+      <div class="job-when">2026.02 ~ 현재<i>진행중</i></div>
+      <div class="job-who"><b>아이디어정보기술</b><span>GaiA&CaiRos팀 / 책임</span></div>
+      <div class="job-what">건설 사업관리(PMIS) 플랫폼 — GaiA·CaiRos 구축·개발·유지보수</div>
+        <div class="menus rv">
+            <b>담당 업무 메뉴 10개</b>
+            <p>작업일지 · 계약관리 · 기성관리 · 위험성평가 · 실정보고 · 주간공정보고 · 월간공정보고 · 선급금/공제금 · 자원투입현황 · 주요공정사진</p>
+        </div>
+    </div>
+    <div class="job">
+      <div class="job-when">2022.04 ~ 2024.12<i>2년 8개월</i></div>
+      <div class="job-who"><b>투티스</b><span>SmartCall 팀 / 대리</span></div>
+      <div class="job-what">Java 기반 솔루션 구축·개발·유지보수</div>
+    </div>
+    <div class="job">
+      <div class="job-when">2020.12 ~ 2022.04<i>1년 3개월</i></div>
+      <div class="job-who"><b>투티스</b><span>RPA 팀 / 사원</span></div>
+      <div class="job-what">RPA 기획·구축·개발·유지보수</div>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- ══════════ SKILLS ══════════ -->
+<section id="skills" class="wrap">
+  <div class="sec-head rv" data-anim="blur">
+    <p class="sec-num">04 — Skill</p>
+    <h2 class="sec-title">사용 <em>기술</em></h2>
+  </div>
+
+  <div class="skills" data-stagger="70">
+    <div class="srow"><h4>Language</h4><div class="tags">
+      <span class="tag">Java</span><span class="tag">JavaScript</span><span class="tag">TypeScript</span><span class="tag">VB.NET</span>
+    </div></div>
+    <div class="srow"><h4>Framework / Library</h4><div class="tags">
+      <span class="tag">Spring Boot</span><span class="tag">Spring Framework</span><span class="tag">MyBatis</span><span class="tag">MapStruct</span>
+      <span class="tag">Pebble (SSR)</span><span class="tag">Node.js</span><span class="tag">Angular</span><span class="tag">Bootstrap</span>
+      <span class="tag">jQuery</span><span class="tag">TUI Grid</span>
+    </div></div>
+    <div class="srow"><h4>Database</h4><div class="tags">
+      <span class="tag">PostgreSQL</span><span class="tag">MariaDB</span><span class="tag">OracleDB</span>
+    </div></div>
+    <div class="srow"><h4>Server</h4><div class="tags">
+      <span class="tag">Apache</span><span class="tag">Tomcat</span><span class="tag">Nginx</span>
+    </div></div>
+    <div class="srow"><h4>Tooling / DevOps</h4><div class="tags">
+      <span class="tag">Git</span><span class="tag">SVN</span><span class="tag">Jenkins</span><span class="tag">Gradle</span><span class="tag">Maven</span><span class="tag">Ant</span>
+    </div></div>
+    <div class="srow"><h4>Environment</h4><div class="tags">
+      <span class="tag">Windows</span><span class="tag">Linux</span>
+    </div></div>
+  </div>
+</section>
+
+<!-- ══════════ PROJECTS (카드) ══════════ -->
+<section id="projects" class="wrap">
+  <div class="sec-head rv" data-anim="blur">
+    <p class="sec-num">05 — Projects</p>
+    <h2 class="sec-title">프로젝트 <em>아홉 건</em></h2>
+    <p class="sec-desc">카드를 누르면 업무 분석 · 개발 내용 · 문제 해결 과정을 자세히 볼 수 있습니다.</p>
+  </div>
+
+  <div class="cards" data-stagger="110" data-anim="scale">
+
+    <!-- ───── CARD 1 : 작업일지 ───── -->
+    <button class="pcard" data-detail="d1" type="button">
+      <div class="thumb">
+        <span class="pbadge">MAIN</span>
+        <!-- 이미지 넣는 법 : 아래 <div class="ph"> 한 줄을 지우고 그 아래 주석의 <img> 를 살리세요 -->
+          <img src="images/작업일지%20개요.png" alt="작업일지 개요 화면">
+        <!-- <img src="images/p01-dailyreport.png" alt="작업일지 화면"> -->
+      </div>
+      <div class="pbody">
+        <p class="pmeta">2026.02 ~ 현재 &nbsp;·&nbsp; <em>단독 개발</em></p>
+        <h3>GaIA&amp;CaiRos(PMIS) — 작업일지</h3>
+        <p class="pdesc">수량 하나의 오차가 공정률·기성·대시보드로 그대로 번지는 핵심 메뉴. 업무 분석부터 DB 설계·개발·운영까지 전 과정을 담당했습니다.</p>
+        <div class="pchip"><span>Java 21</span><span>Spring Boot 3.3.1</span><span>PostgreSQL</span><span>MyBatis</span><span>Pebble SSR</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+    <!-- ───── CARD 2 : 기성관리 ───── -->
+    <button class="pcard" data-detail="d8" type="button">
+      <div class="thumb">
+        <div class="ph">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
+          <span>메뉴 이미지 자리</span><em>images/p08-payment.png</em>
+        </div>
+        <!-- <img src="images/p08-payment.png" alt="기성관리 화면"> -->
+      </div>
+      <div class="pbody">
+        <p class="pmeta">2026.02 ~ 현재 &nbsp;·&nbsp; <em>유레카 연동 4종</em></p>
+        <h3>GaIA&amp;CaiRos(PMIS) — 기성관리</h3>
+        <p class="pdesc">작업일지 실적을 근거로 공사대금을 청구하는 메뉴. 유레카와 기성내역서·원가계산서를 주고받고, 전자결재 승인 PDF까지 연결했습니다.</p>
+        <div class="pchip"><span>Java 21</span><span>Spring Boot 3.3.1</span><span>PostgreSQL</span><span>MyBatis</span><span>유레카 연동</span><span>전자결재</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+    <!-- ───── CARD 3 : 계약관리 ───── -->
+    <button class="pcard" data-detail="d9" type="button">
+      <div class="thumb">
+        <div class="ph">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
+          <span>메뉴 이미지 자리</span><em>images/p09-contract.png</em>
+        </div>
+        <!-- <img src="images/p09-contract.png" alt="계약관리 화면"> -->
+      </div>
+      <div class="pbody">
+        <p class="pmeta">2026.02 ~ 현재 &nbsp;·&nbsp; <em>외부 3개 시스템 규격 통일</em></p>
+        <h3>GaIA&amp;CaiRos(PMIS) — 계약관리</h3>
+        <p class="pdesc">유레카·PAD·PNS 가 각각 다른 규격으로 계약정보를 요구하던 것을, 보낼 값의 정의를 한 곳에 모아 통일했습니다.</p>
+        <div class="pchip"><span>Java 21</span><span>Spring Boot 3.3.1</span><span>PostgreSQL</span><span>MyBatis</span><span>유레카</span><span>PAD·PNS</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+    <!-- ───── CARD 4 : API 연계 ───── -->
+    <button class="pcard" data-detail="d2" type="button">
+      <div class="thumb">
+        <img src="images/p02-api.png" alt="API 연동 구성도">
+      </div>
+      <div class="pbody">
+        <p class="pmeta">2026.02 ~ 현재 &nbsp;·&nbsp; <em>외부 시스템 5개</em></p>
+        <h3>시스템 API 연계 · 송신 창구 일원화</h3>
+        <p class="pdesc">메뉴마다 흩어져 있던 외부 송신을 공통 창구 하나로 모아, 이력 적재를 잊을 수 없는 구조로 바꿨습니다.</p>
+        <div class="pchip"><span>RESTful API</span><span>JWT SSO</span><span>유레카</span><span>PAD·PNS</span><span>아이큐브</span><span>공공가이아</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+    <!-- ───── CARD 5 : 운영·장애 ───── -->
+    <button class="pcard" data-detail="d3" type="button">
+      <div class="thumb"><img src="images/카이로스%20대시보드.png" alt="카이로스 대시보드 화면"></div>
+      <div class="pbody">
+        <p class="pmeta">2026.02 ~ 현재 &nbsp;·&nbsp; <em>서버 8대</em></p>
+        <h3>서비스 운영 및 장애 대응</h3>
+        <p class="pdesc">인수 문서 없이 시스템을 넘겨받아 코드와 운영 이력을 역추적해 구조를 재정립. DB Lock·조회 지연 장애를 원인 단위로 해소했습니다.</p>
+        <div class="pchip"><span>Jenkins</span><span>Linux</span><span>PostgreSQL</span><span>Git</span><span>jstack</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+    <!-- ───── CARD 6 : 악사손보 ───── -->
+    <button class="pcard" data-detail="d4" type="button">
+      <div class="thumb"><img src="images/axa-monitor-after.png" alt="악사손해보험 SmartCall 관리자 페이지"></div>
+      <div class="pbody">
+        <p class="pmeta">2024.08 ~ 2024.12 &nbsp;·&nbsp; <em>BE 2명 / 기여도 40%</em></p>
+        <h3>악사손해보험 SmartCall 솔루션 구축</h3>
+        <p class="pdesc">관리자 페이지 기능 개발과 기간계 API 연동. 고객사 내 PostgreSQL 도입을 성공시키고 추가 계약으로 이어졌습니다.</p>
+        <div class="pchip"><span>Java</span><span>Spring</span><span>PostgreSQL</span><span>MyBatis</span><span>Nginx</span><span>Linux</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+    <!-- ───── CARD 7 : SITellAgent ───── -->
+    <button class="pcard" data-detail="d5" type="button">
+      <div class="thumb"><img src="images/sitell-main.png" alt="SITellAgent 클라이언트 화면"></div>
+      <div class="pbody">
+        <p class="pmeta">2023.01 ~ 2023.03 &nbsp;·&nbsp; <em>BE 1명 / 기여도 100%</em></p>
+        <h3>SITellAgent 클라이언트 개발</h3>
+        <p class="pdesc">Angular·TypeScript 기반 UI 와 서버 API 를 단독으로 개발. 이 솔루션으로 1년간 3건의 계약이 성사됐습니다.</p>
+        <div class="pchip"><span>Java</span><span>Spring Boot</span><span>TypeScript</span><span>Angular</span><span>MariaDB</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+    <!-- ───── CARD 8 : 에듀윌 ───── -->
+    <button class="pcard" data-detail="d6" type="button">
+      <div class="thumb">
+        <div class="ph">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
+          <span>메뉴 이미지 자리</span><em>images/p06-eduwill.png</em>
+        </div>
+        <!-- <img src="images/p06-eduwill.png" alt="에듀윌 SmartTM 화면"> -->
+      </div>
+      <div class="pbody">
+        <p class="pmeta">2022.08 ~ 2023.01 &nbsp;·&nbsp; <em>BE 3명 / 기여도 30%</em></p>
+        <h3>에듀윌 SmartTM 시스템 구축</h3>
+        <p class="pdesc">중복 로그인 차단과 IP 추적으로 관리자 페이지 보안을 강화하고, 웹소켓 명령 전달과 HTTPS 환경을 구성했습니다.</p>
+        <div class="pchip"><span>Java</span><span>Spring</span><span>MariaDB</span><span>WebSocket</span><span>SSL</span><span>Linux</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+    <!-- ───── CARD 9 : RPA ───── -->
+    <button class="pcard" data-detail="d7" type="button">
+      <div class="thumb"><img src="images/lotte-rpa-news.png" alt="롯데손해보험 RPA 도입 완료 보도"></div>
+      <div class="pbody">
+        <p class="pmeta">2020.12 ~ 2022.04 &nbsp;·&nbsp; <em>RPA 팀</em></p>
+        <h3>업무 자동화(RPA) 구축 — 금융·보험 5개사</h3>
+        <p class="pdesc">JB금융지주·롯데손해보험·신한캐피탈·집토스·예탁결제원의 RPA 과제를 기획·구축했습니다. 롯데손해보험은 연 2만 시간을 절감했습니다.</p>
+        <div class="pchip"><span>UiPath</span><span>VB.NET</span><span>Orchestrator</span><span>Excel VBA</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+  </div>
+</section>
+
+<!-- ══════════ RESULT ══════════ -->
+<section id="result" class="wrap">
+  <div class="sec-head rv" data-anim="blur">
+    <p class="sec-num">06 — Result</p>
+    <h2 class="sec-title">업무 <em>성과</em></h2>
+  </div>
+
+  <div class="wins" data-stagger="80">
+    <div class="win">
+      <b>신규 도메인 end-to-end 구축</b>
+      <p>안전관리·위험성평가, 실정보고를 현장 실무 문서 분석 기반으로 요구사항 정의 → UML·DB 설계 → 화면·API·전자결재·리포트까지 직접 구축. 국토안전관리원 위험요소 DB, CSI 사고사례, SIF 데이터 설계 및 적재 포함.</p>
+    </div>
+    <div class="win">
+      <b>대외 연동 구조 정비</b>
+      <p>흩어진 송신 경로를 공통 창구로 통합해 연동 이력 누락을 해소하고, 개인정보·금융정보 마스킹을 적용했습니다. 이름과 실체가 어긋난 연동(아이큐브 ↔ PNS)도 분리했습니다.</p>
+    </div>
+    <div class="win">
+      <b>외부 리포트 솔루션 대체</b>
+      <p>UbiReport 를 자체 PDF 리포트 서비스로 대체해 라이선스 의존을 제거했습니다(위험성평가·작업일지·기성관리). 다건 재생성에 실시간 완료 알림을 적용했습니다.</p>
+    </div>
+    <div class="win">
+      <b>운영 안정성 확보</b>
+      <p>SVN → Git 형상관리 전환, Jenkins 다중 서버 배포 체계 정비, 서버 8대의 디스크 용량·로그 관리, DB Lock·조회 지연 등 장애를 원인 단위로 해소했습니다.</p>
+    </div>
+    <div class="win">
+      <b>팀 지식 자산화</b>
+      <p>결함 이력을 메뉴별 문서로 체계화하고, 재발 가능성이 확인된 것만 팀 안티패턴 목록으로 승격하는 2단 구조를 만들어 운영하고 있습니다.</p>
+    </div>
+    <div class="win">
+      <b>인수 후 단독 운영</b>
+      <p>담당 선임·리더 퇴사 이후 개발·배포·서버 운영·장애 대응을 이어받아 서비스 중단 없이 유지하고 있습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 마무리 ══════════ -->
+<section class="wrap">
+  <div class="closing rv" data-anim="scale">
+    <h2>“다음 사람이 다시 분석하지 않아도 되는 상태로 남기는 것”</h2>
+    <p>지난 6년 동안 제가 가장 많이 한 일은 새 기능을 붙이는 것이 아니라, 흩어진 것을 한 곳으로 모으고 어긋난 이름을 바로잡는 일이었습니다. 연동 이력이 남지 않는 경로를 없애고, 트랜잭션 안에 있던 외부 호출을 밖으로 꺼내고, 결함의 원인을 문서로 남겨 같은 실수가 반복되지 않게 했습니다.</p>
+    <p>제가 만든 코드가 잘 도는 것보다, 다음 사람이 그 코드를 다시 분석하지 않아도 되는 상태로 남기는 것을 더 중요하게 생각합니다. 앞으로도 기획·데이터·운영을 함께 볼 수 있는 시각으로 서비스의 문제를 먼저 찾아 해결하는 개발자로 일하고자 합니다.</p>
+  </div>
+</section>
+
+<!-- ══════════ 기타 사항 ══════════ -->
+<section class="wrap">
+  <div class="sec-head rv" data-anim="blur">
+    <p class="sec-num">07 — Etc</p>
+    <h2 class="sec-title">기타 <em>사항</em></h2>
+  </div>
+
+  <div class="etc" data-stagger="100">
+    <div class="ebox">
+      <h4>학력</h4>
+      <ul>
+        <li><time>2024.07 ~ 진행중</time>국가평생교육진흥원 컴퓨터공학과 (이수 예정)</li>
+        <li><time>2017.03 ~ 2021.02</time>명지전문대 컴퓨터공학과 졸업</li>
+      </ul>
+    </div>
+    <div class="ebox">
+      <h4>자격증</h4>
+      <ul>
+        <li><time>2023.09</time>정보처리기사 취득</li>
+      </ul>
+    </div>
+    <div class="ebox">
+      <h4>교육 및 대외활동</h4>
+      <ul>
+        <li><time>2022.11</time>자바 스프링 향상 과정 수료 (오라클 자바 교육센터)</li>
+        <li><time>2020.12</time>캡스톤 경진대회 수상 (명지전문대학교)</li>
+        <li><time>2018.03</time>명지전문대 컴퓨터공학과 홍보부장</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section id="contact" class="wrap">
+  <div class="cgrid">
+    <h2 class="cbig rv" data-anim="blur">함께 일할<br>준비가 <em>되어 있습니다.</em></h2>
+    <div class="clist" data-stagger="70">
+      <a href="mailto:chominju48@gmail.com"><b>Email</b><span>chominju48@gmail.com</span></a>
+      <a href="tel:01067152205"><b>Mobile</b><span>010-6715-2205</span></a>
+      <div><b>Address</b><span>서울특별시 관악구</span></div>
+      <!-- ▼ 직접 넣어주세요 ② : GitHub 주소를 채우고, 없으면 이 줄을 통째로 지우세요 -->
+      <a href="https://github.com/chominju" target="_blank" rel="noopener"><b>GitHub</b><span>github.com/chominju</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 조민주 · Backend Developer</footer>
+
+
+<!-- ══════════════════════════════════════════
+     상세 내용 (모달에 들어가는 원본 — 여기 글을 고치면 모달이 바뀝니다)
+     ══════════════════════════════════════════ -->
+<div hidden>
+
+  <!-- ═══ D1 : 작업일지 ═══ -->
+  <div id="d1" data-title="GaIA&amp;CaiRos(PMIS) — 작업일지" data-sub="2026.02 ~ 현재 · 아이디어정보기술 / GaiA-CaiRos · 단독 개발">
+    <p>현장에서 매일 쌓이는 작업일지 데이터가 주간·월간 공정보고, 자원투입현황, 관리기준 성과분석 대시보드로 이어집니다. 이 메뉴의 수량 하나를 잘못 잡으면 그 오차가 여러 화면의 집계로 그대로 번집니다. GaiA-CaiRos 메뉴 가운데 <b>가장 복잡하고, 가장 중요한 메뉴</b>입니다. 업무 분석부터 DB 설계, 개발, 운영까지 전 과정을 담당했습니다.</p>
+
+    <h3>Environment</h3>
+    <div class="dl">
+      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, MapStruct, Pebble(SSR), TUI Grid, Spring Security, Gradle(멀티모듈), Jenkins, Git</dd></div>
+      <div><dt>데이터 규모</dt><dd>작업일지 마스터 4,330건 / 자원 실적 4,203,409행 / 대상 계약 658건<br>이 데이터를 참조하는 하위 메뉴 4개 — 주간·월간 공정보고, 자원투입현황, 대시보드, 기성관리</dd></div>
+      <div><dt>인력 · 기여도</dt><dd>백엔드 중심 풀스택 — 단독 개발/보수 (BE·SSR 프론트·모바일·인프라 병행)<br>Controller → Component → Service → Mapper 레이어 아키텍처 기반 개발</dd></div>
+    </div>
+
+    <h3>업무 분석</h3>
+    <p>작업일지는 “오늘 무엇을 얼마나 했는가”를 적는 문서지만, 그 숫자가 곧 공정률이고 기성 근거입니다. UI 를 정하기 전에 현업 담당자와 실제 작성 절차를 따라가며 기준부터 합의했습니다.</p>
+    <div class="dl">
+      <div><dt>합의한 기준</dt><dd><ul>
+        <li>무엇이 계획이고 무엇이 실적인가 — 두 수량을 같은 칸에 담지 않는다</li>
+        <li>실적은 어느 시점에 확정되는가 — 결재 승인 시점인가, 입력 시점인가</li>
+        <li>액티비티(공정 활동)와 CBS(내역 항목)의 수량 관계를 어느 방향으로 파생시킬 것인가</li>
+        <li>같은 작업을 두 사람이 적었을 때 무엇을 정본으로 볼 것인가</li>
+      </ul></dd></div>
+      <div><dt>분석에서 나온 결정</dt><dd><ul>
+        <li><b>실적 산정에서 전자결재 의존 제거</b> — 결재 승인까지 기다리면 공정률이 며칠씩 밀려 현장이 화면을 믿지 못하게 된다. 입력 즉시 반영으로 변경</li>
+        <li><b>보할(배분율) ↔ CBS 수량 양방향 재계산</b> — 한쪽만 고치면 반드시 어긋나므로 어느 쪽을 수정해도 상대가 따라오게 설계</li>
+        <li><b>프리마베라(Primavera) 공정 데이터 연계</b> — 공정표의 액티비티를 원천으로 삼아 작업일지가 임의 항목을 만들지 않게 함</li>
+        <li><b>작업일지 자동 생성</b> — 공휴일 제외, 작성자·날씨 자동 설정으로 현장 입력 부담 축소</li>
+      </ul></dd></div>
+    </div>
+
+    <h3>DB 설계</h3>
+    <p>계약번호와 작업일지 ID 를 공통 키로 갖는 마스터 아래에 액티비티·내역수량·자원·사진을 배치했습니다. 자원 실적이 420만 행까지 쌓이는 구조라, <b>조회 경로마다 계약 단위로 먼저 좁히는 것</b>을 설계 원칙으로 잡았습니다. 작업일지 마스터를 원천으로 4개 하위 메뉴가 같은 실적 데이터를 다시 집계하며, 성능과 정합성 문제는 모두 자원 실적(420만 행) 경로에서 발생했습니다.</p>
+    <div class="slots">
+      <figure class="slot">
+        <img src="images/작업일지_ERD.png" alt="작업일지 ERD">
+        <figcaption>작업일지 ERD</figcaption>
+      </figure>
+      <figure class="slot">
+        <img src="images/작업일지%20개요.png" alt="작업일지 개요 화면">
+        <figcaption>작업일지 개요 화면</figcaption>
+      </figure>
+      <figure class="slot">
+        <img src="images/작업일지%20액티비티(CBS).png" alt="액티비티(CBS) 화면">
+        <figcaption>액티비티(CBS) 화면</figcaption>
+      </figure>
+      <figure class="slot">
+        <img src="images/작업일지%20모바일.png" alt="작업일지 모바일 화면">
+        <figcaption>작업일지 모바일 화면</figcaption>
+      </figure>
+    </div>
+
+    <h3>개발</h3>
+    <div class="dl">
+      <div><dt>수량 · 실적 로직</dt><dd><ul>
+        <li>액티비티 보할 로직과 QDB 수량 산정 방식 개선</li>
+        <li>보할 ↔ CBS 수량 양방향 재계산, 보할 기반 자원 금일수량 계산</li>
+        <li>액티비티 추가 시 연관 CBS 항목 자동 추가</li>
+        <li>실적 산정 기준 개선(전자결재 의존 제거) 및 공정률 실시간 재계산</li>
+        <li>실적 100% 도달 시 액티비티 종료 자동 처리</li>
+      </ul></dd></div>
+      <div><dt>화면 · 배치 · 리포트</dt><dd><ul>
+        <li>작업일지 개요·액티비티(CBS) 화면 리뉴얼, CBS/자원 조회·저장</li>
+        <li>작업일지 자동 생성 배치 — 공휴일 제외, 작성자·날씨 자동 설정</li>
+        <li>자원 조회 방식 개선(전기·통신·소방 내역서 항목 대응)</li>
+        <li>UbiReport 를 대체하는 자체 PDF 리포트 서비스 개발</li>
+        <li>모바일 작업일지 화면 리뉴얼</li>
+      </ul></dd></div>
+    </div>
+
+    <h3>문제 해결</h3>
+
+    <div class="case">
+      <div class="case-h"><b>성능</b><span>목록 조회 2.1초 지연</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>작업일지 목록과 실적변경 조회가 약 2.1초 걸려, 현장에서 화면이 멈춘 것으로 인식됨</dd></div>
+        <div><dt>원인</dt><dd>324만 행(현재 420만 행) <code>cw_daily_report_resource</code> 에 <code>cntrct_no</code> 인덱스가 없었고, 목록 쿼리의 집계 CTE 가 계약 필터 없이 전체를 집계해 Parallel Seq Scan 으로 떨어짐</dd></div>
+        <div><dt>해결</dt><dd>집계 CTE 에 계약 조건을 추가해 스캔 범위를 계약 단위로 축소 / (cntrct_no, dlt_yn) 복합 인덱스를 함께 제안하고 실행계획으로 개선 전후 확인</dd></div>
+        <div><dt>결과</dt><dd><b>집계 구간 998ms → 115ms (약 8.7배)</b> / 이후 모든 대량 집계 화면에 “계약으로 먼저 좁힌다”를 점검 기준으로 적용</dd></div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-h"><b>정합성</b><span>액티비티를 지웠는데 작업내역이 되살아남</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>금일작업 수정 화면에서 액티비티를 행별로 하나씩 삭제하면 연결된 CBS 작업내역이 일부 남음. 상단 일괄삭제는 정상이라 재현 조건을 좁히기 어려웠음</dd></div>
+        <div><dt>원인</dt><dd>행별 삭제 경로가 고아 CBS 제거와 자원 재계산을 수행하지 않았음 / 보할 재파생 로직이 수동 삭제한 액티비티 ID 를 일부 분기에서만 제외해, 삭제한 항목이 캐시된 CBS 를 통해 되살아났음</dd></div>
+        <div><dt>해결</dt><dd>행별 삭제를 일괄삭제와 동일하게 보정 / 보할 재계산의 모든 분기에서 수동 삭제 ID 를 제외해 부활 경로를 차단</dd></div>
+        <div><dt>결과</dt><dd>삭제 방식과 무관하게 작업내역·자원 수량이 일치 / 원인과 재현 조건을 결함 이력 문서에 남겨 “일괄 경로만 보정된 로직”을 점검 대상으로 등록</dd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ D8 : 기성관리 ═══ -->
+  <div id="d8" data-title="GaIA&amp;CaiRos(PMIS) — 기성관리" data-sub="2026.02 ~ 현재 · 아이디어정보기술 / GaiA-CaiRos · 유레카 연동 4종">
+    <p>기성은 <b>공사가 얼마나 진행됐는지를 근거로 공사대금을 청구하는 업무</b>입니다. 청구 근거가 되는 실적은 작업일지에서 올라오고, 금액을 계산한 내역서와 원가계산서는 유레카가 만듭니다. 카이로스는 그 사이에서 회차를 관리하고, 받아온 내역을 결재에 올려 확정합니다. 작업일지 다음으로 <b>외부 시스템 의존이 큰 메뉴</b>라 연동 실패를 어떻게 다루느냐가 핵심이었습니다.</p>
+
+    <h3>Environment</h3>
+    <div class="dl">
+      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, MapStruct, Pebble(SSR), TUI Grid, 전자결재, 자체 PDF 리포트</dd></div>
+      <div><dt>연동 대상</dt><dd>유레카(Eureca) — 기성내역서 작성요청 · 작성완료 조회 · 결재 상태 통보 · 기성 삭제 4종<br>공공가이아(PGAIA) — 결재 연동</dd></div>
+      <div><dt>실적 근거</dt><dd>작업일지 <code>cw_daily_report_qdb.work_qty</code> × 단가 — 기성 청구의 원천 데이터</dd></div>
+      <div><dt>인력 · 기여도</dt><dd>백엔드 중심 풀스택 — 단독 개발/보수</dd></div>
+    </div>
+
+    <h3>업무 흐름</h3>
+    <p>기성은 카이로스 혼자 끝낼 수 없는 업무입니다. 회차를 열고 → 유레카에 내역서를 만들어 달라고 요청하고 → 유레카가 작성을 끝내면 그 결과를 받아와 → 결재에 올려 확정하는 <b>왕복 구조</b>입니다.</p>
+    <div class="dl">
+      <div><dt>1. 기성 등록</dt><dd>계약·변경계약과 기성 회차를 지정해 기성을 생성. 작업일지 실적과 선급금·공제금을 함께 불러온다</dd></div>
+      <div><dt>2. 내역서 작성요청</dt><dd><code>CAEU0013 registerPrgpymntDtls</code> — 해당 회차의 기성내역서를 작성해 달라고 유레카에 요청</dd></div>
+      <div><dt>3. 작성완료 수신</dt><dd><code>CAEU0014 retrievePrgpymntDtls</code> — 유레카가 작성한 <b>기성내역서와 원가계산서</b>를 받아 화면·DB 에 반영</dd></div>
+      <div><dt>4. 결재 · 확정</dt><dd>전자결재 요청 → 승인·반려. 결과는 <code>CAEU0001 updatePrgpymntAprv</code> 로 유레카에 통보해 양쪽 상태를 맞춘다</dd></div>
+      <div><dt>5. 승인 PDF</dt><dd>승인되면 기성 PDF 를 자동 생성해 통합문서관리에 저장 (단건 · 다건 재생성 지원)</dd></div>
+      <div><dt>삭제</dt><dd><code>CAEU0009 deletePrgpymnt</code> — 기성을 지우면 유레카 쪽 내역서도 함께 정리</dd></div>
+    </div>
+
+    <h3>담당 업무</h3>
+    <div class="dl">
+      <div><dt>기성 관리</dt><dd>기성 목록 · 상세 · 등록 · 수정 · 삭제, 회차 관리, 기성 자원(투입 실적) 조회</dd></div>
+      <div><dt>선급금 · 공제금</dt><dd>선급금 지급·정산과 공제금 관리 화면·기능 개발</dd></div>
+      <div><dt>하도급 기성</dt><dd>하도급 업체별 기성 청구·지급 관리</dd></div>
+      <div><dt>유레카 연동</dt><dd>내역서 작성요청·수신·상태통보·삭제 4종 개발 및 운영 테스트, API 명세서 작성</dd></div>
+      <div><dt>전자결재</dt><dd>기성 결재요청·승인·반려 핸들러 개발, 결재취소 시 데이터 정리</dd></div>
+      <div><dt>리포트</dt><dd>UbiReport 를 대체하는 자체 PDF 서비스로 기성 리포트 전환, 다건 재생성에 실시간 완료 알림(SSE) 적용</dd></div>
+      <div><dt>대시보드 반영</dt><dd>관리기준 성과분석에 기성 집행 현황 표시</dd></div>
+    </div>
+
+    <h3>문제 해결</h3>
+
+    <div class="case">
+      <div class="case-h"><b>운영 장애</b><span>운영에서 기성·계약내역서 유레카 화면이 열리지 않음</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>운영에서 기성 화면의 「계약내역서 보기」를 누르면 유레카 화면이 뜨지 않음. 개발·테스트 환경에서는 정상이라 코드 문제로 보이지 않았음</dd></div>
+        <div><dt>원인</dt><dd>유레카는 <b>API 를 호출하는 주소와 화면을 띄우는 주소가 다르다</b>. 그런데 운영 설정의 <code>eureca.contractListViewDomain</code>·<code>eureca.paymentListViewDomain</code> 에 API 도메인 값이 들어가 있어, 화면 요청이 화면을 서비스하지 않는 주소로 나갔음</dd></div>
+        <div><dt>해결</dt><dd>운영 프로퍼티의 화면 열기 도메인을 실제 화면 서비스 주소로 정정 / 업무별로 열어야 하는 주소가 다른 점(기성·계약내역서 ↔ 실정보고)을 <b>설정 키로 분리</b>해 한쪽을 고쳐도 다른 쪽이 깨지지 않게 함</dd></div>
+        <div><dt>결과</dt><dd>운영 기성·계약내역서 화면 정상 오픈 / 환경별 도메인 설정이 4종(local·dev·test·prod)으로 정리되어 이후 도메인 변경은 프로퍼티만 고치면 됨</dd></div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-h"><b>구조</b><span>연동 실패가 업무 저장을 되돌리는 문제</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>기성·계약 정보를 외부로 보내는 경로가 메뉴마다 흩어져 있어 어떤 건 연동 이력이 남고 어떤 건 남지 않았음. 유레카가 응답하지 않으면 업무 저장까지 함께 실패하는 흐름도 있었음</dd></div>
+        <div><dt>원인</dt><dd>각 메뉴가 REST 클라이언트를 직접 호출했고, 이력 적재가 개발자 재량이었음 / 외부 호출이 업무 트랜잭션 안에 있어 상대 시스템 상태가 우리 업무에 직접 영향을 줬음</dd></div>
+        <div><dt>해결</dt><dd>계약·기성 대외송신을 <b>공통 창구 하나로 통합</b>해 이력이 자동으로 쌓이게 함 / 외부 송신을 <b>커밋 이후 실행</b>으로 옮겨 전송이 실패해도 업무 저장은 유지되게 함</dd></div>
+        <div><dt>결과</dt><dd>모든 기성 송신이 요청·응답·성공여부와 함께 이력에 남아, 실패한 건만 골라 다시 보낼 수 있게 됨 (자세한 내용은 「시스템 API 연계」 참조)</dd></div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-h"><b>발견 · 기록</b><span>연동 이력에서 계약 삭제와 기성 삭제를 구분할 수 없다</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>연동 이력을 보면 <code>CAEU0009</code> 로 남은 건이 <b>계약 삭제인지 기성 삭제인지 알 수 없음</b>. 장애 추적 시 어느 업무에서 나간 요청인지 특정이 안 됨</dd></div>
+        <div><dt>원인</dt><dd>계약 삭제(<code>deleteCnstwk</code>)와 기성 삭제(<code>deletePrgpymnt</code>)가 같은 인터페이스 식별값을 쓰고 있었음</dd></div>
+        <div><dt>판단</dt><dd>인터페이스 식별값은 <b>상대 시스템과 합의한 외부 계약</b>이라 임의로 바꾸면 유레카 쪽 처리가 깨질 수 있음. 코드를 고치지 않고 <b>연동 인벤토리 문서에 「확인 필요」로 등재</b>해 유레카와 합의 후 정정하도록 남김</dd></div>
+        <div><dt>결과</dt><dd>추측으로 외부 규격을 건드리지 않으면서도 문제가 잊히지 않게 기록 / 같은 기준으로 연동 전수를 훑어 확인 필요 항목을 함께 정리</dd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ D9 : 계약관리 ═══ -->
+  <div id="d9" data-title="GaIA&amp;CaiRos(PMIS) — 계약관리" data-sub="2026.02 ~ 현재 · 아이디어정보기술 / GaiA-CaiRos · 외부 3개 시스템 규격 통일">
+    <p>계약은 <b>모든 업무의 시작점</b>입니다. 계약이 등록되면 그 정보가 유레카·PAD·PNS 세 시스템으로 나가고, 이후 기성·실정보고·작업일지가 모두 이 계약을 기준으로 움직입니다. 문제는 <b>세 시스템이 같은 계약정보를 서로 다른 규격으로 요구</b>했다는 점이었습니다. 보낼 값의 정의를 한 곳에 모아 통일하는 것이 이 작업의 핵심이었습니다.</p>
+
+    <h3>Environment</h3>
+    <div class="dl">
+      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, MapStruct, Pebble(SSR), TUI Grid</dd></div>
+      <div><dt>연동 대상</dt><dd>유레카(Eureca) · PAD(PAD+S) · PNS — 계약 등록 · 수정 · 변경계약 등록 · 수정 · 삭제 · 도급사 · 하도급</dd></div>
+      <div><dt>데이터 규모</dt><dd>운영 계약 658건 — 이 계약을 기준으로 기성 · 실정보고 · 작업일지 · 공정보고가 파생된다</dd></div>
+      <div><dt>인력 · 기여도</dt><dd>백엔드 중심 풀스택 — 단독 개발/보수</dd></div>
+    </div>
+
+    <h3>규격 통일 — 무엇이 문제였나</h3>
+    <p>계약 화면에서 저장 한 번을 누르면 세 시스템으로 요청이 나갑니다. 그런데 세 시스템이 요구하는 <b>항목 이름·일시 형식·필수값·도급사 처리 방식이 모두 달랐습니다.</b> 그래서 메뉴마다 각 시스템용 요청 값을 따로 만들고 있었고, 계약 항목이 하나 늘면 세 곳을 각각 고쳐야 했습니다. 한 곳을 빠뜨리면 그 시스템만 조용히 옛 값을 받았습니다.</p>
+    <div class="dl">
+      <div><dt>통일 전</dt><dd><ul>
+        <li>같은 계약정보인데 <b>시스템별로 요청 값을 만드는 코드가 따로</b> 있었다</li>
+        <li>항목이 겹치는데도 이름과 일시 형식이 서로 달라, 어느 쪽이 정본인지 코드만 봐서는 알 수 없었다</li>
+        <li>도급사를 몇 건 보내는지, 어떤 도급사를 보내는지 기준이 흐렸다</li>
+        <li>PAD 로 나가는 요청이 아이큐브와 사실상 같은 자료인데도 별도 규격으로 관리됐다</li>
+      </ul></dd></div>
+      <div><dt>통일 후</dt><dd><ul>
+        <li><b>보낼 값의 정의를 <code>ContractSyncData</code> 한 곳에 모았다</b> — 계약·공사·프로젝트 원본을 담아두고, 각 시스템이 요구하는 모양은 여기서 만들어 준다</li>
+        <li>일시 형식을 명세서가 요구하는 <code>yyyyMMddHHmmss</code> 하나로 통일했다</li>
+        <li><b>도급사는 한 건만 보낸다</b>로 규칙을 정했다 — 신규 등록은 그때 등록한 대표 도급사, 그 외에는 계약의 대표 도급사</li>
+        <li>PAD 요청을 아이큐브와 같은 요청 자료로 통합했다</li>
+        <li>공사담당자 ID 기본값처럼 <b>실행 환경(운영/개발)에 따라 달라지는 값</b>은 값을 만드는 쪽이 아니라 보내는 쪽에서 정하도록 책임을 분리했다</li>
+      </ul></dd></div>
+    </div>
+
+    <h3>송신 흐름</h3>
+    <p>네 가지 업무 행위를 <code>ContractSyncComponent.sync()</code> 한 곳으로 모았습니다. 순서에 의존하는 부분이 하나 있어 그것만 명시적으로 다룹니다.</p>
+    <div class="dl">
+      <div><dt>송신 트리거 4종</dt><dd><code>CREATE_CONTRACT</code> 계약등록 · <code>UPDATE_CONTRACT</code> 계약수정 · <code>CREATE_CHANGE</code> 변경계약등록 · <code>UPDATE_CHANGE</code> 변경계약수정</dd></div>
+      <div><dt>아이큐브(PNS) 먼저</dt><dd>PNS 코드를 아이큐브가 발급하므로 먼저 보내 받아둔다. 그 값을 PAD 요청에 함께 넘긴다</dd></div>
+      <div><dt>PAD 다음</dt><dd>아이큐브 전송이 실패해 PNS 코드를 받지 못하면 <b>그 자리를 빈값으로 두고 PAD 전송은 그대로 진행</b>한다 — 한 곳이 실패해도 나머지는 멈추지 않는다</dd></div>
+      <div><dt>유레카</dt><dd>요구 규격이 다른 계통이라 계약 화면이 직접 보낸다 (<code>CAEU0007 registerCnstwk</code> · <code>CAEU0008 registerCntrct</code> · <code>CAEU0009 deleteCnstwk</code>)</dd></div>
+      <div><dt>실행 시점</dt><dd>모든 송신은 <b>업무 저장이 커밋된 뒤</b> 실행한다. 외부 시스템이 응답하지 않아도 계약 저장은 유지된다</dd></div>
+    </div>
+
+    <h3>담당 업무</h3>
+    <div class="dl">
+      <div><dt>계약 관리</dt><dd>계약 목록 · 상세 · 등록 · 수정 · 삭제, 변경계약(차수) 관리, 장기계속계약 처리</dd></div>
+      <div><dt>도급사 · 하도급</dt><dd>도급사 등록 · 수정 · 삭제, 하도급 계약 등록 및 PAD 송신(<code>CAPD0003</code> · <code>CAPD0004</code>)</dd></div>
+      <div><dt>대외 송신</dt><dd>유레카 · PAD · PNS 3개 시스템 송신 개발, 요청 자료 규격 통합, 시스템별 전송 클라이언트 분리</dd></div>
+      <div><dt>연동 이력</dt><dd>모든 계약 송신이 이력에 자동으로 남게 창구 일원화, 이력에 남는 개인정보 · 금융정보 마스킹 적용</dd></div>
+      <div><dt>대시보드</dt><dd>계약현황 표시 및 자동배치 안정화</dd></div>
+    </div>
+
+    <h3>문제 해결</h3>
+
+    <div class="case">
+      <div class="case-h"><b>구조</b><span>이름과 실체가 다른 연동 — 아이큐브 이름으로 PNS 로 나가고 있었다</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>계약 등록·변경 전송이 <b>아이큐브 이름으로 관리되고 있었지만 실제로는 PNS 로 나가고</b> 있었음. 코드를 처음 보는 사람은 어느 시스템으로 무엇이 가는지 알 수 없었고, 연동 이력의 시스템 이름도 실제와 달랐음</dd></div>
+        <div><dt>원인</dt><dd>연동 대상이 바뀌는 과정에서 클라이언트 클래스명과 설정 파일만 그대로 남았음 — 이름은 관성으로 유지되고 실체만 옮겨간 상태</dd></div>
+        <div><dt>해결</dt><dd>로그인 · 토큰 · 계약등록 로직을 <code>PnsClient</code> 로 분리하고 전용 설정 파일(<code>pns-*.properties</code>)을 신설 / 같은 기준으로 연동 전수를 훑어, 수집처가 바뀐 CSI 사고사례 연동도 함께 정리</dd></div>
+        <div><dt>결과</dt><dd>클래스명 · 설정 · 연동 이력의 시스템 이름이 일치 / 어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됨</dd></div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-h"><b>장애</b><span>계약 저장이 응답 없이 멈춤 (자기 교착)</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>계약 수정 저장이 응답 없이 멈추고, 같은 계약을 저장한 이후 요청들이 뒤에 줄줄이 매달림(8건). 사용자에게는 화면이 영원히 로딩 중으로 보였음</dd></div>
+        <div><dt>원인</dt><dd>계약 행을 잠근 <b>미확정 트랜잭션 상태에서 외부 3개 시스템을 호출</b>하고, 응답값을 저장하는 처리가 별도 커넥션에서 같은 행을 UPDATE 해 자기 교착이 발생</dd></div>
+        <div><dt>해결</dt><dd>외부 송신 전체를 커밋 이후 실행으로 옮기고 4개 흐름에 모두 적용 (진단 과정과 상세는 「서비스 운영 및 장애 대응」 참조)</dd></div>
+        <div><dt>결과</dt><dd>교착 재발 없음 / <b>“트랜잭션 안에서 외부 시스템을 호출하지 않는다”</b>를 팀 규칙으로 문서화</dd></div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-h"><b>연동 결함</b><span>필수값 누락·예외 케이스로 전송이 실패하던 건</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>계약 저장은 되는데 외부 전송만 실패하는 건들이 있었음 — 상대 시스템이 요구하는 필수값이 비어 나가거나, 계약보증금처럼 값이 없을 수 있는 항목에서 오류가 났음</dd></div>
+        <div><dt>원인</dt><dd>세 시스템의 필수값 기준이 서로 달라 한 시스템 기준으로만 채워 보내고 있었음 / 값이 없을 수 있는 항목을 없다고 가정하지 않은 코드가 남아 있었음</dd></div>
+        <div><dt>해결</dt><dd>규격을 통일하면서 <b>시스템별 필수값을 요청 생성 지점에서 함께 채우도록</b> 정리 / 값이 없을 수 있는 항목은 기본값 처리, 연동 이력에서 실패 사유를 바로 볼 수 있게 로그 보강</dd></div>
+        <div><dt>결과</dt><dd>필수값 누락 · 보증금 미입력 · PNS 등록 오류 건 해소 / 항목이 하나 늘어도 <b>고칠 곳이 한 군데</b>라 같은 유형의 누락이 재발하지 않는 구조가 됨</dd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ D2 : API 연계 ═══ -->
+  <div id="d2" data-title="시스템 API 연계 · 송신 창구 일원화" data-sub="2026.02 ~ 현재 · 유레카 · PAD · PNS · 아이큐브 · 공공가이아">
+    <p>계약·기성·실정보고·안전 데이터가 5개 외부 시스템과 오갑니다. 메뉴마다 흩어져 있던 송신 경로를 하나의 공통 창구로 모으고, 모든 송신이 자동으로 연동 이력에 남도록 재정비했습니다.</p>
+
+    <h3>API Architecture</h3>
+    <p>문제는 “연동이 안 된다”가 아니라 <b>어떤 건 이력이 남고 어떤 건 남지 않는다</b>는 것이었습니다. 장애가 나도 무엇을 보냈는지 확인할 방법이 없었습니다. 모든 송신을 공통 클라이언트 한 곳으로 통과시켜, 이력 적재를 잊을 수 없는 구조로 바꿨습니다. 업무 메뉴별로 흩어져 있던 외부 송신을 공통 창구 하나로 모아 요청·응답과 성공 여부가 이력에 자동으로 남고, 수신(IN) 방향도 같은 창구를 거치므로 한 테이블에서 양방향 이력을 추적할 수 있습니다.</p>
+    <div class="slots">
+      <figure class="slot">
+        <img src="images/p02-architecture.png" alt="연동 아키텍처 구성도 — 업무 메뉴별로 흩어진 외부 송신이 공통 송신 창구를 거쳐 연동 이력에 자동 적재된 뒤 5개 외부 시스템으로 나가는 구조">
+        <figcaption>연동 아키텍처 구성도</figcaption>
+      </figure>
+      <figure class="slot">
+        <img src="images/p02-sso.png" alt="SSO 순차 폴백 흐름도 — JWT 검증을 먼저 시도하고 실패하면 기존 TokenID 조회로 폴백해 같은 지점으로 합류하는 인증 흐름">
+        <figcaption>SSO 순차 폴백 흐름도</figcaption>
+      </figure>
+    </div>
+
+    <h4>SSO 로그인 — 무중단 전환</h4>
+    <p>아이큐브 포털에서 CaiRos 로 넘어오는 로그인을 기존 TokenID 방식에서 JWT 로 옮기면서, 이미 로그인해 있는 사용자를 끊지 않는 것이 조건이었습니다. 둘 중 하나를 고르는 대신 <b>순차 폴백</b>으로 설계했습니다. JWT 를 먼저 시도하고 실패하면 기존 TokenID 경로로 폴백하므로, 포털 측 전환 시점과 무관하게 로그인이 유지됩니다.</p>
+
+    <h3>담당 업무</h3>
+    <div class="dl">
+      <div><dt>유레카</dt><dd>작업일지 자원 ↔ 일위대가 비교·검증, 기성·공사비 조회, 실정보고 API 연동 / API 명세서 작성 및 운영 테스트, ApiDog 기반 인터페이스 정리</dd></div>
+      <div><dt>PAD · PNS</dt><dd>계약·변경계약 등록 연동, 요청 자료 규격 통합, 시스템별 전송 클라이언트 분리</dd></div>
+      <div><dt>아이큐브</dt><dd>서브도메인 SSO JWT 로그인 전환 — JWT 우선 검증 + 기존 TokenID 폴백으로 기존 로그인 사용자를 끊지 않고 이행 / 인증 실패 사유를 단계별로 구분해 로그에 남겨 어느 구간에서 끊겼는지 확인 가능 / CSI 사고사례 수집 및 수집 이력·수집자 기록</dd></div>
+      <div><dt>공공가이아</dt><dd>작업일지 결재 연동, 결재취소 시 데이터 정리, DB 데이터 이관, 송수신 오류 저장</dd></div>
+      <div><dt>공통</dt><dd>송신 창구 일원화, 연동 이력 자동 적재, 개인정보·금융정보 마스킹, 수신 API 공통 처리</dd></div>
+    </div>
+
+    <h3>문제 해결</h3>
+
+    <div class="case">
+      <div class="case-h"><b>구조</b><span>이력이 남지 않는 송신 경로</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>계약 정보를 외부로 보내는 경로가 메뉴마다 흩어져 있어 어떤 건 연동 이력이 남고 어떤 건 남지 않음 / 장애가 나도 무엇을 보냈는지 확인할 수 없어, 실패한 건만 골라 재전송하는 것도 불가능</dd></div>
+        <div><dt>원인</dt><dd>각 메뉴가 REST 클라이언트를 직접 호출했고, 이력 적재는 개발자가 기억해서 붙이는 선택 사항이었음 / 사람이 보지 않는 배치·스케줄러 송신일수록 누락이 많았음</dd></div>
+        <div><dt>해결</dt><dd>공통 송신 창구를 만들어 창구를 통과하면 이력이 자동으로 쌓이는 구조로 전환 / 계약 등록·수정, 계약변경 등록·수정 4개 흐름을 모두 이관 / 이력에 남는 개인정보·금융정보 마스킹을 함께 적용</dd></div>
+        <div><dt>결과</dt><dd>모든 외부 송신이 요청·응답·성공여부와 함께 이력에 남음 / 신규 연동은 창구를 쓰는 것이 기본값이 되어, <b>이력 적재를 잊을 수 없는 상태</b>가 됨</dd></div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-h"><b>구조</b><span>이름과 실체가 다른 연동</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>계약 등록·변경 전송이 아이큐브 이름으로 관리되고 있었지만 실제로는 PNS 로 나가고 있었음 / 코드를 처음 보는 사람은 어느 시스템으로 무엇이 가는지 알 수 없었음</dd></div>
+        <div><dt>원인</dt><dd>연동 대상이 바뀌는 과정에서 클라이언트 클래스명과 설정 파일만 그대로 남음 — 이름은 관성으로 유지되고 실체만 옮겨간 상태</dd></div>
+        <div><dt>해결</dt><dd>로그인·토큰·계약등록 로직을 PnsClient 로 분리하고 전용 설정 파일을 신설 / CSI 사고사례 수집처가 보탈에서 아이큐브로 바뀐 건도 같은 기준으로 클라이언트를 정리</dd></div>
+        <div><dt>결과</dt><dd>클래스명·설정·연동 이력의 시스템 이름이 일치 / <b>어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됨</b></dd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ D3 : 운영·장애 ═══ -->
+  <div id="d3" data-title="서비스 운영 및 장애 대응" data-sub="2026.02 ~ 현재 · 운영·개발·테스트 서버 8대 (WAS 5 · DB 3)">
+    <p>담당 선임과 리더가 연이어 퇴사하면서 시스템을 단기간에 인수받았습니다. 인수 문서가 충분하지 않아 코드와 운영 이력을 역추적해 구조를 다시 정리하고 문서로 남겼습니다. 이후 개발과 함께 배포·서버 운영·장애 대응을 맡고 있습니다.</p>
+
+    <h3>담당 업무</h3>
+    <div class="dl">
+      <div><dt>담당 업무</dt><dd><ul>
+        <li>Jenkins 배포 환경 설정 및 관리 — 다중 서버 대응 구성, 배포 스크립트 정비, dev 젠킨스 결함 개선</li>
+        <li>Linux 서버 운영 — 운영 WAS 2대·NCP·개발·테스트 서버와 DB 3대 (총 8대)</li>
+        <li>서버 장애 원인 분석 및 대응 — 운영 서버 디스크 용량 문제 해소, 개발/운영 로그 관리</li>
+        <li>삭제 첨부파일 물리삭제 배치 개발 — 보관기간 경과분만 회수, 수동 실행 스크립트 병행</li>
+        <li>DB Lock 발생 원인 분석 및 해결 / SQL 성능 이슈 대응 / 운영 데이터 오류 분석</li>
+        <li>고객·현업 요청사항 대응 / UbiReport 리포트·에이전트 서비스 운영</li>
+      </ul></dd></div>
+      <div><dt>인수 후 재정립</dt><dd><ul>
+        <li>서버 인프라 구성도 — 어느 서버에 무엇이 올라가 있는지 문서화</li>
+        <li>장애 대응 절차 — 증상별 확인 순서와 로그 위치</li>
+        <li>배포 프로세스 — 브랜치 승격 규칙과 배포 스크립트</li>
+        <li>결함 이력 문서 체계 — 메뉴별로 원인과 재발 방지 기준을 누적</li>
+        <li>SVN 소스의 Git 이관 및 형상관리 전환</li>
+        <li>데이터 접근 계층 JPA → MyBatis 전환 및 검증</li>
+      </ul></dd></div>
+    </div>
+
+    <h3>장애 대응 사례</h3>
+
+    <div class="case">
+      <div class="case-h"><b>장애</b><span>계약 저장이 멈추고, 뒤따른 요청 8건이 연쇄로 매달림</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>계약 수정 저장 요청이 응답 없이 멈추고, 같은 계약을 저장한 이후 요청들이 그 뒤에 줄줄이 매달림 (로컬·개발서버 합쳐 8건) / 사용자에게는 화면이 영원히 로딩 중으로 보였음</dd></div>
+        <div><dt>진단</dt><dd><code>pg_blocking_pids()</code> 로 어느 세션이 어느 세션을 막고 있는지 뿌리까지 추적 / <code>jstack</code> 으로 애플리케이션 스레드가 어느 호출에서 멈춰 있는지 확인 / 잠금 보유자가 DB 대기가 아니라 <code>idle in transaction</code> 상태임을 확인</dd></div>
+        <div><dt>원인</dt><dd>계약 저장 로직이 계약 행을 잠근 미확정 트랜잭션 상태에서 유레카·아이큐브·PAD 를 호출하고, 응답으로 받은 값을 저장하는 처리가 별도 커넥션에서 같은 행을 UPDATE 했음 / 바깥은 안쪽이 끝나기를, 안쪽은 바깥의 잠금 해제를 기다리는 <b>자기 교착(self-deadlock)</b> / 양쪽 다 DB 대기가 아니라 PostgreSQL 교착 감지에 걸리지 않고, 관련 타임아웃이 모두 무한이라 스스로 풀리지도 않았음</dd></div>
+        <div><dt>해결</dt><dd>외부 송신 전체를 커밋 이후에 실행하도록 공통 헬퍼로 감싸고, 계약 등록·수정 및 계약변경 등록·수정 4개 흐름에 모두 적용 / 송신 로직 자체는 내용을 바꾸지 않고 실행 시점만 옮겨, 기능 변경 없이 구조만 교정 / 같은 도메인에 이미 있던 선례 패턴을 그대로 따름</dd></div>
+        <div><dt>결과</dt><dd>교착 재발 없음. 멈춘 트랜잭션은 즉시 정리해 서비스를 복구 / <b>“트랜잭션 안에서 외부 시스템을 호출하지 않는다”</b>를 팀 규칙으로 문서화 / 남은 위험(아직 트랜잭션 안에 있는 송신 1건)까지 함께 기록해 후속 과제로 남김</dd></div>
+      </div>
+    </div>
+    <p>교착의 원인은 외부 시스템이 느린 것이 아니라, <b>행을 잠근 채로 외부를 호출한 것</b>이었습니다. 송신을 커밋 이후로 옮기자 잠금 구간과 외부 호출 구간이 겹치지 않게 되어 교착 조건 자체가 사라집니다.</p>
+
+    <div class="case">
+      <div class="case-h"><b>운영 개선</b><span>지운 첨부파일이 디스크에 계속 남아 용량을 잠식</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>운영 서버 디스크가 차오르는 문제가 반복됐음. 원인을 보니 <b>화면에서 첨부파일이나 통합문서를 삭제해도 자료에는 삭제 표시만 남고 서버의 실제 파일은 그대로 남아</b> 있었음. 쓰지 않는 파일이 계속 쌓이는데 지울 방법이 없었음</dd></div>
+        <div><dt>고민</dt><dd>지우면 되돌릴 수 없다는 점이 문제였음. 사용자가 실수로 지운 파일을 되살려 달라는 요청이 실제로 있어, <b>즉시 삭제는 위험</b>했음. 반대로 안 지우면 디스크가 계속 찼음</dd></div>
+        <div><dt>해결</dt><dd><b>보관기간(기본 90일)을 둔 물리삭제 배치</b>를 만들었음. 자료 행은 지우지 않고 파일 실물만 지우므로, 보관기간 안에는 삭제 표시를 되돌려 화면에서 다시 볼 수 있음<br>
+          지우기 전에 <b>세 가지를 확인</b>한다 — ① 업로드 폴더 안에 있는 파일인가(경로 이탈 방지) ② 아직 그 파일을 쓰고 있는 자료가 있는가 ③ 파일이 실제로 존재하는가<br>
+          배치가 실패했을 때 운영자가 직접 돌릴 수 있는 <b>수동 실행 스크립트</b>(개발·운영 각각)와 관리 엔드포인트를 함께 만들었음</dd></div>
+        <div><dt>결과</dt><dd>쌓여 있던 미사용 파일을 회수해 디스크 여유를 확보하고, 이후로는 자동으로 정리됨 / 실행 결과는 <b>사용자 로그에 남는다</b>(실행 주체 <code>BATCH</code>, 업무구분 「첨부파일 물리삭제 배치」) — 사람이 보지 않는 배치라 무엇을 몇 건 지웠는지가 유일한 단서이기 때문<br>
+          <b>“되돌릴 수 없는 작업에는 되돌릴 수 있는 기간을 둔다”</b>가 이 작업에서 얻은 기준</dd></div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-h"><b>성능</b><span>대시보드 관리기준 성과분석 조회가 수십 초</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>경영진이 보는 관리기준 성과분석 대시보드가 열리는 데 수십 초가 걸림 / 데이터가 늘어날수록 악화되는 형태였음</dd></div>
+        <div><dt>원인</dt><dd>작업일지 실적원가를 집계하는 CTE 가 본문 조회에서 참조될 때, 대공종(WBS 레벨1) 한 건마다 통째로 다시 계산되고 있었음 / 대공종이 늘어나면 같은 집계가 그 수만큼 반복되는 구조</dd></div>
+        <div><dt>해결</dt><dd>해당 CTE 를 <code>AS MATERIALIZED</code> 로 선언해 한 번만 계산하고 재사용하도록 변경 / 왜 이 힌트가 필요한지를 쿼리 주석으로 남겨 나중에 무심코 제거되지 않게 함</dd></div>
+        <div><dt>결과</dt><dd>대공종 건수와 무관하게 집계는 1회 / 조회 시간이 정상 범위로 회복되고, 데이터가 늘어도 같은 방식으로 악화되지 않음</dd></div>
+      </div>
+    </div>
+
+    <div class="case">
+      <div class="case-h"><b>운영 데이터</b><span>새로고침하면 상단 계약명이 “데이터 없음”</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>계약을 선택하고 메뉴에 들어간 뒤 새로고침하면 상단 헤더의 계약명이 사라짐 / 한 번 발생하면 그 탭의 모든 메뉴에서 재현되고, 일반 사용자는 스스로 복구할 방법이 없었음</dd></div>
+        <div><dt>원인</dt><dd>일부 화면이 공통 컨텍스트에 계약명을 빈 값으로 덮어쓰고 있었음 / 그 값을 쓴 화면은 멀쩡해 보이고 다음 화면 로드부터 깨져서 원인 화면을 특정하기 어려웠음 / 복구 경로가 관리자 권한 안에만 있어 일반 사용자는 고착됨</dd></div>
+        <div><dt>해결</dt><dd>계약명을 보존하는 공통 헬퍼를 만들어 직접 덮어쓰던 화면들을 교체 / 헤더 쪽에 3단계 복구 로직(세션 → 공통 데이터 → 조회 후 세션 보정)을 추가 / 조회 실패 시 화면이 영구 대기하던 문제도 함께 해소</dd></div>
+        <div><dt>결과</dt><dd>재현 불가 / <b>“공통 컨텍스트에 표시용 값을 빈 값으로 덮어쓰지 않는다”</b>를 팀 안티패턴 목록에 등재해 다른 도메인에서의 재발을 차단</dd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ D4 : 악사손해보험 ═══ -->
+  <div id="d4" data-title="악사손해보험 SmartCall 솔루션 구축" data-sub="2024.08 ~ 2024.12 · 투티스 / SmartCall 팀 · BE 2명 / 기여도 40%">
+    <p>통화 녹취 솔루션을 제공하는 투티스에서 진행한 프로젝트입니다. 관리자 페이지 기능 개발과 고객사 기간계 시스템 연동을 담당했습니다.</p>
+
+    <h3>Environment</h3>
+    <div class="dl">
+      <div><dt>개발 환경</dt><dd>Java, JavaScript, Spring Framework, PostgreSQL, MyBatis, RESTful API, Ant, Linux, Nginx, Apache Tomcat</dd></div>
+      <div><dt>인력 · 기여도</dt><dd>BE 2명 / 기여도 40%</dd></div>
+    </div>
+
+    <h3>주요 업무</h3>
+    <ul class="mlist">
+      <li><b>관리자 페이지 기능 개발</b> — 메뉴 추가, 통계 화면, 이미지 조회 기능 구현</li>
+      <li><b>고객사 기간계 시스템과 RESTful API 연동</b> — POST/JSON 기반 연동 로직 다수 구현 및 응답 처리 체계화</li>
+      <li><b>서버 인프라 배포</b> — Tomcat 기반 서버 환경 구성 및 배포 프로세스 적용</li>
+      <li><b>데이터베이스 성능 최적화</b> — PostgreSQL·MyBatis 기존 쿼리 보수</li>
+    </ul>
+
+    <h3>성과</h3>
+    <ul class="mlist">
+      <li><b>녹취 파일 청취 기능 추가</b> — 서버에 저장된 녹취 파일을 스트리밍 방식으로 제공해 관리자 페이지에서 직접 청취</li>
+      <li><b>Embedded DB 도입</b> — 조회 테이블을 Embedded DB 로 구성해 코드 수정 없이 설정 파일만으로 컬럼 반영</li>
+      <li>사용자·관리자·운영자 매뉴얼 제작 및 교육 진행, <b>고객사 내 PostgreSQL 도입 성공</b></li>
+      <li>관리 효율성·유지보수 부담 개선에 기여하여 <b>프로젝트 추가 계약 성사</b></li>
+    </ul>
+
+    <h3>화면</h3>
+    <div class="slots">
+      <figure class="slot"><img src="images/axa-record-before.png" alt="녹취이력 개편 전"><figcaption>녹취이력 — 개편 전</figcaption></figure>
+      <figure class="slot"><img src="images/axa-record-after.png" alt="녹취이력 개편 후"><figcaption>녹취이력 — 개편 후 (검색조건·다운로드·청취 추가)</figcaption></figure>
+      <figure class="slot"><img src="images/axa-monitor-before.png" alt="상태모니터링 개편 전"><figcaption>상태모니터링 — 개편 전</figcaption></figure>
+      <figure class="slot"><img src="images/axa-monitor-after.png" alt="상태모니터링 개편 후"><figcaption>상태모니터링 — 개편 후 (통계 기능 추가)</figcaption></figure>
+      <figure class="slot"><img src="images/axa-menu-before.png" alt="메뉴 개발 전"><figcaption>업로드파일 이력 — 개발 전</figcaption></figure>
+      <figure class="slot"><img src="images/axa-menu-after.png" alt="업로드파일 이력 개발 후"><figcaption>업로드파일 이력 — 개발 후 (이미지 열람·다운로드)</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- ═══ D5 : SITellAgent ═══ -->
+  <div id="d5" data-title="SITellAgent 클라이언트 개발" data-sub="2023.01 ~ 2023.03 · 투티스 · BE 1명 / 기여도 100%">
+    <p>클라이언트 UI 전면 개편과 신규 기능 개발을 단독으로 진행했습니다. Angular·TypeScript 를 처음 다루는 환경이었고 팀 내에 도움을 줄 선임이 없었으나, 타 부서 선임의 피드백과 기존 코드 분석으로 기존 기능에 영향을 주지 않고 완료했습니다.</p>
+
+    <h3>Environment</h3>
+    <div class="dl">
+      <div><dt>개발 환경</dt><dd>Java, Spring Boot, TypeScript, Angular, MariaDB, MyBatis, RESTful API, Maven, npm</dd></div>
+      <div><dt>인력 · 기여도</dt><dd>BE 1명 / 기여도 100%</dd></div>
+    </div>
+
+    <h3>주요 업무</h3>
+    <ul class="mlist">
+      <li><b>클라이언트 개발</b> — Angular·TypeScript 기반 UI 전면 개편</li>
+      <li><b>서버 API 구현 및 클라이언트 연동</b> — 데이터 조회용 서버 API 와 클라이언트 요청 로직 동시 개발</li>
+      <li><b>스마트폰 상태 정보 실시간 표시 화면 구성</b>, MariaDB·MyBatis 기반 조회 쿼리 설계</li>
+      <li><b>이미지 포함 문자 전송 기능 구현</b></li>
+    </ul>
+
+    <h3>성과</h3>
+    <ul class="mlist">
+      <li>완성도 높은 클라이언트 구축으로 사용자 경험(UX) 및 기능성 향상</li>
+      <li>영업 부서에서 본 솔루션으로 <b>1년간 3건 계약 성사</b> — 제품의 실질적 가치 입증</li>
+      <li>실시간 상태 모니터링 도입으로 이상 발생 시 신속 대응 가능</li>
+    </ul>
+
+    <h3>화면 — 로그인 개편 전후</h3>
+    <div class="slots">
+      <figure class="slot"><img src="images/sitell-login-before.png" alt="로그인 개편 전"><figcaption>로그인 — 개편 전</figcaption></figure>
+      <figure class="slot"><img src="images/sitell-login-after.png" alt="로그인 개편 후"><figcaption>로그인 — 개편 후</figcaption></figure>
+    </div>
+
+    <h3>화면 — 콜 업무</h3>
+    <div class="slots">
+      <figure class="slot"><img src="images/sitell-main.png" alt="메인 화면"><figcaption>메인 화면</figcaption></figure>
+      <figure class="slot"><img src="images/sitell-call-incoming.png" alt="콜 발생"><figcaption>콜 발생 (인바운드 요청)</figcaption></figure>
+      <figure class="slot"><img src="images/sitell-contact-history.png" alt="콜·메시지 상세 조회"><figcaption>콜·메시지 정보 상세 조회</figcaption></figure>
+      <figure class="slot"><img src="images/sitell-call-history.png" alt="콜 정보 상세 조회"><figcaption>콜 정보 상세 조회</figcaption></figure>
+      <figure class="slot"><img src="images/sitell-admin-login.png" alt="관리자 페이지 이동"><figcaption>관리자 페이지 이동</figcaption></figure>
+    </div>
+
+    <h3>화면 — 후처리 · 문자 업무</h3>
+    <div class="slots">
+      <figure class="slot"><img src="images/sitell-aftercall.png" alt="후처리"><figcaption>후처리</figcaption></figure>
+      <figure class="slot"><img src="images/sitell-sms-compose.png" alt="문자 메시지 작성"><figcaption>문자 메시지 작성</figcaption></figure>
+      <figure class="slot"><img src="images/sitell-sms-upload.png" alt="문자 이미지 업로드"><figcaption>문자 이미지 업로드</figcaption></figure>
+      <figure class="slot"><img src="images/sitell-sms-send.png" alt="문자 전송"><figcaption>문자 전송 완료</figcaption></figure>
+      <figure class="slot"><img src="images/sitell-sms-history.png" alt="문자 정보 상세 조회"><figcaption>문자 정보 상세 조회</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- ═══ D6 : 에듀윌 ═══ -->
+  <div id="d6" data-title="에듀윌 SmartTM 시스템 구축" data-sub="2022.08 ~ 2023.01 · 투티스 · BE 3명 / 기여도 30%">
+    <h3>Environment</h3>
+    <div class="dl">
+      <div><dt>개발 환경</dt><dd>Java, JavaScript, Spring Framework, MariaDB, MyBatis, Ant, Linux, Apache Tomcat</dd></div>
+      <div><dt>인력 · 기여도</dt><dd>BE 3명 / 기여도 30%</dd></div>
+    </div>
+
+    <h3>주요 업무</h3>
+    <ul class="mlist">
+      <li><b>관리자 페이지 보안 강화</b> — 동일 ID 로그인 시 접속 중 IP 추적 및 자동 로그아웃 기능 구현</li>
+      <li><b>웹소켓 통신 고도화</b> — 클라이언트 → 서버 → 스마트폰 명령 전달 효율화</li>
+      <li><b>보안 인증서 적용</b> — HTTPS(SSL) 리눅스 서버 환경 구성 및 설정</li>
+      <li><b>데이터베이스 성능 최적화</b> — MariaDB·MyBatis 기존 쿼리 보수</li>
+    </ul>
+
+    <h3>성과</h3>
+    <ul class="mlist">
+      <li>동일 ID 중복 로그인 차단 및 IP 추적으로 <b>안전한 서비스 이용 환경 확보</b></li>
+      <li>기존 고객사 클라이언트와 연동하여 더 직관적이고 편리한 서비스 제공</li>
+    </ul>
+
+    <h3>화면</h3>
+    <div class="slots">
+      <figure class="slot">
+        <div class="ph"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg><span>화면 이미지 자리</span><em>images/p06-eduwill-01.png</em></div>
+        <figcaption>에듀윌 SmartTM 관리자 화면</figcaption>
+      </figure>
+      <figure class="slot">
+        <div class="ph"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg><span>화면 이미지 자리</span><em>images/p06-eduwill-02.png</em></div>
+        <figcaption>IP 추적 · 중복 로그인 차단</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <!-- ═══ D7 : RPA ═══ -->
+  <div id="d7" data-title="업무 자동화(RPA) 구축 — 금융·보험 5개사" data-sub="2020.12 ~ 2022.04 · 투티스 / RPA 팀">
+    <p>JB금융지주·롯데손해보험·신한캐피탈·집토스·예탁결제원의 RPA 과제를 기획·구축·개발·유지보수했습니다. 그중 롯데손해보험 2차 개발이 대표 과제입니다.</p>
+
+    <h3>수행 과제</h3>
+    <div class="dl">
+      <div><dt>2021.01 ~ 03</dt><dd>JB금융지주 RPA 구축</dd></div>
+      <div><dt>2021.03 ~ 10</dt><dd>롯데손해보험 RPA 2차 개발</dd></div>
+      <div><dt>2021.10 ~ 2022.01</dt><dd>신한캐피탈 RPA 구축</dd></div>
+      <div><dt>2022.01 ~ 03</dt><dd>집토스 RPA 구축</dd></div>
+      <div><dt>2022.03 ~ 04</dt><dd>예탁결제원 RPA 개발</dd></div>
+    </div>
+
+    <h3>롯데손해보험 RPA 2차 개발</h3>
+    <div class="dl">
+      <div><dt>개발 환경</dt><dd>UiPath Studio · Orchestrator · Robot, VB.NET, HTML/CSS Selector, Excel VBA</dd></div>
+    </div>
+    <ul class="mlist">
+      <li><b>고객 인터뷰 및 프로세스 분석</b> — 업무 프로세스를 분석해 자동화 가능 여부를 검토하고 최적의 도입 방안 수립</li>
+      <li><b>프로세스 설계 및 기획</b> — 업무 흐름을 시각화해 적용 범위와 기대 효과를 정의, 봇의 단계별 동작 설계</li>
+      <li><b>RPA 개발 및 운영</b> — UiPath 기반 VB.NET 자동화 로봇 개발, Orchestrator 연동으로 상태 모니터링·배포 자동화</li>
+      <li><b>관리자 교육</b> — 고객사가 직접 운영할 수 있도록 운영·개발 교육 진행</li>
+    </ul>
+
+    <div class="case">
+      <div class="case-h"><b>일정</b><span>마감을 앞두고 계속 들어오는 추가 요구</span></div>
+      <div class="dl">
+        <div><dt>문제</dt><dd>마감 기한이 얼마 남지 않은 상황에서 고객 측의 추가 개발 요구가 지속적으로 발생 / 요청이 인터뷰 과정에서 누락되거나 후반부에 새로 제기되는 경우가 많아 지연 가능성이 높았음</dd></div>
+        <div><dt>해결</dt><dd>매일 고객 컨택을 진행해 놓친 요구사항이 없는지 확인하고, 추가 요구를 미리 예측해 선제적으로 개선안을 제시 / 우선순위를 명확히 정리해 핵심 기능에 집중하고 테스트·피드백 주기를 단축</dd></div>
+        <div><dt>결과</dt><dd>마감 기한 내 완료, <b>연 2만 업무 시간 절감</b> / 자동화 성공 사례로 인정받아 추가 프로세스 자동화 과제 수주</dd></div>
+      </div>
+    </div>
+
+    <h3>언론 보도</h3>
+    <div class="slots">
+      <figure class="slot"><img src="images/lotte-rpa-news.png" alt="롯데손해보험 RPA 도입 완료 기사"><figcaption>롯데손해보험, 로봇 프로세스 자동화(RPA) 도입 완료 — 연 2만 시간 절감</figcaption></figure>
+    </div>
+  </div>
+
+</div>
+
+<!-- 모달 껍데기 -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+  <div class="msheet" id="msheet">
+    <div class="mtop">
+      <div><h2 id="mtitle"></h2><p id="msub"></p></div>
+      <button class="mclose" id="mclose" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="mbody" id="mbody"></div>
+  </div>
+</div>
+
+<div id="lb" role="dialog" aria-modal="true" aria-label="이미지 크게 보기">
+  <div class="lb-stage" id="lbStage"><img id="lbImg" src="" alt="" draggable="false"></div>
+  <div class="lb-bar" id="lbBar">
+    <button type="button" data-z="out" aria-label="축소">−</button>
+    <span id="lbPct">100%</span>
+    <button type="button" data-z="in" aria-label="확대">+</button>
+    <button type="button" data-z="fit" class="lb-txt">화면 맞춤</button>
+    <button type="button" data-z="close" aria-label="닫기">✕</button>
+  </div>
+  <p class="lb-hint">휠·핀치로 확대 · 드래그로 이동 · 이미지를 누르면 원본 크기 · 바깥이나 Esc 로 닫기</p>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── 순차 등장 준비 ──
+     data-stagger 가 붙은 묶음은 자식들이 하나씩 시차를 두고 올라오게 한다.
+     숫자는 자식 사이의 간격(ms). */
+  document.querySelectorAll('[data-stagger]').forEach(function(group){
+    var gap = parseInt(group.dataset.stagger, 10) || 90;
+    var anim = group.dataset.anim;
+    Array.prototype.forEach.call(group.children, function(child, i){
+      child.classList.add('rv');
+      if(anim) child.setAttribute('data-anim', anim);
+      child.style.setProperty('--d', (i * gap) + 'ms');
+    });
+  });
+
+  /* ── 화면에 들어오면 등장 ── */
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+      // 애니메이션이 끝나면 will-change 를 걷어내 메모리를 돌려준다
+      setTimeout(function(){ e.target.classList.add('done'); }, 1800);
+      if(e.target.querySelector('[data-count]')) countUp(e.target);
+    });
+  },{threshold:.08, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+  /* ── 숫자 카운트업 ── */
+  function countUp(scope){
+    scope.querySelectorAll('[data-count]').forEach(function(el){
+      if(el.dataset.counted) return;
+      el.dataset.counted = '1';
+      var end = parseFloat(el.dataset.count),
+          suffix = el.dataset.suffix || '',
+          dec = (String(el.dataset.count).split('.')[1] || '').length,
+          dur = 1500, t0 = null;
+      if(reduce){ el.textContent = end.toFixed(dec) + suffix; return; }
+      function step(t){
+        if(t0 === null) t0 = t;
+        var p = Math.min((t - t0) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 4);          // 끝에서 길게 감속
+        el.textContent = (end * eased).toFixed(dec) + suffix;
+        if(p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+  // 첫 화면 지표는 로드 직후 한 번 실행
+  var heroStats = document.querySelector('.hero-stats');
+  if(heroStats) setTimeout(function(){ countUp(heroStats); }, 700);
+
+  /* ══════════════════════════════════════════
+     부드러운 스크롤
+     휠을 굴리면 곧바로 그만큼 뛰지 않고, 목표 지점을 정해두고
+     매 프레임 그쪽으로 조금씩 따라간다. 그래서 손을 떼도 잠깐 더 미끄러진다.
+
+     감각 조절 — 이 줄만 만지면 된다
+       FOLLOW     : 목표를 따라가는 비율. 작을수록 더 길게 미끄러진다 (0.04 ~ 0.14)
+       WHEEL_STEP : 마우스 휠 한 칸에 가는 거리 배율 (1.0 ~ 3.0)
+       PAD_STEP   : 터치패드처럼 잘게 들어올 때 배율. 휠과 같이 키우면 과하게 튄다
+       FORCE      : OS 의 "동작 줄이기" 설정을 무시하고 켜려면 true
+     ══════════════════════════════════════════ */
+  var FOLLOW = 0.06, WHEEL_STEP = 2.2, PAD_STEP = 1.0, FORCE = false;
+
+  (function smoothScroll(){
+    // 손가락으로 넘기는 기기는 이미 관성이 있으므로 건드리지 않는다
+    var isDesktop = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+    // 왜 안 켜졌는지 콘솔(F12)에서 바로 알 수 있게 남긴다
+    if(reduce && !FORCE){
+      console.warn('[부드러운 스크롤] 꺼짐 — OS 의 "동작 줄이기(애니메이션 효과)" 설정이 켜져 있습니다.\n' +
+                   'Windows: 설정 > 접근성 > 시각 효과 > 애니메이션 효과 를 켜세요.\n' +
+                   '설정을 바꾸지 않고 쓰려면 index.html 의 FORCE 를 true 로 바꾸세요.');
+      return;
+    }
+    if(!isDesktop){
+      console.info('[부드러운 스크롤] 꺼짐 — 터치 기기에서는 기기 자체 관성을 씁니다.');
+      return;
+    }
+    console.info('[부드러운 스크롤] 켜짐 — FOLLOW=' + FOLLOW + ', WHEEL_STEP=' + WHEEL_STEP + ', PAD_STEP=' + PAD_STEP);
+
+    // CSS 의 smooth 는 우리 계산과 겹쳐서 오히려 끊기게 만든다
+    document.documentElement.style.scrollBehavior = 'auto';
+
+    var target = window.scrollY, current = target, running = false;
+
+    function limit(v){
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      return Math.max(0, Math.min(v, max));
+    }
+    function frame(){
+      var diff = target - current;
+      if(Math.abs(diff) < 0.4){
+        current = target;
+        running = false;
+        window.scrollTo(0, Math.round(current));
+        return;
+      }
+      current += diff * FOLLOW;
+      window.scrollTo(0, current);
+      requestAnimationFrame(frame);
+    }
+    function run(){ if(!running){ running = true; requestAnimationFrame(frame); } }
+
+    // 모달·확대보기가 열려 있으면 그 안이 스크롤되어야 한다
+    function overOverlay(node){
+      return !!(node && node.closest && node.closest('#modal, #lb'));
+    }
+
+    window.addEventListener('wheel', function(e){
+      if(e.ctrlKey) return;                              // 브라우저 확대/축소
+      if(overOverlay(e.target)) return;
+      if(document.body.style.overflow === 'hidden') return;
+      e.preventDefault();
+
+      var d = e.deltaY;
+      if(e.deltaMode === 1) d *= 24;                     // 파이어폭스는 줄 단위로 보낸다
+      else if(e.deltaMode === 2) d *= window.innerHeight; // 페이지 단위
+
+      // 마우스 휠은 한 칸에 100 안팎으로 크게 들어오고,
+      // 터치패드는 잘게 여러 번 들어온다. 같은 배율을 곱하면 터치패드가 과하게 튄다.
+      var byPad = Math.abs(d) < 60;
+      target = limit(target + d * (byPad ? PAD_STEP : WHEEL_STEP));
+      run();
+    }, {passive:false});
+
+    // 스크롤바를 끌거나 키보드로 움직였을 때 위치를 다시 맞춘다
+    window.addEventListener('scroll', function(){
+      if(!running){ target = current = window.scrollY; }
+    }, {passive:true});
+
+    window.addEventListener('resize', function(){ target = limit(target); }, {passive:true});
+
+    // 상단 메뉴 이동도 같은 감속으로
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+      a.addEventListener('click', function(e){
+        var el = document.getElementById(a.getAttribute('href').slice(1));
+        if(!el) return;
+        e.preventDefault();
+        target = limit(el.getBoundingClientRect().top + window.scrollY);
+        run();
+      });
+    });
+  })();
+
+  /* ── 네비 · 진행 바 · 첫 화면 시차 ── */
+  var nav = document.getElementById('nav'),
+      bar = document.getElementById('bar'),
+      hero = document.querySelector('.hero'),
+      tick = false;
+
+  function onScroll(){
+    var y = window.scrollY;
+    nav.classList.toggle('stuck', y > 30);
+
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (y/max)*100 : 0) + '%';
+
+    // 첫 화면은 스크롤보다 느리게 올라가며 서서히 옅어진다
+    if(hero && !reduce){
+      var h = hero.offsetHeight;
+      if(y < h){
+        hero.style.transform = 'translate3d(0,' + (y * 0.16) + 'px,0)';
+        hero.style.opacity = String(Math.max(0, 1 - (y / h) * 1.15));
+      }
+    }
+    tick = false;
+  }
+  window.addEventListener('scroll', function(){ if(!tick){ tick = true; requestAnimationFrame(onScroll); } }, {passive:true});
+  onScroll();
+
+  /* 프로젝트 카드 → 상세 모달 */
+  var modal = document.getElementById('modal'),
+      msheet = document.getElementById('msheet'),
+      mtitle = document.getElementById('mtitle'),
+      msub   = document.getElementById('msub'),
+      mbody  = document.getElementById('mbody'),
+      lastFocus = null;
+
+  function openDetail(id, trigger){
+    var src = document.getElementById(id);
+    if(!src) return;
+    lastFocus = trigger || null;
+    mtitle.textContent = src.dataset.title || '';
+    msub.textContent   = src.dataset.sub || '';
+    mbody.innerHTML    = src.innerHTML;
+    bindZoom(mbody);
+    modal.classList.add('on');
+    document.body.style.overflow = 'hidden';
+    modal.scrollTop = 0;
+    document.getElementById('mclose').focus();
+  }
+  function closeDetail(){
+    modal.classList.remove('on');
+    document.body.style.overflow = '';
+    mbody.innerHTML = '';
+    if(lastFocus) lastFocus.focus();
+  }
+  document.querySelectorAll('.pcard').forEach(function(card){
+    card.addEventListener('click', function(){ openDetail(card.dataset.detail, card); });
+  });
+  document.getElementById('mclose').addEventListener('click', closeDetail);
+  modal.addEventListener('click', function(e){ if(!msheet.contains(e.target)) closeDetail(); });
+
+  /* ── 이미지 크게 보기 : 확대·축소·드래그 이동 ── */
+  var lb    = document.getElementById('lb'),
+      lbImg = document.getElementById('lbImg'),
+      stage = document.getElementById('lbStage'),
+      lbPct = document.getElementById('lbPct');
+
+  var MIN = .1, MAX = 8, PAD = 28;
+  var scale = 1, fitScale = 1, tx = 0, ty = 0;
+  var pointers = {}, pinchDist = 0, dragged = false, lastX = 0, lastY = 0;
+
+  function stageBox(){ return {w:stage.clientWidth, h:stage.clientHeight}; }
+
+  /* 화면 안에 다 들어오는 배율로 맞춰 가운데 놓는다 */
+  function fit(){
+    var b = stageBox(), nw = lbImg.naturalWidth, nh = lbImg.naturalHeight;
+    if(!nw || !nh) return;
+    fitScale = Math.min((b.w - PAD*2)/nw, (b.h - PAD*2)/nh, 1);
+    if(!isFinite(fitScale) || fitScale <= 0) fitScale = 1;
+    scale = fitScale;
+    tx = (b.w - nw*scale)/2;
+    ty = (b.h - nh*scale)/2;
+    render();
+  }
+
+  /* 이미지가 화면보다 작으면 가운데, 크면 여백이 생기지 않게 붙인다 */
+  function clampPan(){
+    var b = stageBox(), w = lbImg.naturalWidth*scale, h = lbImg.naturalHeight*scale;
+    tx = w <= b.w ? (b.w - w)/2 : Math.min(0, Math.max(b.w - w, tx));
+    ty = h <= b.h ? (b.h - h)/2 : Math.min(0, Math.max(b.h - h, ty));
+  }
+
+  function render(){
+    clampPan();
+    lbImg.style.transform = 'translate('+tx+'px,'+ty+'px) scale('+scale+')';
+    lbPct.textContent = Math.round(scale*100) + '%';
+    var z = scale > fitScale + .001;
+    stage.classList.toggle('zoomed', z);
+  }
+
+  /* 화면상의 한 점을 기준으로 배율을 바꾼다 — 그 점이 제자리에 남는다 */
+  function zoomAt(factor, cx, cy){
+    var next = Math.min(MAX, Math.max(MIN, scale*factor));
+    if(next === scale) return;
+    tx = cx - (cx - tx) * (next/scale);
+    ty = cy - (cy - ty) * (next/scale);
+    scale = next;
+    render();
+  }
+  function zoomCenter(factor){
+    var b = stageBox();
+    zoomAt(factor, b.w/2, b.h/2);
+  }
+
+  function openLb(src, alt){
+    lbImg.alt = alt || '';
+    lb.classList.add('on');
+    if(lbImg.src === src && lbImg.complete) fit();
+    else{
+      lbImg.style.transform = '';
+      lbImg.src = src;
+      if(lbImg.complete) fit();
+    }
+  }
+  function closeLb(){
+    lb.classList.remove('on');
+    pointers = {}; pinchDist = 0;
+  }
+  lbImg.addEventListener('load', fit);
+
+  function bindZoom(scope){
+    scope.querySelectorAll('.slot img').forEach(function(img){
+      img.addEventListener('click', function(e){
+        e.stopPropagation();
+        openLb(img.src, img.alt);
+      });
+    });
+  }
+
+  /* 조작줄 */
+  document.getElementById('lbBar').addEventListener('click', function(e){
+    var btn = e.target.closest('button'); if(!btn) return;
+    e.stopPropagation();
+    var act = btn.dataset.z;
+    if(act === 'in')   zoomCenter(1.4);
+    if(act === 'out')  zoomCenter(1/1.4);
+    if(act === 'fit')  fit();
+    if(act === 'close')closeLb();
+  });
+
+  /* 휠 확대 */
+  stage.addEventListener('wheel', function(e){
+    e.preventDefault();
+    var r = stage.getBoundingClientRect();
+    zoomAt(Math.pow(.999, e.deltaY), e.clientX - r.left, e.clientY - r.top);
+  }, {passive:false});
+
+  /* 드래그 이동 · 두 손가락 확대 */
+  stage.addEventListener('pointerdown', function(e){
+    pointers[e.pointerId] = {x:e.clientX, y:e.clientY};
+    var ids = Object.keys(pointers);
+    if(ids.length === 1){
+      dragged = false; lastX = e.clientX; lastY = e.clientY;
+      stage.setPointerCapture(e.pointerId);
+      stage.classList.add('grabbing');
+    }else if(ids.length === 2){
+      pinchDist = dist(pointers[ids[0]], pointers[ids[1]]);
+    }
+  });
+  stage.addEventListener('pointermove', function(e){
+    if(!pointers[e.pointerId]) return;
+    pointers[e.pointerId] = {x:e.clientX, y:e.clientY};
+    var ids = Object.keys(pointers);
+
+    if(ids.length >= 2){
+      var a = pointers[ids[0]], b = pointers[ids[1]], d = dist(a, b);
+      if(pinchDist > 0){
+        var r = stage.getBoundingClientRect();
+        zoomAt(d/pinchDist, (a.x+b.x)/2 - r.left, (a.y+b.y)/2 - r.top);
+      }
+      pinchDist = d; dragged = true;
+      return;
+    }
+    var dx = e.clientX - lastX, dy = e.clientY - lastY;
+    if(Math.abs(dx) + Math.abs(dy) > 3) dragged = true;
+    lastX = e.clientX; lastY = e.clientY;
+    tx += dx; ty += dy;
+    render();
+  });
+  function endPointer(e){
+    delete pointers[e.pointerId];
+    if(Object.keys(pointers).length < 2) pinchDist = 0;
+    stage.classList.remove('grabbing');
+  }
+  stage.addEventListener('pointerup', endPointer);
+  stage.addEventListener('pointercancel', endPointer);
+  function dist(a, b){ return Math.hypot(a.x-b.x, a.y-b.y); }
+
+  /* 이미지를 누르면 원본 크기 ↔ 화면 맞춤, 바깥을 누르면 닫는다 */
+  stage.addEventListener('click', function(e){
+    if(dragged){ dragged = false; return; }
+    if(e.target !== lbImg){ closeLb(); return; }
+    if(scale > fitScale + .001) fit();
+    else{
+      var r = stage.getBoundingClientRect();
+      zoomAt(Math.max(1, fitScale*2)/scale, e.clientX - r.left, e.clientY - r.top);
+    }
+  });
+
+  window.addEventListener('resize', function(){ if(lb.classList.contains('on')) fit(); });
+
+  document.addEventListener('keydown', function(e){
+    if(lb.classList.contains('on')){
+      if(e.key === 'Escape'){ closeLb(); return; }
+      if(e.key === '+' || e.key === '='){ e.preventDefault(); zoomCenter(1.4); return; }
+      if(e.key === '-'){ e.preventDefault(); zoomCenter(1/1.4); return; }
+      if(e.key === '0'){ e.preventDefault(); fit(); return; }
+      return;
+    }
+    if(e.key === 'Escape' && modal.classList.contains('on')) closeDetail();
+  });
+})();
+</script>
+
+</body>
+</html>
