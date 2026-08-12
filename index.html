@@ -403,10 +403,14 @@ footer{
     filter .95s var(--ease-out) var(--d,0ms);
   will-change:opacity,transform;
 }
-.rv.in{opacity:1;transform:none;filter:none}
+/* 시작 모습 — 종류별 변형. 도착 상태(.in)보다 반드시 먼저 와야 한다 */
 .rv[data-anim="blur"]{filter:blur(7px);transform:translate3d(0,30px,0)}
 .rv[data-anim="scale"]{transform:scale(.955) translate3d(0,26px,0)}
 .rv[data-anim="left"]{transform:translate3d(-26px,0,0)}
+
+/* 도착 모습 — 변형 종류와 상관없이 항상 제자리로 돌아온다 */
+.rv.in,
+.rv.in[data-anim]{opacity:1;transform:none;filter:none}
 .rv.done{will-change:auto}
 
 /* 카드·이미지는 안쪽에서 살짝 더 밀려 들어온다 */
