@@ -1350,6 +1350,33 @@ footer{
 (function(){
   'use strict';
 
+  /* ── 새로고침하면 맨 위에서 시작한다 ──
+     브라우저가 기억해 둔 스크롤 위치와 주소 끝에 남은 #항목 때문에
+     중간부터 열리는 것을 막는다.
+     링크를 타고 들어온 #항목 이동은 그대로 둔다. */
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+  (function startAtTop(){
+    var entries = performance.getEntriesByType && performance.getEntriesByType('navigation');
+    var reloaded = entries && entries.length
+      ? entries[0].type === 'reload'
+      : !!(performance.navigation && performance.navigation.type === 1);
+    if(!reloaded) return;
+
+    if(location.hash){
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+    function toTop(){
+      var root = document.documentElement;
+      var keep = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';        // 부드러운 이동을 잠깐 꺼 곧바로 올린다
+      window.scrollTo(0, 0);
+      root.style.scrollBehavior = keep;
+    }
+    toTop();
+    window.addEventListener('load', toTop);
+  })();
+
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ══════════════════════════════════════════
