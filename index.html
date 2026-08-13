@@ -389,10 +389,26 @@ footer{
 }
 @media(max-width:620px){.lb-hint{display:none}}
 
-/* 스크롤 등장 애니메이션은 쓰지 않는다. 내용은 처음부터 그대로 보인다. */
+/* ══════════════════════════════════════════
+   스크롤 등장
+   숨기는 일은 스크립트가 켜졌을 때(html.reveal-on)만 한다.
+   스크립트가 없거나 실패하면 내용은 처음부터 그대로 보인다.
+
+   규칙은 아래 두 줄이 전부다. 종류별 변형을 두지 않아 서로 부딪칠 짝이 없다.
+   투명도와 위아래 이동만 쓴다. 흐림 효과는 쓰지 않는다.
+   ══════════════════════════════════════════ */
+.reveal-on .rv{
+  opacity:0;
+  transform:translate3d(0,22px,0);
+  transition:opacity .72s var(--ease-soft) var(--rd,0ms),
+             transform .72s var(--ease-soft) var(--rd,0ms);
+}
+.reveal-on .rv.shown{opacity:1;transform:none}
+
+/* 연출 없이 즉시 제자리로 (안전장치가 발동했을 때) */
+.reveal-on .rv.instant{transition:none}
 
 @media(prefers-reduced-motion:reduce){
-  *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
 }
 ::selection{background:var(--accent);color:#fff}
@@ -1335,6 +1351,73 @@ footer{
   'use strict';
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ══════════════════════════════════════════
+     스크롤 등장
+     화면에 들어온 덩어리부터 아래에서 위로 떠오른다.
+
+     조절하는 곳 — 이 두 줄만 만지면 된다
+       ANIM_ON    : 연출을 아예 끄려면 false
+       ANIM_FORCE : OS 의 "동작 줄이기" 설정을 무시하고 켜려면 true
+                    (윈도우 : 설정 > 접근성 > 시각 효과 > 애니메이션 효과)
+     ══════════════════════════════════════════ */
+  var ANIM_ON = true, ANIM_FORCE = false;
+
+  (function revealOnScroll(){
+    if(!ANIM_ON) return;
+    if(reduce && !ANIM_FORCE) return;              // 설정을 존중한다. 내용은 그대로 보인다
+    if(!('IntersectionObserver' in window)) return;
+
+    var targets = document.querySelectorAll(
+      '.hero-tag, .hero h1, .hero-role, .hero-lede, .hero-cta, .hero-stats,' +
+      '.sec-head, .about-body, .caps, .job, .srow, .pcard, .win, .closing,' +
+      '.ebox, .cbig, .clist'
+    );
+    if(!targets.length) return;
+
+    var items = Array.prototype.slice.call(targets);
+    document.documentElement.classList.add('reveal-on');
+
+    // 나란히 놓인 형제끼리만 시차를 준다. 너무 뒤로 밀리지 않게 네 칸에서 멈춘다
+    items.forEach(function(el){
+      el.classList.add('rv');
+      var order = 0, prev = el.previousElementSibling;
+      while(prev && order < 4){
+        if(items.indexOf(prev) !== -1) order++;
+        prev = prev.previousElementSibling;
+      }
+      if(order) el.style.setProperty('--rd', (order * 80) + 'ms');
+    });
+
+    var anyShown = false;
+    function show(el){
+      anyShown = true;
+      el.classList.add('shown');
+      el.style.removeProperty('--rd');
+    }
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        show(e.target);
+        io.unobserve(e.target);
+      });
+    }, {threshold:0, rootMargin:'0px 0px -12% 0px'});
+
+    items.forEach(function(el){ io.observe(el); });
+
+    /* 안전장치 — 첫 화면 것조차 하나도 안 떠올랐다면 관찰자가 동작하지 않는 것이다.
+       그때만 전부 즉시 보여준다. 정상이라면 이미 떠오른 것이 있으므로 아무 일도 하지 않는다.
+       연출이 실패하더라도 내용이 가려지는 일은 없어야 한다. */
+    setTimeout(function(){
+      if(anyShown) return;
+      io.disconnect();
+      items.forEach(function(el){
+        el.classList.add('instant');
+        show(el);
+      });
+    }, 2500);
+  })();
 
   /* ── 숫자 카운트업 ── */
   function countUp(scope){
