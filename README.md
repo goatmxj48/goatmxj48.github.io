@@ -46,18 +46,13 @@ docx 에는 화면 이미지가 없어서, **초록 빗금 상자**로 자리만
 
 ### 비어 있는 자리 목록
 
-| 위치 | 파일 이름 | 무엇을 넣으면 되는지 |
+| 위치 | 파일 이름 | 무엇을 캡처하면 되는지 |
 |---|---|---|
-| 카드 1 · 작업일지 | `p01-dailyreport.png` | 작업일지 목록/개요 화면 |
-| 상세 1 · 작업일지 | `p01-erd.png` | 작업일지 ERD |
-| 상세 1 · 작업일지 | `p01-screen.png` | 작업일지 개요 화면 |
-| 상세 1 · 작업일지 | `p01-activity.png` | 액티비티(CBS) 화면 |
-| 카드 2 · API 연계 | `p02-api.png` | 연동 구성도 |
-| 상세 2 · API 연계 | `p02-architecture.png` | 송신 창구 아키텍처 |
-| 상세 2 · API 연계 | `p02-sso.png` | SSO 순차 폴백 흐름도 |
-| 카드 3 · 운영 | `p03-ops.png` | 서버 구성도 |
-| 카드 6 · 에듀윌 | `p06-eduwill.png` | SmartTM 관리자 화면 |
-| 상세 6 · 에듀윌 | `p06-eduwill-01.png` `p06-eduwill-02.png` | 관리자 화면 / IP 추적 |
+| 카드 9 · 에듀윌 | `p06-eduwill.png` | SmartTM 관리자 화면 |
+| 상세 9 · 에듀윌 | `p06-eduwill-01.png` `p06-eduwill-02.png` | 관리자 화면 / IP 추적 |
+
+> 위험성평가는 캡처 3장(`p10-ra-list` · `p10-ra-hazard` · `p10-ra-csi`)이 들어가 채울 자리가 없습니다.
+> `p10-ra-list.png` 은 카드 썸네일과 상세 두 곳에 함께 쓰입니다.
 
 > 악사손해보험 · SITellAgent · RPA 카드는 PDF 캡처가 이미 들어가 있어 손대지 않아도 됩니다.
 > 자리가 필요 없으면 그 `<figure class="slot">` 또는 `<div class="thumb">` 를 통째로 지우면 됩니다.
@@ -108,7 +103,7 @@ git push -u origin main
 |---|---|
 | **테마 색** | 파일 맨 위 `:root` 의 `--accent` — 이 한 줄로 사이트 전체 색이 바뀝니다 |
 | 카드 문구 | 해당 한글을 그대로 검색 |
-| 상세(모달) 내용 | 파일 아래쪽 `<div hidden>` 안의 `id="d1"` ~ `id="d7"` |
+| 상세(모달) 내용 | 파일 아래쪽 `<div hidden>` 안의 `id="d1"` ~ `id="d10"` |
 | 카드 추가 | `<button class="pcard" …>` 블록을 복사하고 `data-detail` 을 새 id 로 |
 | 순서 바꾸기 | `<button class="pcard">` 블록 순서를 바꾸면 그대로 반영 |
 
