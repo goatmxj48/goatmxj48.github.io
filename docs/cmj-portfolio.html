@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<title>조민주 · Backend Developer 포트폴리오</title>
+<style>
+  :root {
+    --ground:      #eef2f3;
+    --surface:     #ffffff;
+    --surface-alt: #f6f9f9;
+    --ink:         #0e161b;
+    --ink-soft:    #33454e;
+    --muted:       #566772;
+    --faint:       #8496a0;
+    --line:        #d3dee1;
+    --line-soft:   #e4ebed;
+    --accent:      #06695c;
+    --accent-soft: #d9ebe7;
+    --alert:       #9d3b1c;
+    --alert-soft:  #f6e3db;
+
+    --sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+            "Apple SD Gothic Neo", "Segoe UI", "Malgun Gothic", "Noto Sans KR", sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+            "D2Coding", "Noto Sans Mono", monospace;
+
+    --rail: 148px;
+    --gutter: 40px;
+    --maxw: 1120px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #090f12;
+      --surface:     #111a1e;
+      --surface-alt: #162126;
+      --ink:         #e2eaed;
+      --ink-soft:    #c0cdd3;
+      --muted:       #8ea0aa;
+      --faint:       #6d808b;
+      --line:        #223037;
+      --line-soft:   #1b262c;
+      --accent:      #45c4ab;
+      --accent-soft: #123029;
+      --alert:       #e08a68;
+      --alert-soft:  #33201a;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #090f12;
+    --surface:     #111a1e;
+    --surface-alt: #162126;
+    --ink:         #e2eaed;
+    --ink-soft:    #c0cdd3;
+    --muted:       #8ea0aa;
+    --faint:       #6d808b;
+    --line:        #223037;
+    --line-soft:   #1b262c;
+    --accent:      #45c4ab;
+    --accent-soft: #123029;
+    --alert:       #e08a68;
+    --alert-soft:  #33201a;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+    word-break: keep-all;
+  }
+
+  .sheet {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    background: var(--surface);
+    border-left: 1px solid var(--line-soft);
+    border-right: 1px solid var(--line-soft);
+  }
+
+  /* ---------- 공통 섹션 골격 ---------- */
+
+  .sec {
+    display: grid;
+    grid-template-columns: var(--rail) 1fr;
+    gap: var(--gutter);
+    padding: 52px var(--gutter);
+    border-top: 1px solid var(--line);
+  }
+  .sec:first-of-type { border-top: none; }
+
+  .rail {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-self: start;
+    position: sticky;
+    top: 24px;
+  }
+  .rail .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    color: var(--accent);
+  }
+  .rail .lbl {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    color: var(--faint);
+    line-height: 1.5;
+  }
+  .rail .tick {
+    width: 26px;
+    height: 2px;
+    background: var(--accent);
+    margin-top: 4px;
+  }
+
+  .body-col { min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+
+  h2 {
+    margin: 0;
+    font-size: 27px;
+    line-height: 1.28;
+    letter-spacing: -.022em;
+    font-weight: 800;
+    text-wrap: balance;
+  }
+  h3 {
+    margin: 0;
+    font-size: 16.5px;
+    letter-spacing: -.012em;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  h4 {
+    margin: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .17em;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  p { margin: 0; color: var(--ink-soft); max-width: 68ch; }
+  .lede { font-size: 16.5px; line-height: 1.75; color: var(--ink-soft); }
+  strong { font-weight: 700; color: var(--ink); }
+  .dim { color: var(--muted); }
+
+  ul { margin: 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  ul li {
+    position: relative;
+    padding-left: 18px;
+    color: var(--ink-soft);
+    max-width: 76ch;
+  }
+  ul li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: .68em;
+    width: 7px; height: 1.5px;
+    background: var(--faint);
+  }
+
+  code, .m { font-family: var(--mono); font-size: .88em; }
+  code {
+    background: var(--surface-alt);
+    border: 1px solid var(--line-soft);
+    border-radius: 3px;
+    padding: .1em .38em;
+    color: var(--ink);
+  }
+
+  /* ---------- 커버 ---------- */
+
+  .cover {
+    padding: 76px var(--gutter) 60px;
+    border-top: none;
+    display: block;
+    background:
+      linear-gradient(180deg, var(--surface-alt) 0%, var(--surface) 100%);
+  }
+  .cover-grid { display: grid; grid-template-columns: var(--rail) 1fr; gap: var(--gutter); }
+  .cover h1 {
+    margin: 0 0 6px;
+    font-size: clamp(32px, 5.2vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -.038em;
+    font-weight: 800;
+    text-wrap: balance;
+  }
+  .cover .role {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 26px;
+  }
+  .cover .tagline {
+    font-size: clamp(18px, 2.4vw, 23px);
+    line-height: 1.5;
+    letter-spacing: -.018em;
+    font-weight: 700;
+    color: var(--ink);
+    max-width: 24ch;
+    margin: 0 0 22px;
+    border-left: 3px solid var(--accent);
+    padding-left: 16px;
+  }
+  .contact {
+    display: flex; flex-wrap: wrap; gap: 8px 28px;
+    font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+    padding-top: 22px; margin-top: 26px;
+    border-top: 1px solid var(--line);
+  }
+  .contact span b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- 카드 / 표 / 지표 ---------- */
+
+  .card {
+    background: var(--surface-alt);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    padding: 20px 22px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .card.flat { background: transparent; }
+
+  .cards { display: grid; gap: 14px; }
+  @media (min-width: 760px) { .cards.two { grid-template-columns: 1fr 1fr; } }
+
+  .metrics { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 760px) {
+    .metrics { grid-template-columns: repeat(4, 1fr); }
+    .metrics.three { grid-template-columns: repeat(3, 1fr); }
+  }
+  .metric {
+    background: var(--surface-alt);
+    border: 1px solid var(--line-soft);
+    border-radius: 4px;
+    padding: 16px 16px 14px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .metric .v {
+    font-family: var(--mono);
+    font-size: 25px; font-weight: 700;
+    letter-spacing: -.03em;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+  }
+  .metric .k { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+
+  .tw { overflow-x: auto; min-width: 0; }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 14px; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  thead th {
+    font-family: var(--mono); font-size: 10.5px; text-transform: uppercase;
+    letter-spacing: .15em; color: var(--faint); font-weight: 600;
+    border-bottom: 1px solid var(--line);
+  }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--muted); }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-family: var(--mono); font-size: 11.5px;
+    padding: 3px 9px; border-radius: 3px;
+    background: var(--surface-alt); border: 1px solid var(--line-soft); color: var(--ink-soft);
+  }
+  .chip.on { background: var(--accent-soft); border-color: transparent; color: var(--accent); font-weight: 600; }
+
+  /* ---------- 문제해결 (문제→원인→해결→결과) ---------- */
+
+  .ps {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .ps-head {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px;
+    padding: 14px 20px;
+    background: var(--surface-alt);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .ps-head .t { font-size: 15.5px; font-weight: 700; letter-spacing: -.012em; }
+  .ps-head .tag {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--alert); background: var(--alert-soft); padding: 2px 8px; border-radius: 3px; font-weight: 600;
+  }
+  .ps-head .tag.ok { color: var(--accent); background: var(--accent-soft); }
+  .ps-rows { display: grid; }
+  .ps-row {
+    display: grid; grid-template-columns: 74px 1fr; gap: 18px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .ps-row:first-child { border-top: none; }
+  .ps-row .k {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--faint); font-weight: 600; padding-top: 4px;
+  }
+  .ps-row.result { background: var(--accent-soft); }
+  .ps-row.result .k { color: var(--accent); }
+  .ps-row.result .v { color: var(--ink); font-weight: 600; }
+  .ps-row .v { color: var(--ink-soft); min-width: 0; }
+
+  /* ---------- 도해 ---------- */
+
+  figure { margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .figwrap { overflow-x: auto; background: var(--surface-alt); border: 1px solid var(--line-soft); border-radius: 4px; padding: 18px; }
+  figure svg { display: block; width: 100%; min-width: 620px; height: auto; color: var(--ink-soft); }
+  figcaption { font-size: 12.5px; color: var(--muted); line-height: 1.6; max-width: 72ch; }
+  .svg-box { fill: var(--surface); stroke: currentColor; stroke-width: 1.1; }
+  .svg-box-alt { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.3; }
+  .svg-box-warn { fill: var(--alert-soft); stroke: var(--alert); stroke-width: 1.3; }
+  .svg-t { font-family: var(--sans); font-size: 12.5px; fill: var(--ink); }
+  .svg-t.b { font-weight: 700; }
+  .svg-s { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+  .svg-l { font-family: var(--mono); font-size: 10.5px; fill: var(--muted); }
+  .svg-line { stroke: currentColor; stroke-width: 1.1; fill: none; opacity: .55; }
+  .svg-line-on { stroke: var(--accent); stroke-width: 1.6; fill: none; }
+  .svg-line-warn { stroke: var(--alert); stroke-width: 1.6; fill: none; }
+  .svg-dash { stroke-dasharray: 4 3; }
+  .svg-group { fill: none; stroke: currentColor; stroke-width: 1; opacity: .3; stroke-dasharray: 3 3; }
+
+  /* ---------- 타임라인 / 기타 ---------- */
+
+  .stack { display: flex; flex-direction: column; gap: 16px; }
+  .divider { height: 1px; background: var(--line-soft); }
+
+  .sub {
+    border-left: 2px solid var(--line);
+    padding-left: 20px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  .close {
+    background: var(--surface-alt);
+    border-top: 1px solid var(--line);
+    padding: 56px var(--gutter);
+  }
+  .close-inner { max-width: 62ch; display: flex; flex-direction: column; gap: 18px; }
+  .close h2 { font-size: 24px; }
+
+  /* ---------- 반응형 ---------- */
+
+  @media (max-width: 720px) {
+    :root { --gutter: 22px; }
+    .sec, .cover-grid { grid-template-columns: 1fr; gap: 18px; }
+    .rail { position: static; flex-direction: row; align-items: baseline; gap: 10px; }
+    .rail .tick { display: none; }
+    .ps-row { grid-template-columns: 1fr; gap: 4px; }
+  }
+
+  /* ---------- 인쇄 (PDF 저장용) ---------- */
+
+  @media print {
+    body { background: #fff; font-size: 10.5pt; }
+    .sheet { max-width: none; border: none; }
+    .sec { padding: 22px 0; break-inside: avoid; }
+    .rail { position: static; }
+    .cover { padding: 0 0 26px; background: none; }
+    .card, .metric, .ps, .figwrap, .metrics { break-inside: avoid; }
+    figure svg { min-width: 0; }
+    .figwrap { overflow: visible; }
+  }
+</style>
+
+</head>
+<body>
+<div class="sheet">
+
+  <!-- ============ 01 COVER ============ -->
+  <section class="sec cover">
+    <div class="cover-grid">
+      <div class="rail">
+        <span class="num">01</span>
+        <span class="lbl">Cover</span>
+        <span class="tick"></span>
+      </div>
+      <div>
+        <h1>조민주</h1>
+        <div class="role">Backend Developer · 6년차 · Java / Spring Boot</div>
+        <p class="tagline">업무를 이해하고<br>서비스의 전체 흐름을 설계하는 개발자</p>
+        <p class="lede">
+          통화 녹취 솔루션 구축을 거쳐, 현재 건설 사업관리 플랫폼(PMIS)에서
+          <strong>백엔드 · SSR 프론트 · 인프라</strong>를 병행합니다.
+          요구사항을 받아 구현하는 데서 멈추지 않고
+          <strong>업무 분석 → DB 설계 → 개발 → 운영</strong>까지 하나의 흐름으로 책임집니다.
+        </p>
+        <div class="contact">
+          <span><b>Birthday</b>&nbsp; 1998.01.11</span>
+          <span><b>Email</b>&nbsp; chominju48@gmail.com</span>
+          <span><b>Mobile</b>&nbsp; 010-6715-2205</span>
+          <span><b>Address</b>&nbsp; 서울특별시 관악구</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 강점 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">02</span><span class="lbl">Strength</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h2>강점</h2>
+      <p class="lede">
+        현장에서 실제 쓰는 실무 문서를 분석해 업무 프로세스를 정의하고, DB 설계와 UML 부터
+        화면 · API · 리포트까지 <strong>신규 도메인을 end-to-end 로 구축</strong>해왔습니다.
+        담당 선임과 리더의 연이은 퇴사로 시스템을 단기간에 인수받은 이후에는
+        개발과 함께 배포 · 서버 운영 · 장애 대응까지 맡고 있습니다.
+      </p>
+      <p>
+        새로운 기술을 쓰는 것보다, 업무를 정확히 이해하고 복잡한 문제를 구조로 정리해
+        안정적으로 돌아가게 만드는 것에 가치를 둡니다.
+      </p>
+      <ul>
+        <li><strong>외부 연동:</strong>  외부 시스템 10곳 · 인터페이스 40건 연동 구축과 안정화 (RESTful API 송신 · 수신 양방향)</li>
+        <li><strong>업무 분석 · 설계:</strong>  현장 실무 문서 기반 요구사항 정의, UML · ERD 설계, 신규 도메인 end-to-end 구축</li>
+        <li><strong>데이터 접근 · 튜닝:</strong>  MyBatis 기반 접근 계층 설계, PostgreSQL · MariaDB · Oracle 쿼리 작성 및 튜닝</li>
+        <li><strong>운영 · 장애 대응:</strong>  Jenkins · Git 기반 배포, 서버 8대 용량 · 로그 관리, DB Lock · 조회 지연 원인 단위 해소</li>
+        <li><strong>AI 개발 환경 활용:</strong>  반복 업무 명령어를 만들고, 연동 설계 내용을 AI 가 읽을 컨텍스트 문서로 남겨 추측으로 코드가 만들어지는 것을 줄이는 개발 환경 운영</li>
+        <li><strong>문서화:</strong>  결함 이력을 메뉴별로 체계화하고 재발 확인된 것만 팀 안티패턴으로 승격하는 2단 구조 운영</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 03 함께 일하는 방식 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">03</span><span class="lbl">Teamwork</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h2>함께 일하는 방식</h2>
+      <p class="lede">
+        사람과의 관계를 소중히 여기며, 팀워크를 중시하는 개발자입니다.
+        팀원들에게 <strong>“인간 리트리버”</strong> 라는 별명을 얻을 만큼 상대방을 배려하며,
+        원활한 협업을 위해 노력합니다.
+      </p>
+      <p>
+        단순히 사실을 전달하는 것이 아니라, 상대방의 입장을 고려한 커뮤니케이션을 통해
+        긍정적인 영향을 주는 것이 제 강점입니다. 팀원과 함께 성장하는 것이 나의 성장이라 믿으며,
+        함께 배우고 공유하는 문화를 만들어가는 것을 목표로 하고 있습니다.
+        앞으로도 더 나은 개발자, 더 좋은 동료가 되기 위해 끊임없이 배우고 도전하겠습니다.
+      </p>
+
+      <div class="divider"></div>
+
+      <h4>성향 진단 · Prios Archetype (2025.05)</h4>
+      <div class="card">
+        <p>
+          <strong>The Campaigner</strong> — 사람들을 하나의 방향으로 모아 실제 결과까지 만들어내는 유형입니다.
+          목표를 세우면 시간이 걸려도 끝까지 마무리하고, 공감대를 만들어 함께 움직이게 하는 것을 강점으로 봅니다.
+        </p>
+        <p class="dim">
+          함께 나타나는 유형은 <strong>The Problem Solver</strong>(맡은 일을 성실하게 책임지고 먼저 돕는 성향)와
+          <strong>The Peacekeeper</strong>(대립보다 협의와 조화로 문제를 푸는 성향)입니다.
+        </p>
+        <div class="chips">
+          <span class="chip on">Campaigner</span>
+          <span class="chip">Problem Solver</span>
+          <span class="chip">Peacekeeper</span>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><span class="v">89%</span><span class="k">Engaging · 사람과 관계를 맺는 힘</span></div>
+        <div class="metric"><span class="v">81%</span><span class="k">Gregarious · 함께 일하는 것을 선호</span></div>
+        <div class="metric"><span class="v">70%</span><span class="k">Dependable · 맡은 약속을 지킴</span></div>
+        <div class="metric"><span class="v">68%</span><span class="k">Helpful · 동료의 필요를 먼저 챙김</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 SKILL ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">04</span><span class="lbl">Skill</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h2>사용 기술</h2>
+      <div class="tw">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:190px"><h4>Language</h4></td>
+              <td>Java · JavaScript · TypeScript · VB.NET</td>
+            </tr>
+            <tr>
+              <td><h4>Framework</h4></td>
+              <td>Spring Boot · Spring Framework · MyBatis · JPA · Pebble(SSR) · Angular · Node.js</td>
+            </tr>
+            <tr>
+              <td><h4>Database</h4></td>
+              <td>PostgreSQL · MariaDB · OracleDB</td>
+            </tr>
+            <tr>
+              <td><h4>Server</h4></td>
+              <td>Apache · Tomcat · Nginx</td>
+            </tr>
+            <tr>
+              <td><h4>DevOps</h4></td>
+              <td>Git · SVN · Jenkins · Kubernetes · Gradle · Maven · Ant</td>
+            </tr>
+            <tr>
+              <td><h4>Environment</h4></td>
+              <td>Windows · Linux(Ubuntu)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 경력 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">05</span><span class="lbl">Career</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h2>경력 — 총 5년 9개월</h2>
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>재직 기간</th><th>회사</th><th>부서 / 직급</th><th>담당</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">2025.05 ~ 현재<br><span class="dim">(1년 4개월)</span></td>
+              <td><strong>아이디어정보기술</strong></td>
+              <td>GaiA&amp;CaiRos 팀 / 책임</td>
+              <td>Java 기반 건설 사업관리(PMIS) 플랫폼 구축 · 설계 · 개발 · 유지보수</td>
+            </tr>
+            <tr>
+              <td class="num">2022.04 ~ 2024.12<br><span class="dim">(2년 9개월)</span></td>
+              <td><strong>투티스</strong></td>
+              <td>SmartCall 팀 / 대리</td>
+              <td>Java 기반 통화 녹취 솔루션 구축 · 개발 · 유지보수<br><span class="dim">구축 사이트 5건 — 에듀윌 · 페퍼저축은행 · NE능률 · 롯데손해보험 · 악사손해보험</span></td>
+            </tr>
+            <tr>
+              <td class="num">2020.12 ~ 2022.04<br><span class="dim">(1년 5개월)</span></td>
+              <td><strong>투티스</strong></td>
+              <td>RPA 팀 / 사원</td>
+              <td>업무 자동화(RPA) 기획 · 구축 · 개발 · 유지보수<br><span class="dim">구축 사이트 5건 — JB금융지주 · 롯데손해보험 · 신한캐피탈 · 집토스 · 예탁결제원</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="divider"></div>
+      <h4>현 프로젝트에서 담당하는 업무 메뉴 · 10개</h4>
+      <div class="chips">
+        <span class="chip on">작업일지</span>
+        <span class="chip on">계약관리</span>
+        <span class="chip on">기성관리</span>
+        <span class="chip on">위험성평가</span>
+        <span class="chip">실정보고</span>
+        <span class="chip">주간공정보고</span>
+        <span class="chip">월간공정보고</span>
+        <span class="chip">선급금 · 공제금</span>
+        <span class="chip">자원투입현황</span>
+        <span class="chip">주요공정사진</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 PROJECT 01 · 작업일지 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">06</span><span class="lbl">Project 01</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h4>Project 01 · 2025.05 ~ 현재 · 단독 개발</h4>
+      <h2>작업일지 — 서비스의 데이터 원천</h2>
+      <p class="lede">
+        현장이 매일 적는 작업 수량이 <strong>공정률 · 기성 청구 · 대시보드의 원천</strong>이 되는 핵심 메뉴입니다.
+        수량 하나의 오차가 하위 21개 메뉴로 그대로 번지는 구조라, 정확성과 응답 속도가 모두 요구됐습니다.
+      </p>
+      <div class="metrics">
+        <div class="metric"><span class="v">21</span><span class="k">한 번의 입력으로 채워지는 하위 메뉴</span></div>
+        <div class="metric"><span class="v">월 50h</span><span class="k">회수한 현장 작성 시간 (5개 현장 기준)</span></div>
+        <div class="metric"><span class="v">5</span><span class="k">대상 현장</span></div>
+        <div class="metric"><span class="v">당일</span><span class="k">공정률 반영 (결재 대기 없음)</span></div>
+      </div>
+      <ul>
+        <li><strong>작성 시간 단축:</strong>  공정률 자동 계산과 연관 CBS 자동 매핑으로 현장은 작업 내용만 입력합니다. 5개 현장 기준 월 약 50시간의 현장 시간을 회수했습니다.</li>
+        <li><strong>이중 입력 제거:</strong>  한 번 입력하면 21개 메뉴가 채워집니다. 문서마다 같은 수량을 다시 옮겨 적던 작업이 사라지고, 문서 간 숫자가 어긋날 여지 자체를 없앴습니다.</li>
+        <li><strong>공정률 반영 지연 해소:</strong>  실적 확정 시점을 전자결재 승인에서 입력 즉시로 바꿔, 결재가 밀려도 공정률이 당일 반영됩니다.</li>
+        <li><strong>조회 성능:</strong>  집계 구간이 계약 필터 없이 전체를 스캔하던 것을 계약 단위로 좁히고 복합 인덱스를 추가했습니다.</li>
+      </ul>
+      <div class="card flat" style="border:1px solid var(--line);">
+        <h4>사용 기술</h4>
+        <p class="dim" style="font-family:var(--mono);font-size:12.5px;">
+          Java 21 · Spring Boot 3.3.1 · PostgreSQL · MyBatis
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 PROJECT 02 · 위험성평가 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">07</span><span class="lbl">Project 02</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h4>Project 02 · 2026.06 ~ 2026.08 · 단독 구축</h4>
+      <h2>위험성평가 — 신규 도메인 0 → 1 구축</h2>
+      <p class="lede">
+        작업 전 위험을 미리 찾아 점수를 매기고 대책을 세워 결재받는 <strong>법정 안전 활동</strong>을,
+        현장이 쓰던 실무 파일을 분석해 화면으로 옮긴 신규 메뉴입니다.
+        업무 파악 → 설계 → DB 설계 → 개발 → 운영까지 단독으로 맡았습니다.
+      </p>
+      <div class="metrics three">
+        <div class="metric"><span class="v">28,678</span><span class="k">표준 위험요소 적재 행</span></div>
+        <div class="metric"><span class="v">47</span><span class="k">표준 공종 코드로 이어 붙인 공종</span></div>
+        <div class="metric"><span class="v">0 → 1</span><span class="k">신규 도메인 단독 구축</span></div>
+      </div>
+      <ul>
+        <li><strong>표준 데이터를 평가의 입력 원천으로:</strong>  국토안전관리원 위험요소를 종합정보망 공통코드로 치환해 28,678행 적재했습니다. 국토안전관리원 공종 47종을 그 공통코드에 이어 붙이고, 카이로스 계약 공종도 같은 코드로 연결해 계약의 공종만 고르면 그에 맞는 표준 위험요인이 따라오게 했습니다.</li>
+        <li><strong>CSI 사고사례 연계 개발:</strong>  국토안전관리원 CSI(건설공사 안전관리 종합정보망)의 실제 사고사례를 위험성평가로 끌어오는 연계를 신규로 개발했습니다. 전용 연동 창구와 매일 새벽 도는 수집 배치, 기간을 지정해 다시 받는 수동 실행 경로까지 함께 만들었습니다. 가져온 사고사례는 위험성평가의 유사 사고 참고자료와 대시보드 안전 통계에 쓰입니다.</li>
+        <li><strong>누락을 실측해 수집 주기를 설계:</strong>  한 달 표본을 대조해 상대 쪽 473건 대비 291건만 적재돼 있고 그 이전 구간은 비어 있다는 것을 찾아냈습니다. 사고는 발생일과 등재일이 달라 뒤늦게 올라오는 건이 많다는 점을 확인하고, 최근 6일치를 매일 겹쳐 받아 덮어쓰도록 설계했습니다. 수집이 하루 실패해도 다음 회차에 저절로 메워지고, 등재 뒤 갱신되는 조사 결과까지 따라옵니다.</li>
+        <li><strong>수집이 업무를 방해하지 않게:</strong>  받는 일과 저장하는 일을 떼어 놓았습니다. 자료를 여러 번에 나눠 전부 받아온 뒤에 한 번에 저장합니다. 받는 도중에 저장을 시작하면 같은 자료를 쓰려는 다른 작업이 계속 기다리게 되기 때문입니다. 저장 중 실패하면 그 회차 전체를 취소해 절반만 저장된 상태를 남기지 않고, 연동 설정이 비어 있는 환경에서는 오류를 쌓지 않고 수집을 건너뜁니다.</li>
+        <li><strong>조회 성능:</strong>  인덱스만 만들지 않고, 쿼리 자체를 인덱스를 타는 형태로 함께 고쳤습니다. 실행계획으로 개선 전후를 확인했습니다.</li>
+        <li><strong>위험요인 원장 단일화:</strong>  위험요인은 위험성평가에서만 생성하고 TBM · 일일점검은 참조만 하도록 정리해, 메뉴마다 따로 생겨 어긋나는 구조를 처음부터 차단했습니다.</li>
+        <li><strong>협력사까지 시스템 안으로:</strong>  하도급 위험성평가 메뉴를 신설해 배정받은 공종을 협력사가 직접 작성하고 원도급이 모아 결재로 올립니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 08 PROJECT 03 · 계약관리 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">08</span><span class="lbl">Project 03</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h4>Project 03 · 2026.02 ~ 현재</h4>
+      <h2>계약관리 — 외부 3개 시스템 규격 통일</h2>
+      <p class="lede">
+        계약은 모든 업무의 시작점입니다. 계약 저장 한 번이 <strong>유레카 · PAD · PNS</strong> 세 시스템으로 함께 나가는데,
+        세 시스템이 같은 계약정보를 서로 다른 규격으로 요구했습니다.
+      </p>
+      <div class="metrics">
+        <div class="metric"><span class="v">658</span><span class="k">운영 계약 (건)</span></div>
+        <div class="metric"><span class="v">3</span><span class="k">동시에 나가는 외부 시스템</span></div>
+        <div class="metric"><span class="v">8</span><span class="k">해소한 계약 저장 무응답 (건)</span></div>
+        <div class="metric"><span class="v">4</span><span class="k">팀 규칙을 적용한 흐름</span></div>
+      </div>
+      <ul>
+        <li><strong>고칠 곳이 한 군데:</strong>  시스템별로 흩어져 있던 요청 값 정의를 한 곳에 모아, 계약 항목이 하나 늘어도 한 군데만 고치면 됩니다. 한쪽을 빠뜨려 옛 값이 나가는 누락이 재발하지 않습니다.</li>
+        <li><strong>계약 저장 무응답(8건) 해소:</strong>  계약 행을 잠근 미확정 트랜잭션에서 외부 3개 시스템을 호출해 자기 교착이 발생하던 구조를, 외부 송신을 커밋 이후 실행으로 옮겨 해소했습니다.</li>
+        <li><strong>팀 규칙으로 승격:</strong>  “트랜잭션 안에서 외부 시스템을 호출하지 않는다”를 문서화하고, 4개 흐름에 모두 적용했습니다.</li>
+        <li><strong>필수값 누락 · PNS 등록 오류 해소:</strong>  시스템별 필수값을 요청 생성 지점에서 함께 채우고, 값이 없을 수 있는 항목은 기본값으로 처리했습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 09 PROJECT 04 · 기성관리 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">09</span><span class="lbl">Project 04</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h4>Project 04 · 2026.02 ~ 현재</h4>
+      <h2>기성관리 — 유레카 연동</h2>
+      <p class="lede">
+        공사가 진행된 만큼 나눠 청구하는 <strong>공사대금(기성)</strong> 메뉴입니다.
+        금액을 산출하는 유레카는 원가 · 설계 담당자가 쓰는 시스템이라 현장에는 열려 있지 않은데,
+        이번 회차에 얼마나 했는지를 아는 사람은 현장입니다.
+      </p>
+      <div class="metrics three">
+        <div class="metric"><span class="v">4</span><span class="k">유레카로 나가는 송신 연동</span></div>
+        <div class="metric"><span class="v">2</span><span class="k">유레카에서 받는 수신 연동</span></div>
+        <div class="metric"><span class="v">100%</span><span class="k">요청 · 응답 · 성공여부 이력 적재</span></div>
+      </div>
+      <ul>
+        <li><strong>현장이 유레카 계정 없이 내역서를 확인:</strong>  기성 · 계약내역서 화면을 카이로스 안에서 열고, 열 때 플랫폼 공통 아이디를 함께 보내 유레카가 카이로스에 열람 권한을 물어볼 수 있게 했습니다.</li>
+        <li><strong>주고받는 양쪽이 모두 이력에:</strong>  송신 4종과 유레카가 되돌려 보내는 수신을 같은 창구로 묶어, 요청 · 응답 · 성공여부가 자동 적재되고 실패한 건만 골라 다시 보낼 수 있습니다.</li>
+        <li><strong>연동 실패가 업무 저장을 되돌리지 않음:</strong>  외부 송신을 커밋 이후 실행으로 옮겨, 유레카가 응답하지 않아도 기성 저장은 유지됩니다.</li>
+        <li><strong>청구 금액 오차 교정:</strong>  전 회차 누계를 자르는 기준이 지급일자였던 것을 기성일자로 바로잡았습니다. 지급이 끝나지 않은 회차가 누계에서 빠지던 문제였습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 10 PROJECT 05 · SSO / API 연계 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">10</span><span class="lbl">Project 05</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h4>Project 05 · 2025.05 ~ 현재</h4>
+      <h2>SSO 무중단 전환 — 시스템 API 연계</h2>
+      <p class="lede">
+        포털에서 카이로스로 넘어오는 로그인을 매번 포털에 물어보는 방식에서,
+        포털이 서명한 신분증(JWT)을 <strong>카이로스가 공개키로 직접 검증</strong>하는 방식으로 옮겼습니다.
+        로그인은 실패하면 현장 전체가 멈추는 지점입니다.
+      </p>
+      <div class="metrics">
+        <div class="metric"><span class="v">10</span><span class="k">연동 외부 시스템</span></div>
+        <div class="metric"><span class="v">40</span><span class="k">인터페이스 (건)</span></div>
+        <div class="metric"><span class="v">1줄</span><span class="k">전환 · 되돌림 스위치 (공개키 경로 설정)</span></div>
+        <div class="metric"><span class="v">4</span><span class="k">인증 실패를 나눠 남긴 단계</span></div>
+      </div>
+      <ul>
+        <li><strong>로그인을 끊지 않고 인증 방식 전환:</strong>  새 방식 우선 + 기존 방식 폴백으로 이어, 어느 쪽이든 같은 지점으로 합류하게 했습니다. 로그인 본체는 손대지 않았습니다.</li>
+        <li><strong>배포 시점과 전환 시점 분리:</strong>  공개키 경로 설정 한 줄이 스위치입니다. 운영 공개키가 도착하기 전에 코드를 먼저 올려두고, 되돌릴 때도 그 한 줄을 비우면 됩니다.</li>
+        <li><strong>포털 왕복 제거:</strong>  요청마다 포털에 사용자를 조회하던 호출이 사라져, 포털 응답 상태가 카이로스 로그인에 직접 영향을 주지 않습니다.</li>
+        <li><strong>실패 구간을 로그로 식별:</strong>  인증 실패를 공개키 미설정 · 키 로드 실패 · 신분증 무효 · 검증 통과 네 단계로 나눠 남겨, 문의가 오면 원인을 바로 가릅니다.</li>
+        <li><strong>송신 창구 일원화:</strong>  메뉴마다 흩어져 있던 외부 송신을 공통 창구 하나로 모아 이력이 자동으로 쌓이게 하고, 개인정보 · 금융정보 마스킹을 함께 적용했습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 11 PROJECT 06 · 서비스 운영 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">11</span><span class="lbl">Project 06</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h4>Project 06 · 2026.02 ~ 현재 · 인수 문서 없이 단독 인수</h4>
+      <h2>서비스 운영 및 장애 대응</h2>
+      <p class="lede">
+        담당 선임과 리더의 퇴사로 시스템을 단기간에 인수받아,
+        <strong>코드와 운영 이력을 역추적해 구조를 다시 정리</strong>하고
+        개발 · 배포 · 서버 운영 · 장애 대응을 이어받았습니다.
+      </p>
+      <div class="metrics">
+        <div class="metric"><span class="v">8</span><span class="k">운영 서버 (WAS 5 · DB 3)</span></div>
+        <div class="metric"><span class="v">90일</span><span class="k">첨부파일 보관 후 자동 정리</span></div>
+        <div class="metric"><span class="v">-688줄</span><span class="k">JPA 제거 범위 (82개 파일)</span></div>
+        <div class="metric"><span class="v">SVN→Git</span><span class="k">형상관리 전환</span></div>
+      </div>
+      <ul>
+        <li><strong>배포 실패의 원인을 추적해 복구:</strong>  실패 이유를 가리키는 메시지가 없고 로그조차 남지 않는 상황에서, 끊기는 단계를 좁혀 디스크 용량이 원인임을 찾아 정리 후 배포를 성공시켰습니다. 이어서 지워지지 않고 남는 첨부파일을 보관기간 90일 물리삭제 배치로 자동 정리하게 만들어 재발을 막았습니다.</li>
+        <li><strong>대시보드 조회 수십 초 → 정상:</strong>  대공종 한 건마다 통째로 다시 계산되던 집계를 한 번만 계산해 재사용하도록 바꿨습니다.</li>
+        <li><strong>데이터 접근 경로 단일화:</strong>  JPA 와 MyBatis 가 같은 테이블을 함께 써서 방금 저장한 값이 옛 값으로 되돌아가던 문제를, JPA 를 4단계로 걷어내 해소했습니다 (82개 파일 / -688줄).</li>
+        <li><strong>배포 · 형상관리 정비:</strong>  SVN → Git 전환, Jenkins 다중 서버 배포 체계 정비, 서버 8대의 용량 · 로그 관리를 점검 항목으로 문서화했습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 12 PROJECT 07 · AI 개발 환경 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">12</span><span class="lbl">Project 07</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h4>Project 07 · 2026.06 ~ 현재</h4>
+      <h2>AI 개발 환경 — 만든 것과 활용하는 방식</h2>
+      <p class="lede">
+        AI 로 코드를 빨리 쓰는 것보다 <strong>매번 같은 결과가 나오게 만드는 것</strong>이 어려웠습니다.
+        원인은 AI 에게 읽히는 자료가 사람마다 달랐다는 점이었습니다.
+        반복 작업은 절차를 명령어로 고정하고, 설계에서 알게 된 것은 AI 가 읽을 문서로 남겼습니다.
+      </p>
+      <div class="metrics">
+        <div class="metric"><span class="v">285줄</span><span class="k">테스트케이스 생성 명령 명세</span></div>
+        <div class="metric"><span class="v">659줄</span><span class="k">Node 엑셀 생성기</span></div>
+        <div class="metric"><span class="v">40건</span><span class="k">한 표로 정리한 인터페이스</span></div>
+        <div class="metric"><span class="v">0</span><span class="k">추가 설치 (Node 내장 모듈만 사용)</span></div>
+      </div>
+      <ul>
+        <li><strong>자체 리포트 추출 개발:</strong>  외부 리포트 솔루션을 대신할 리포트 추출 방식을 AI 개발 환경으로 직접 만들어 업무에 쓸 수 있는 수준인지 확인한 뒤 제안했습니다. 신규 메뉴는 자체 리포트 추출로 전환하는 데 성공했고, 남은 화면도 곧 걷어낼 예정이라 솔루션 라이선스 비용이 사라집니다.</li>
+        <li><strong>반복 업무 명령어 제작:</strong>  손으로 반복하던 절차를 명령어로 고정해 씁니다. 제가 만든 테스트케이스 생성 명령어는 신규 메뉴 개발 후 손으로 만들던 테스트케이스 엑셀을 명령어 한 줄로 대체합니다. 코드를 분석해 화면 · 단계를 파악하고 Pass · Fail · N/A 드롭다운이 들어간 엑셀을 만듭니다 (명령 명세 285줄 + Node 생성기 659줄). 결재 계열 명령어처럼 동료가 만든 것도 팀에서 함께 씁니다.</li>
+        <li><strong>사람이 입력한 결과를 보존:</strong>  코드가 바뀌어 다시 만들 때 이미 채워 넣은 성공여부 · 실제결과를 그대로 남기고 변경분만 반영하며, 이력 시트에 변경 이력을 한 줄 남깁니다. 이미 해둔 테스트를 처음부터 다시 하지 않게 만든 부분입니다.</li>
+        <li><strong>설치 없이 도는 생성기:</strong>  Node 내장 모듈만으로 작성해 별도 설치가 필요 없고, 런타임이 없으면 분석 · 파일 생성을 하지 않고 안내만 남기고 멈춥니다.</li>
+        <li><strong>설계를 컨텍스트로 남김:</strong>  외부 시스템 10곳 · 인터페이스 40건을 어느 코드에서 어느 설정으로 나가는지까지 한 표로 정리하고, 연동 · 인증 가이드를 함께 남겼습니다. 사람은 인수 없이 읽고, AI 는 코드를 처음부터 훑지 않고 이 표를 근거로 답합니다.</li>
+        <li><strong>활용 방식:</strong>  작업할 메뉴의 명세 한 파일만 읽히고, 요구가 두 가지로 읽히면 멈추게 하고, 새로 만들기 전에 기존 공통 코드를 먼저 찾게 합니다. 규칙 파일 · 스킬 · 결재 계열 명령어는 동료들이 만든 것을 함께 씁니다.</li>
+      </ul>
+      <div class="card flat" style="border:1px solid var(--line);">
+        <h4>사용 기술</h4>
+        <p class="dim" style="font-family:var(--mono);font-size:12.5px;">
+          Claude Code · 슬래시 명령어 · Node.js · 컨텍스트 문서
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 13 이전 경력 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">13</span><span class="lbl">이전<br>경력</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h2>이전 경력 — 투티스 (2020.12 ~ 2024.12)</h2>
+      <p class="dim">통화 녹취 솔루션을 제공하며, 모바일 환경에서의 통화 녹취 및 관리 기능을 지원하는 회사입니다.</p>
+
+      <div class="stack">
+        <div class="sub">
+          <h4>2024.08 ~ 2024.12 · BE 2명 / 기여도 40%</h4>
+          <h3>악사손해보험 SmartCall 솔루션 구축</h3>
+          <p>
+            관리자 페이지 기능 개발과 기간계 RESTful API 연동을 담당했습니다.
+            녹취 파일 스트리밍 청취 기능을 추가하고, 조회 테이블을 Embedded DB 로 구성해
+            코드 수정 없이 설정만으로 컬럼을 반영하게 했습니다.
+          </p>
+          <p><strong>성과:</strong>  고객사 내 PostgreSQL 도입에 성공하고 추가 계약으로 이어졌습니다.</p>
+        </div>
+
+        <div class="sub">
+          <h4>2023.01 ~ 2023.03 · BE 1명 / 기여도 100%</h4>
+          <h3>SITellAgent 클라이언트 개발</h3>
+          <p>
+            Angular · TypeScript 기반 UI 와 서버 API 를 단독으로 개발했습니다.
+            콜 발생 · 후처리 · 문자 전송까지의 상담 흐름을 클라이언트로 구현했습니다.
+          </p>
+          <p><strong>성과:</strong>  이 솔루션으로 1년간 3건의 계약이 성사됐습니다.</p>
+        </div>
+
+        <div class="sub">
+          <h4>2022.08 ~ 2023.01 · BE 3명 / 기여도 30%</h4>
+          <h3>에듀윌 SmartTM 시스템 구축</h3>
+          <p>
+            동일 ID 중복 로그인 차단과 IP 추적으로 관리자 페이지 보안을 강화하고,
+            웹소켓 명령 전달과 HTTPS 환경을 구성했습니다.
+          </p>
+        </div>
+
+        <div class="sub">
+          <h4>2020.12 ~ 2022.04 · RPA 팀</h4>
+          <h3>업무 자동화(RPA) 구축 — 금융 · 보험 5개사</h3>
+          <p>
+            JB금융지주 · 롯데손해보험 · 신한캐피탈 · 집토스 · 예탁결제원의 RPA 과제를 기획 · 구축했습니다.
+            매일 고객 컨택으로 놓친 요구사항을 확인하고 추가 요구를 선제적으로 제시했습니다.
+          </p>
+          <p><strong>성과:</strong>  롯데손해보험은 연 2만 업무 시간을 절감했고, 자동화 성공 사례로 인정받아 추가 과제를 수주했습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 14 업무 성과 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">14</span><span class="lbl">업무 성과</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h2>업무 성과</h2>
+      <div class="metrics">
+        <div class="metric"><span class="v">10</span><span class="k">단독 담당 업무 메뉴</span></div>
+        <div class="metric"><span class="v">10</span><span class="k">연동 외부 시스템</span></div>
+        <div class="metric"><span class="v">40</span><span class="k">연동 인터페이스 (건)</span></div>
+        <div class="metric"><span class="v">8</span><span class="k">운영 관리 서버</span></div>
+      </div>
+      <ul>
+        <li><strong>신규 도메인 end-to-end 구축:</strong>  안전관리 · 위험성평가, 실정보고를 현장 실무 문서 분석 기반으로 요구사항 정의 → UML · DB 설계 → 화면 · API · 전자결재 · 리포트까지 직접 구축했습니다.</li>
+        <li><strong>대외 연동 구조 정비:</strong>  흩어진 송신 경로를 공통 창구로 통합해 연동 이력 누락을 해소하고, 이름과 실체가 어긋난 연동(아이큐브 ↔ PNS)도 분리했습니다.</li>
+        <li><strong>외부 리포트 솔루션 비용 절감:</strong>  외부 리포트 솔루션을 대신할 자체 리포트 추출을 파일럿으로 만들어 제안했습니다. 신규 메뉴는 자체 리포트 추출로 전환하는 데 성공했고, 남은 화면도 곧 걷어낼 예정입니다.</li>
+        <li><strong>운영 안정성 확보:</strong>  SVN → Git 전환, Jenkins 다중 서버 배포 정비, 서버 8대 용량 · 로그 관리, DB Lock · 조회 지연 장애를 원인 단위로 해소했습니다.</li>
+        <li><strong>AI 컨텍스트로 팀 지식 자산화:</strong>  팀이 만든 AI 하네스 위에서 제 몫의 컨텍스트를 채웠습니다. 연동 표준 문서 4종과 반복 업무를 자동화하는 명령어 3종을 만들고, 결함은 메뉴별 파일에 누적해 재발이 확인된 것만 공통 안티패턴으로 승격합니다.</li>
+        <li><strong>인수 후 단독 운영:</strong>  담당 선임 · 리더 퇴사 이후 개발 · 배포 · 서버 운영 · 장애 대응을 이어받아 서비스 중단 없이 유지하고 있습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 15 학력 · 자격 · 활동 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">15</span><span class="lbl">학력 ·<br>자격</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h2>학력 · 자격 · 활동</h2>
+      <div class="tw">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:190px"><h4>학력</h4></td>
+              <td>
+                <span class="m dim">2024.07 ~ 2025.08</span>&nbsp; 국가평생교육진흥원 컴퓨터공학과 학사 취득<br>
+                <span class="m dim">2017.03 ~ 2021.02</span>&nbsp; 명지전문대 컴퓨터공학과 졸업
+              </td>
+            </tr>
+            <tr>
+              <td><h4>자격증</h4></td>
+              <td>
+                <span class="m dim">2026.03</span>&nbsp; SQL 개발자(SQLD)<br>
+                <span class="m dim">2023.09</span>&nbsp; 정보처리기사
+              </td>
+            </tr>
+            <tr>
+              <td><h4>교육 · 대외활동</h4></td>
+              <td>
+                <span class="m dim">2025.08</span>&nbsp; ISV 와 함께하는 오라클 클라우드 테크 밋업 참석 (한국오라클)<br>
+                <span class="m dim">2022.11</span>&nbsp; 자바 스프링 향상 과정 수료 (오라클 자바 교육센터)<br>
+                <span class="m dim">2020.12</span>&nbsp; 캡스톤 경진대회 수상 (명지전문대학교)<br>
+                <span class="m dim">2018.03</span>&nbsp; 명지전문대 컴퓨터공학과 홍보부장
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>

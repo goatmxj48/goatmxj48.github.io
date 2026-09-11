@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
@@ -98,15 +98,22 @@ nav.stuck{background:rgba(243,246,242,.9);backdrop-filter:blur(14px);border-bott
 /* ══ 레이아웃 ══ */
 .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--pad);position:relative;z-index:1}
 section{padding-block:clamp(64px,8vw,110px);position:relative;z-index:1}
-.sec-head{margin-bottom:clamp(30px,4vw,52px)}
-.sec-num{
-  font-family:var(--f-mono);font-size:11.5px;letter-spacing:.2em;color:var(--accent-2);
-  display:flex;align-items:center;gap:10px;margin-bottom:12px;text-transform:uppercase;
+.sec-head{margin-bottom:clamp(28px,3.6vw,46px)}
+/* 섹션 이름 한 줄 — 영문 이름 · 우리말 이름 · 오른쪽 보조 문구, 그 아래 경계선 */
+.sec-line{
+  display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px;
+  padding-bottom:12px;border-bottom:1px solid var(--line);
 }
-.sec-num::after{content:"";flex:1;height:1px;background:var(--line);max-width:120px}
-.sec-title{font-size:clamp(25px,3.6vw,38px);font-weight:400;letter-spacing:-.025em;line-height:1.28;color:var(--accent-3)}
-.sec-title em{font-family:var(--f-disp);font-style:italic;color:var(--accent-2);font-weight:400}
-.sec-desc{margin-top:14px;max-width:66ch;color:var(--ink-2);font-size:15px}
+.sec-en{
+  font-family:var(--f-disp);font-size:clamp(22px,3vw,31px);font-weight:600;
+  letter-spacing:-.015em;line-height:1.24;color:var(--accent-3);
+}
+.sec-ko{font-size:14.5px;color:var(--ink-2);letter-spacing:-.01em}
+.sec-note{
+  margin-left:auto;font-family:var(--f-mono);font-size:12px;
+  letter-spacing:.06em;color:var(--accent-2);
+}
+.sec-desc{margin-top:16px;max-width:66ch;color:var(--ink-2);font-size:15px}
 
 /* ══ HERO ══ */
 .hero{padding-top:clamp(120px,15vw,170px);padding-bottom:clamp(50px,6vw,80px)}
@@ -155,10 +162,32 @@ section{padding-block:clamp(64px,8vw,110px);position:relative;z-index:1}
 .caps h3{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;color:var(--accent-2);text-transform:uppercase;margin-bottom:18px;font-weight:500}
 .caps ul{display:grid;gap:11px;list-style:none}
 .caps li{font-size:14px;color:var(--ink-2);padding-left:22px;position:relative;line-height:1.7}
+.caps li b{color:var(--accent-3);font-weight:600}
 .caps li::before{
   content:"";position:absolute;left:0;top:9px;width:9px;height:9px;border-radius:2px;
   background:var(--accent-wash);border:1px solid var(--accent-line);
 }
+
+/* ══ 함께 일하는 방식 ══ */
+/* 성향 진단 카드는 Core Competency 와 같은 .caps 카드를 쓰고, 목록 대신 문단이 들어간다 */
+.caps p{font-size:14px;color:var(--ink-2);line-height:1.8}
+.caps p+p{margin-top:11px}
+.caps p b{color:var(--accent-3);font-weight:600}
+.caps .tags{margin-top:17px}
+.tag.on{background:var(--accent-wash);border-color:var(--accent-line);color:var(--accent);font-weight:600}
+/* 진단 지표 — 숫자를 앞세운 작은 카드 넉 장 */
+.traits{display:grid;gap:14px;grid-template-columns:repeat(2,1fr);margin-top:clamp(20px,2.4vw,28px)}
+@media(min-width:780px){.traits{grid-template-columns:repeat(4,1fr)}}
+.trait{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(16px,2vw,22px);transition:.3s var(--ease);
+}
+.trait:hover{border-color:var(--accent-line);box-shadow:var(--shadow)}
+.trait b{
+  display:block;font-family:var(--f-mono);font-size:clamp(23px,2.7vw,28px);font-weight:500;
+  color:var(--accent);line-height:1.15;letter-spacing:-.02em;margin-bottom:7px;
+}
+.trait span{display:block;font-size:12.5px;color:var(--ink-2);line-height:1.6}
 
 /* ══ CAREER ══ */
 .career{display:grid;gap:14px}
@@ -208,6 +237,23 @@ section{padding-block:clamp(64px,8vw,110px);position:relative;z-index:1}
 .thumb{height:190px;background:var(--paper-2);border-bottom:1px solid var(--line);overflow:hidden;position:relative}
 .thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:.6s var(--ease)}
 .pcard:hover .thumb img{scale:1.04}
+
+/* 카드 썸네일 — 고객사 CI 를 쓰는 카드 (로고가 잘리지 않게 가운데 맞춤) */
+.thumb.logo{background:var(--card);display:grid;place-content:center;padding:12px}
+.thumb.logo img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain}
+.pcard:hover .thumb.logo img{scale:1.02}
+
+/* 카드 썸네일 — 캡처 대신 그림으로 대신하는 카드 */
+.thumb.cover{background:linear-gradient(160deg,var(--paper-2),var(--accent-wash))}
+.thumb.cover svg{display:block;width:100%;height:100%;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:.6s var(--ease)}
+.pcard:hover .thumb.cover svg{scale:1.03}
+.thumb.cover .c-doc{fill:var(--card);stroke:var(--accent-line);stroke-width:1.6}
+.thumb.cover .c-ln{stroke:var(--accent-line);stroke-width:2.4}
+.thumb.cover .c-ar{stroke:var(--accent-2);stroke-width:2}
+.thumb.cover .c-cmd{fill:var(--accent-wash);stroke:var(--accent);stroke-width:1.6}
+.thumb.cover .c-cmdmark{stroke:var(--accent);stroke-width:2.2}
+.thumb.cover .c-grid{stroke:var(--accent-line);stroke-width:1.2}
+.thumb.cover .c-ok{stroke:var(--accent-2);stroke-width:2.2}
 .ph{
   width:100%;height:100%;display:grid;place-content:center;justify-items:center;gap:9px;
   background:repeating-linear-gradient(45deg,var(--paper-2),var(--paper-2) 11px,#e4ebe3 11px,#e4ebe3 22px);
@@ -423,8 +469,8 @@ footer{
   <a href="#top" class="brand">chominju<b>.</b></a>
   <div class="navlinks">
     <a href="#about">About</a>
+    <a href="#skills">Skill</a>
     <a href="#career">Career</a>
-    <a href="#skills">Skills</a>
     <a href="#projects">Projects</a>
     <a href="#result">Result</a>
     <a href="#contact" class="navcta">Contact</a>
@@ -454,8 +500,10 @@ footer{
 <!-- ══════════ ABOUT ══════════ -->
 <section id="about" class="wrap">
   <div class="sec-head">
-    <p class="sec-num">01 — About</p>
-    <h2 class="sec-title">무엇을 <em>중요하게</em> 여기는가</h2>
+    <div class="sec-line">
+      <h2 class="sec-en">About Me</h2>
+      <span class="sec-ko">강점</span>
+    </div>
   </div>
 
   <div class="about">
@@ -469,64 +517,60 @@ footer{
     <div class="caps">
       <h3>Core Competency</h3>
       <ul>
-        <li>Java &amp; Spring 기반의 백엔드 개발자</li>
-        <li>RESTful API 를 활용한 다중 외부 플랫폼(유레카·PAD·PNS·공공가이아·아이큐브) 연동 구축·안정화</li>
-        <li>MyBatis / JPA 기반 데이터 접근 계층 설계 및 SQL 최적화</li>
-        <li>PostgreSQL·MariaDB·Oracle 등 다양한 RDBMS 쿼리 작성 및 튜닝 경험</li>
-        <li>Jenkins·Git 기반 CI/CD 및 운영 서버 관리(용량·로그·장애 대응) 경험</li>
-        <li>현장 실무 문서 분석 기반 요구사항 정의 및 UML·ERD 설계 역량 보유</li>
-        <li>DB 설계부터 화면·API·리포트까지 신규 도메인을 end-to-end 로 구축한 경험</li>
-        <li>계약·공정·기성·안전 등 업무 메뉴 10개를 담당하며 신규 개발과 운영을 병행</li>
+        <li><b>외부 연동:</b>  외부 시스템 10곳 · 인터페이스 40건 연동 구축과 안정화 (RESTful API 송신 · 수신 양방향)</li>
+        <li><b>업무 분석 · 설계:</b>  현장 실무 문서 기반 요구사항 정의, UML · ERD 설계, 신규 도메인 end-to-end 구축</li>
+        <li><b>데이터 접근 · 튜닝:</b>  MyBatis 기반 접근 계층 설계, PostgreSQL · MariaDB · Oracle 쿼리 작성 및 튜닝</li>
+        <li><b>운영 · 장애 대응:</b>  Jenkins · Git 기반 배포, 서버 8대 용량 · 로그 관리, DB Lock · 조회 지연 원인 단위 해소</li>
+        <li><b>AI 개발 환경 활용:</b>  반복 업무 명령어를 만들고, 연동 설계 내용을 AI 가 읽을 컨텍스트 문서로 남겨 추측으로 코드가 만들어지는 것을 줄이는 개발 환경 운영</li>
+        <li><b>문서화:</b>  결함 이력을 메뉴별로 체계화하고 재발이 확인된 것만 팀 안티패턴으로 승격하는 2단 구조 운영</li>
+        <li><b>담당 범위:</b>  계약 · 공정 · 기성 · 안전 등 업무 메뉴 10개의 신규 개발과 운영을 병행</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- ══════════ CAREER ══════════ -->
-<section id="career" class="wrap">
+<!-- ══════════ 함께 일하는 방식 ══════════ -->
+<section id="teamwork" class="wrap">
   <div class="sec-head">
-    <p class="sec-num">02 — Career</p>
-    <h2 class="sec-title">경력 <em>요약</em></h2>
-  </div>
-
-  <div class="career">
-    <div class="job">
-      <div class="job-when">2026.02 ~ 현재<i>진행중</i></div>
-      <div class="job-who"><b>아이디어정보기술</b><span>GaiA&CaiRos팀 / 책임</span></div>
-      <div class="job-what">Java 기반 건설 사업관리(PMIS) 플랫폼 구축·개발·유지보수</div>
-        <div class="menus">
-            <b>담당 업무 메뉴 10개</b>
-            <p>작업일지 · 계약관리 · 기성관리 · 위험성평가 · 실정보고 · 주간공정보고 · 월간공정보고 · 선급금/공제금 · 자원투입현황 · 주요공정사진</p>
-        </div>
-    </div>
-    <div class="job">
-      <div class="job-when">2022.04 ~ 2024.12<i>2년 8개월</i></div>
-      <div class="job-who"><b>투티스</b><span>SmartCall 팀 / 대리</span></div>
-      <div class="job-what">Java 기반 솔루션 구축·개발·유지보수</div>
-        <div class="menus">
-            <b>구축 사이트 5건</b>
-            <p>에듀윌 · 페퍼저축은행 · NE능률 · 롯데손해보험 · 악사손해보험</p>
-        </div>
-    </div>
-    <div class="job">
-      <div class="job-when">2020.12 ~ 2022.04<i>1년 3개월</i></div>
-      <div class="job-who"><b>투티스</b><span>RPA 팀 / 사원</span></div>
-      <div class="job-what">RPA 기획·구축·개발·유지보수</div>
-        <div class="menus">
-            <b>구축 사이트 5건</b>
-            <p>JB금융지주 · 롯데손해보험 · 신한캐피탈 · 집토스 · 예탁결제원</p>
-        </div>
+    <div class="sec-line">
+      <h2 class="sec-en">Working Style</h2>
+      <span class="sec-ko">함께 일하는 방식</span>
     </div>
   </div>
 
+  <div class="about">
+    <div class="about-body">
+      <p>사람과의 관계를 소중히 여기며, 팀워크를 중시하는 개발자입니다. 팀원들에게 <b>“인간 리트리버”</b> 라는 별명을 얻을 만큼 상대방을 배려하며, 원활한 협업을 위해 노력합니다.</p>
+      <p>단순히 사실을 전달하는 것이 아니라, 상대방의 입장을 고려한 커뮤니케이션을 통해 긍정적인 영향을 주는 것이 제 강점입니다. 팀원과 함께 성장하는 것이 나의 성장이라 믿으며, 함께 배우고 공유하는 문화를 만들어가는 것을 목표로 하고 있습니다. 앞으로도 더 나은 개발자, 더 좋은 동료가 되기 위해 끊임없이 배우고 도전하겠습니다.</p>
+    </div>
 
+    <div class="caps">
+      <h3>성향 진단 · Prios Archetype (2025.05)</h3>
+      <p><b>The Campaigner</b> — 사람들을 하나의 방향으로 모아 실제 결과까지 만들어내는 유형입니다. 목표를 세우면 시간이 걸려도 끝까지 마무리하고, 공감대를 만들어 함께 움직이게 하는 것을 강점으로 봅니다.</p>
+      <p>함께 나타나는 유형은 <b>The Problem Solver</b>(맡은 일을 성실하게 책임지고 먼저 돕는 성향)와 <b>The Peacekeeper</b>(대립보다 협의와 조화로 문제를 푸는 성향)입니다.</p>
+      <div class="tags">
+        <span class="tag on">Campaigner</span>
+        <span class="tag">Problem Solver</span>
+        <span class="tag">Peacekeeper</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="traits">
+    <div class="trait"><b>89%</b><span>Engaging · 사람과 관계를 맺는 힘</span></div>
+    <div class="trait"><b>81%</b><span>Gregarious · 함께 일하는 것을 선호</span></div>
+    <div class="trait"><b>70%</b><span>Dependable · 맡은 약속을 지킴</span></div>
+    <div class="trait"><b>68%</b><span>Helpful · 동료의 필요를 먼저 챙김</span></div>
+  </div>
 </section>
 
 <!-- ══════════ SKILLS ══════════ -->
 <section id="skills" class="wrap">
   <div class="sec-head">
-    <p class="sec-num">03 — Skill</p>
-    <h2 class="sec-title">사용 <em>기술</em></h2>
+    <div class="sec-line">
+      <h2 class="sec-en">Skill Set</h2>
+      <span class="sec-ko">사용 기술</span>
+    </div>
   </div>
 
   <div class="skills">
@@ -535,8 +579,7 @@ footer{
     </div></div>
     <div class="srow"><h4>Framework / Library</h4><div class="tags">
       <span class="tag">Spring Boot</span><span class="tag">Spring Framework</span><span class="tag">MyBatis</span><span class="tag">JPA</span>
-      <span class="tag">Pebble (SSR)</span><span class="tag">Node.js</span><span class="tag">Angular</span><span class="tag">Bootstrap</span>
-      <span class="tag">jQuery</span><span class="tag">TUI Grid</span>
+      <span class="tag">Pebble (SSR)</span><span class="tag">Angular</span><span class="tag">Node.js</span>
     </div></div>
     <div class="srow"><h4>Database</h4><div class="tags">
       <span class="tag">PostgreSQL</span><span class="tag">MariaDB</span><span class="tag">OracleDB</span>
@@ -554,11 +597,56 @@ footer{
   </div>
 </section>
 
+<!-- ══════════ CAREER ══════════ -->
+<section id="career" class="wrap">
+  <div class="sec-head">
+    <div class="sec-line">
+      <h2 class="sec-en">Work Experience</h2>
+      <span class="sec-ko">경력</span>
+      <span class="sec-note">총 5년 9개월</span>
+    </div>
+  </div>
+
+  <div class="career">
+    <div class="job">
+      <div class="job-when">2025.05 ~ 현재<i>1년 3개월</i></div>
+      <div class="job-who"><b>아이디어정보기술</b><span>GaiA&CaiRos팀 / 책임</span></div>
+      <div class="job-what">Java 기반 건설 사업관리(PMIS) 플랫폼 구축·개발·유지보수</div>
+        <div class="menus">
+            <b>담당 업무 메뉴 10개</b>
+            <p>작업일지 · 계약관리 · 기성관리 · 위험성평가 · 실정보고 · 주간공정보고 · 월간공정보고 · 선급금/공제금 · 자원투입현황 · 주요공정사진</p>
+        </div>
+    </div>
+    <div class="job">
+      <div class="job-when">2022.04 ~ 2024.12<i>2년 9개월</i></div>
+      <div class="job-who"><b>투티스</b><span>SmartCall 팀 / 대리</span></div>
+      <div class="job-what">Java 기반 솔루션 구축·개발·유지보수</div>
+        <div class="menus">
+            <b>구축 사이트 5건</b>
+            <p>에듀윌 · 페퍼저축은행 · NE능률 · 롯데손해보험 · 악사손해보험</p>
+        </div>
+    </div>
+    <div class="job">
+      <div class="job-when">2020.12 ~ 2022.04<i>1년 5개월</i></div>
+      <div class="job-who"><b>투티스</b><span>RPA 팀 / 사원</span></div>
+      <div class="job-what">RPA 기획·구축·개발·유지보수</div>
+        <div class="menus">
+            <b>구축 사이트 5건</b>
+            <p>JB금융지주 · 롯데손해보험 · 신한캐피탈 · 집토스 · 예탁결제원</p>
+        </div>
+    </div>
+  </div>
+
+
+</section>
+
 <!-- ══════════ PROJECTS (카드) ══════════ -->
 <section id="projects" class="wrap">
   <div class="sec-head">
-    <p class="sec-num">04 — Projects</p>
-    <h2 class="sec-title">프로젝트 <em>열 건</em></h2>
+    <div class="sec-line">
+      <h2 class="sec-en">Projects</h2>
+      <span class="sec-ko">대표 프로젝트</span>
+    </div>
     <p class="sec-desc">카드를 누르면 업무 분석 · 개발 내용 · 문제 해결 과정을 자세히 볼 수 있습니다.</p>
   </div>
 
@@ -573,7 +661,7 @@ footer{
         <!-- <img src="images/p01-dailyreport.png" alt="작업일지 화면"> -->
       </div>
       <div class="pbody">
-        <p class="pmeta">2026.02 ~ 현재 &nbsp;·&nbsp; <em>단독 개발</em></p>
+        <p class="pmeta">2025.05 ~ 현재 &nbsp;·&nbsp; <em>단독 개발</em></p>
         <h3>GaiA&amp;CaiRos(PMIS) — 작업일지</h3>
         <p class="pdesc">수량 하나의 오차가 공정률·기성·대시보드로 그대로 번지는 핵심 메뉴. 업무 분석부터 개발·운영까지 전 과정을 담당했습니다.</p>
         <div class="pchip"><span>Java 21</span><span>Spring Boot 3.3.1</span><span>PostgreSQL</span><span>MyBatis</span><span>Pebble SSR</span></div>
@@ -625,7 +713,7 @@ footer{
         <img src="images/p02-api.png" alt="API 연동 구성도">
       </div>
       <div class="pbody">
-        <p class="pmeta">2026.02 ~ 현재 &nbsp;·&nbsp; <em>외부 시스템 5개</em></p>
+        <p class="pmeta">2025.05 ~ 현재 &nbsp;·&nbsp; <em>외부 시스템 10곳 · 인터페이스 40건</em></p>
         <h3>시스템 API 연계 · 송신 창구 일원화</h3>
         <p class="pdesc">메뉴마다 흩어져 있던 외부 송신을 공통 창구 하나로 모아, 이력 적재를 잊을 수 없는 구조로 바꿨습니다.</p>
         <div class="pchip"><span>RESTful API</span><span>JWT SSO</span><span>유레카</span><span>PAD·PNS</span><span>아이큐브</span><span>공공가이아</span></div>
@@ -644,9 +732,50 @@ footer{
       </div>
     </button>
 
-    <!-- ───── CARD 7 : 악사손보 ───── -->
+    <!-- ───── CARD 7 : AI 개발 환경 ───── -->
+    <button class="pcard" data-detail="d11" type="button">
+      <!-- 캡처가 준비되면 이 <div class="thumb cover"> 를 통째로 지우고
+           <div class="thumb"><img src="images/p11-ai.png" alt="테스트케이스 생성 명령어로 만든 엑셀"></div> 로 바꾸세요 -->
+      <div class="thumb cover">
+        <svg viewBox="0 0 320 190" role="img" aria-label="설계 문서를 명령어로 읽어 테스트케이스 엑셀을 만드는 흐름">
+          <rect class="c-doc" x="26" y="42" width="74" height="106" rx="5"/>
+          <path class="c-ln" d="M40 62h46M40 76h46M40 90h32M40 104h46M40 118h28"/>
+          <path class="c-ar" d="M112 95h30M134 88l8 7-8 7"/>
+          <rect class="c-cmd" x="156" y="76" width="52" height="38" rx="19"/>
+          <path class="c-cmdmark" d="M178 86l-6 18M186 89l7 6-7 6"/>
+          <path class="c-ar" d="M220 95h20M232 88l8 7-8 7"/>
+          <rect class="c-doc" x="250" y="42" width="48" height="106" rx="5"/>
+          <path class="c-grid" d="M250 62h48M250 82h48M250 102h48M250 122h48M274 42v106"/>
+          <path class="c-ok" d="M256 72l4 4 7-8M280 92l4 4 7-8M256 132l4 4 7-8"/>
+        </svg>
+      </div>
+      <div class="pbody">
+        <p class="pmeta">2026.01 ~ 현재 &nbsp;·&nbsp; <em>사내 개발 환경</em></p>
+        <h3>AI 개발 환경 — 만든 것과 활용하는 방식</h3>
+        <p class="pdesc">반복 작업은 절차를 명령어로 고정하고, 설계에서 알게 된 것은 AI 가 읽을 문서로 남겨 매번 같은 결과가 나오게 만들었습니다.</p>
+        <div class="pchip"><span>Claude Code</span><span>슬래시 명령어</span><span>Node.js</span><span>컨텍스트 문서</span></div>
+        <span class="pmore">자세히 보기 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </button>
+
+  </div>
+</section>
+
+<!-- ══════════ PREVIOUS PROJECTS (카드) ══════════ -->
+<section id="previous" class="wrap">
+  <div class="sec-head">
+    <div class="sec-line">
+      <h2 class="sec-en">Previous Projects</h2>
+      <span class="sec-ko">이전 경력</span>
+      <span class="sec-note">투티스 · 2020.12 ~ 2024.12</span>
+    </div>
+  </div>
+
+  <div class="cards">
+
+    <!-- ───── CARD 1 : 악사손보 ───── -->
     <button class="pcard" data-detail="d4" type="button">
-      <div class="thumb"><img src="images/axa-monitor-after.png" alt="악사손해보험 SmartCall 관리자 페이지"></div>
+      <div class="thumb logo"><img src="images/%EC%95%85%EC%82%AC%20ci.gif" alt="악사손해보험 CI"></div>
       <div class="pbody">
         <p class="pmeta">2024.08 ~ 2024.12 &nbsp;·&nbsp; <em>BE 2명 / 기여도 40%</em></p>
         <h3>악사손해보험 SmartCall 솔루션 구축</h3>
@@ -656,7 +785,7 @@ footer{
       </div>
     </button>
 
-    <!-- ───── CARD 8 : SITellAgent ───── -->
+    <!-- ───── CARD 2 : SITellAgent ───── -->
     <button class="pcard" data-detail="d5" type="button">
       <div class="thumb"><img src="images/sitell-main.png" alt="SITellAgent 클라이언트 화면"></div>
       <div class="pbody">
@@ -668,15 +797,9 @@ footer{
       </div>
     </button>
 
-    <!-- ───── CARD 9 : 에듀윌 ───── -->
+    <!-- ───── CARD 3 : 에듀윌 ───── -->
     <button class="pcard" data-detail="d6" type="button">
-      <div class="thumb">
-        <div class="ph">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
-          <span>메뉴 이미지 자리</span><em>images/p06-eduwill.png</em>
-        </div>
-        <!-- <img src="images/p06-eduwill.png" alt="에듀윌 SmartTM 화면"> -->
-      </div>
+      <div class="thumb logo"><img src="images/%EC%97%90%EB%93%80%EC%9C%8C%20ci.png" alt="에듀윌 CI"></div>
       <div class="pbody">
         <p class="pmeta">2022.08 ~ 2023.01 &nbsp;·&nbsp; <em>BE 3명 / 기여도 30%</em></p>
         <h3>에듀윌 SmartTM 시스템 구축</h3>
@@ -686,9 +809,9 @@ footer{
       </div>
     </button>
 
-    <!-- ───── CARD 10 : RPA ───── -->
+    <!-- ───── CARD 4 : RPA ───── -->
     <button class="pcard" data-detail="d7" type="button">
-      <div class="thumb"><img src="images/lotte-rpa-news.png" alt="롯데손해보험 RPA 도입 완료 보도"></div>
+      <div class="thumb logo"><img src="images/%EB%A1%AF%EB%8D%B0%20ci.jpg" alt="롯데손해보험 CI"></div>
       <div class="pbody">
         <p class="pmeta">2020.12 ~ 2022.04 &nbsp;·&nbsp; <em>RPA 팀</em></p>
         <h3>업무 자동화(RPA) 구축 — 금융·보험 5개사</h3>
@@ -704,30 +827,32 @@ footer{
 <!-- ══════════ RESULT ══════════ -->
 <section id="result" class="wrap">
   <div class="sec-head">
-    <p class="sec-num">05 — Result</p>
-    <h2 class="sec-title">업무 <em>성과</em></h2>
+    <div class="sec-line">
+      <h2 class="sec-en">Key Results</h2>
+      <span class="sec-ko">업무 성과</span>
+    </div>
   </div>
 
   <div class="wins">
     <div class="win">
       <b>신규 도메인 end-to-end 구축</b>
-      <p>안전관리·위험성평가, 실정보고를 현장 실무 문서 분석 기반으로 요구사항 정의 → UML·DB 설계 → 화면·API·전자결재·리포트까지 직접 구축. 국토안전관리원 위험요소 DB, CSI 사고사례, SIF 데이터 설계 및 적재 포함.</p>
+      <p>안전관리·위험성평가, 실정보고를 현장 실무 문서 분석 기반으로 요구사항 정의 → UML·DB 설계 → 화면·API·전자결재·리포트까지 직접 구축했습니다. 국토안전관리원 위험요소 DB, CSI 사고사례, SIF 데이터 설계와 적재를 포함합니다.</p>
     </div>
     <div class="win">
       <b>대외 연동 구조 정비</b>
       <p>흩어진 송신 경로를 공통 창구로 통합해 연동 이력 누락을 해소하고, 개인정보·금융정보 마스킹을 적용했습니다. 이름과 실체가 어긋난 연동(아이큐브 ↔ PNS)도 분리했습니다.</p>
     </div>
     <div class="win">
-      <b>외부 리포트 솔루션 대체</b>
-      <p>UbiReport 를 자체 PDF 리포트 서비스로 대체해 라이선스 의존을 제거했습니다(위험성평가·작업일지·기성관리). 다건 재생성에 실시간 완료 알림을 적용했습니다.</p>
+      <b>외부 리포트 솔루션 비용 절감</b>
+      <p>외부 리포트 솔루션을 대신할 자체 리포트 추출을 파일럿으로 만들어 제안했습니다. 신규 메뉴는 자체 리포트 추출로 전환하는 데 성공했고, 남은 화면도 곧 걷어낼 예정이라 라이선스 비용 절감으로 이어집니다.</p>
     </div>
     <div class="win">
       <b>운영 안정성 확보</b>
       <p>SVN → Git 형상관리 전환, Jenkins 다중 서버 배포 체계 정비, 서버 8대의 디스크 용량·로그 관리, DB Lock·조회 지연 등 장애를 원인 단위로 해소했습니다.</p>
     </div>
     <div class="win">
-      <b>팀 지식 자산화</b>
-      <p>결함 이력을 메뉴별 문서로 체계화하고, 재발 가능성이 확인된 것만 팀 안티패턴 목록으로 승격하는 2단 구조를 만들어 운영하고 있습니다.</p>
+      <b>AI 컨텍스트로 팀 지식 자산화</b>
+      <p>팀이 만든 AI 하네스 위에서 제 몫의 컨텍스트를 채웠습니다. 연동 표준 문서 4종과 테스트케이스 생성 명령어를 만들고, 결함은 메뉴별 파일에 누적해 재발이 확인된 것만 공통 안티패턴으로 승격합니다. 작업 중인 메뉴의 명세만 읽히도록 컨텍스트를 좁혀 씁니다.</p>
     </div>
     <div class="win">
       <b>인수 후 단독 운영</b>
@@ -736,20 +861,13 @@ footer{
   </div>
 </section>
 
-<!-- ══════════ 마무리 ══════════ -->
-<section class="wrap">
-  <div class="closing">
-    <h2>“다음 사람이 다시 분석하지 않아도 되는 상태로 남기는 것”</h2>
-    <p>지난 6년 동안 제가 가장 많이 한 일은 새 기능을 붙이는 것이 아니라, 흩어진 것을 한 곳으로 모으고 어긋난 이름을 바로잡는 일이었습니다. 연동 이력이 남지 않는 경로를 없애고, 트랜잭션 안에 있던 외부 호출을 밖으로 꺼내고, 결함의 원인을 문서로 남겨 같은 실수가 반복되지 않게 했습니다.</p>
-    <p>제가 만든 코드가 잘 도는 것보다, 다음 사람이 그 코드를 다시 분석하지 않아도 되는 상태로 남기는 것을 더 중요하게 생각합니다. 앞으로도 기획·데이터·운영을 함께 볼 수 있는 시각으로 서비스의 문제를 먼저 찾아 해결하는 개발자로 일하고자 합니다.</p>
-  </div>
-</section>
-
 <!-- ══════════ 기타 사항 ══════════ -->
 <section class="wrap">
   <div class="sec-head">
-    <p class="sec-num">06 — Etc</p>
-    <h2 class="sec-title">기타 <em>사항</em></h2>
+    <div class="sec-line">
+      <h2 class="sec-en">Education &amp; Certification</h2>
+      <span class="sec-ko">학력 · 자격 · 활동</span>
+    </div>
   </div>
 
   <div class="etc">
@@ -784,6 +902,7 @@ footer{
   <div class="cgrid">
     <h2 class="cbig">함께 일할<br>준비가 <em>되어 있습니다.</em></h2>
     <div class="clist">
+      <div><b>Birthday</b><span>1998.01.11</span></div>
       <a href="mailto:chominju48@gmail.com"><b>Email</b><span>chominju48@gmail.com</span></a>
       <a href="tel:01067152205"><b>Mobile</b><span>010-6715-2205</span></a>
       <div><b>Address</b><span>서울특별시 관악구</span></div>
@@ -800,17 +919,17 @@ footer{
 <div hidden>
 
   <!-- ═══ D1 : 작업일지 ═══ -->
-  <div id="d1" data-title="GaiA&amp;CaiRos(PMIS) — 작업일지" data-sub="2026.02 ~ 현재 · 아이디어정보기술 / GaiA-CaiRos · 단독 개발">
+  <div id="d1" data-title="GaiA&amp;CaiRos(PMIS) — 작업일지" data-sub="2025.05 ~ 현재 · 아이디어정보기술 / GaiA-CaiRos · 단독 개발">
     <h3>Environment</h3>
     <div class="dl">
-      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, MapStruct, Pebble(SSR), TUI Grid, Spring Security, Gradle(멀티모듈), Jenkins, Git</dd></div>
+      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, Pebble(SSR), TUI Grid, Gradle, Jenkins, Git</dd></div>
       <div><dt>데이터 규모</dt><dd>작업일지 마스터 4,330건 / 자원 실적 4,203,409행 / 대상 계약 658건<br>이 데이터를 참조하는 하위 메뉴 21개 — 대시보드, 기성관리, 주간·월간 공정보고, 공정표관리, 자원투입현황 등</dd></div>
       <div><dt>인력 · 기여도</dt><dd>백엔드 중심 풀스택 — 단독 개발/보수 (BE·SSR 프론트·모바일·인프라 병행)<br>Controller → Component → Service → Mapper 레이어 아키텍처 기반 개발</dd></div>
       <div><dt>이 문서의 용어</dt><dd><ul>
-        <li><b>액티비티</b> — 공정표상의 작업 단위 (예: 3층 슬래브 타설)</li>
-        <li><b>CBS</b> — 공사비 내역 항목. 그 작업이 실제로 쓴 자재·인력·장비</li>
-        <li><b>보할</b> — 배분율. 한 작업이 여러 날에 걸칠 때 오늘 몫이 몇 % 인지</li>
-        <li><b>공정률</b> — 공사가 몇 % 진행됐는지 / <b>기성</b> — 진행한 만큼 청구하는 공사대금</li>
+        <li><b>액티비티:</b>  공정표상의 작업 단위 (예: 3층 슬래브 타설)</li>
+        <li><b>CBS:</b>  공사비 내역 항목. 그 작업이 실제로 쓴 자재·인력·장비</li>
+        <li><b>보할:</b>  배분율. 한 작업이 여러 날에 걸칠 때 오늘 몫이 몇 % 인지</li>
+        <li><b>공정률:</b> — 공사가 몇 % 진행됐는지 / <b>기성</b> — 진행한 만큼 청구하는 공사대금</li>
       </ul></dd></div>
     </div>
 
@@ -851,7 +970,6 @@ footer{
         <li>작업일지 자동 생성 배치 — 공휴일 제외, 작성자·날씨 자동 설정</li>
         <li>프리마베라(Primavera) 공정 데이터 연계 — 공정표 액티비티를 원천으로 삼아 임의 항목 생성 차단</li>
         <li>자원 조회 방식 개선(전기·통신·소방 내역서 항목 대응)</li>
-        <li>UbiReport 를 대체하는 자체 PDF 리포트 서비스 개발</li>
         <li>모바일 작업일지 화면 리뉴얼</li>
       </ul></dd></div>
     </div>
@@ -861,20 +979,19 @@ footer{
     <h4>현업 성과 — 사람이 하던 일이 어떻게 바뀌었나</h4>
     <p>도입 전 현장은 <b>매일 엑셀에 작업 내역을 적고, 수식을 걸어 공정률을 직접 계산하고, 그 작업이 공정표상 어느 액티비티에 붙는지 일일이 대조</b>했습니다. 아래는 그 작업이 어떻게 바뀌었는지입니다. (운영 현장 5곳 · 하루 5건 작성 기준)</p>
     <ul class="mlist">
-      <li><b>작성 시간 40분 → 10분 (75% 단축)</b> — 공정률 자동 계산, 연관 CBS 항목 자동 매핑으로 현장은 실제 작업 내용만 입력<br>5개 현장이 매일 작성하므로 <b>월 약 50시간</b>의 현장 작업 시간이 회수됨 (5건 × 30분 × 20영업일 환산)</li>
-      <li><b>이중 입력 제거 — 한 번 입력하면 21개 메뉴가 채워짐</b> — 같은 수량을 주간·월간 공정보고, 기성 청구, 대시보드에 <b>문서마다 다시 옮겨 적던 작업이 사라짐.</b> 작업일지가 이 21개 메뉴의 유일한 원천이 되어 <b>문서 간 숫자가 어긋날 여지 자체를 제거</b></li>
-      <li><b>계산 기준 통일</b> — 엑셀은 현장마다 수식이 조금씩 달라 본사 취합 시 숫자가 맞지 않았음. 계산을 시스템이 맡으면서 <b>모든 현장이 같은 기준으로 산출</b></li>
-      <li><b>수기 작성 → 자동 생성</b> — 매일 새로 만들어야 하는 문서를 공휴일 제외 날짜로 자동 생성하고 작성자·날씨를 미리 채움</li>
-      <li><b>현장에서 바로 입력 (모바일)</b> — 사무실로 돌아와 다시 입력하던 것을 <b>작업 직후 현장에서 처리.</b> 기억에 의존해 옮겨 적으며 생기던 오차도 함께 감소</li>
-      <li><b>공정률 반영 며칠 → 입력 즉시</b> — 실적 확정이 전자결재 승인에 묶여 공정률이 며칠씩 밀렸고, 현장은 화면을 믿지 못해 엑셀을 따로 관리했음. 결재를 확정 절차로만 남기고 실적은 입력 즉시 반영하도록 기준을 바꿔 <b>현장이 화면 숫자를 근거로 쓰기 시작</b></li>
-      <li><b>리포트 출력 장애 월 30건 → 0건</b> — 외부 솔루션(UbiReport) 서버 다운과 긴 로딩으로 <b>현장이 출력 자체를 포기하던 상황.</b> 자체 PDF 서비스로 전환해 외부 서버 장애와 무관하게 출력되며, 라이선스 비용도 함께 제거</li>
+      <li><b>작성 시간 40분 → 10분 (75% 단축)</b> — 공정률 자동 계산, 연관 CBS 항목 자동 매핑으로 현장은 실제 작업 내용만 입력합니다<br>5개 현장이 매일 작성하므로 <b>월 약 50시간</b>의 현장 작업 시간이 회수됐습니다 (5건 × 30분 × 20영업일 환산)</li>
+      <li><b>이중 입력 제거 — 한 번 입력하면 21개 메뉴가 채워짐</b> — 같은 수량을 주간·월간 공정보고, 기성 청구, 대시보드에 <b>문서마다 다시 옮겨 적던 작업이 사라졌습니다.</b> 작업일지가 이 21개 메뉴의 유일한 원천이 되어 <b>문서 간 숫자가 어긋날 여지 자체를 없앴습니다</b></li>
+      <li><b>계산 기준 통일</b> — 엑셀은 현장마다 수식이 조금씩 달라 본사 취합 시 숫자가 맞지 않았습니다. 계산을 시스템이 맡으면서 <b>모든 현장이 같은 기준으로 산출됩니다</b></li>
+      <li><b>수기 작성 → 자동 생성</b> — 매일 새로 만들어야 하는 문서를 공휴일 제외 날짜로 자동 생성하고 작성자·날씨를 미리 채웁니다</li>
+      <li><b>현장에서 바로 입력 (모바일)</b> — 사무실로 돌아와 다시 입력하던 것을 <b>작업 직후 현장에서 처리합니다.</b> 기억에 의존해 옮겨 적으며 생기던 오차도 함께 줄었습니다</li>
+      <li><b>공정률 반영 며칠 → 입력 즉시</b> — 실적 확정이 전자결재 승인에 묶여 공정률이 며칠씩 밀렸고, 현장은 화면을 믿지 못해 엑셀을 따로 관리했습니다. 결재를 확정 절차로만 남기고 실적은 입력 즉시 반영하도록 기준을 바꿔 <b>현장이 화면 숫자를 근거로 쓰기 시작했습니다</b></li>
     </ul>
 
     <h4>시스템 성과 — 그 규모를 감당하게 만든 것</h4>
     <ul class="mlist">
-      <li><b>420만 행 규모에서 집계 998ms → 115ms (약 8.7배)</b> — “계약으로 먼저 좁힌다”를 이후 모든 대량 집계 화면의 점검 기준으로 적용</li>
-      <li><b>공정표와 실적의 기준 일치</b> — 프리마베라 공정표의 액티비티를 원천으로 삼아 <b>공정표에 없는 작업이 실적으로 생길 수 없게</b> 차단. 본사 공정표와 현장 실적이 같은 기준 위에서 관리됨</li>
-      <li><b>데이터 정합성 결함 차단</b> — 액티비티를 하나씩 지우면 연결된 작업내역이 남아 수량이 어긋나던 문제 해소. 원인 유형(<b>“일괄 처리 경로만 고치고 개별 처리 경로를 빠뜨림”</b>)을 팀 점검 항목으로 등록해 다른 메뉴에서의 재발까지 차단</li>
+      <li><b>420만 행 규모에서 집계 998ms → 115ms (약 8.7배)</b> — “계약으로 먼저 좁힌다”를 이후 모든 대량 집계 화면의 점검 기준으로 적용하고 있습니다</li>
+      <li><b>공정표와 실적의 기준 일치</b> — 프리마베라 공정표의 액티비티를 원천으로 삼아 <b>공정표에 없는 작업이 실적으로 생길 수 없게</b> 차단했습니다. 본사 공정표와 현장 실적이 같은 기준 위에서 관리됩니다</li>
+      <li><b>데이터 정합성 결함 차단</b> — 액티비티를 하나씩 지우면 연결된 작업내역이 남아 수량이 어긋나던 문제를 해소했습니다. 원인 유형(<b>“일괄 처리 경로만 고치고 개별 처리 경로를 빠뜨림”</b>)을 팀 점검 항목으로 등록해 다른 메뉴에서의 재발까지 차단했습니다</li>
     </ul>
 
     <h3>문제 해결</h3>
@@ -882,10 +999,10 @@ footer{
     <div class="case">
       <div class="case-h"><b>성능</b><span>목록 조회 2.1초 지연</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>작업일지 목록과 실적변경 조회가 약 2.1초 걸려, 현장에서 화면이 멈춘 것으로 인식됨</dd></div>
-        <div><dt>원인</dt><dd>324만 행(현재 420만 행) <code>cw_daily_report_resource</code> 에 <code>cntrct_no</code> 인덱스가 없었고, 목록 쿼리의 집계 CTE 가 계약 필터 없이 전체를 집계해 Parallel Seq Scan 으로 떨어짐</dd></div>
-        <div><dt>해결</dt><dd>집계 CTE 에 계약 조건을 추가해 스캔 범위를 계약 단위로 축소 / (cntrct_no, dlt_yn) 복합 인덱스를 함께 제안하고 실행계획으로 개선 전후 확인</dd></div>
-        <div><dt>결과</dt><dd><b>집계 구간 998ms → 115ms (약 8.7배)</b> / 이후 모든 대량 집계 화면에 “계약으로 먼저 좁힌다”를 점검 기준으로 적용</dd></div>
+        <div><dt>문제</dt><dd>작업일지 목록과 실적변경 조회가 약 2.1초 걸려, 현장에서 화면이 멈춘 것으로 인식됐습니다</dd></div>
+        <div><dt>원인</dt><dd>324만 행(현재 420만 행) <code>cw_daily_report_resource</code> 에 <code>cntrct_no</code> 인덱스가 없었고, 목록 쿼리의 집계 구간이 계약 필터 없이 전체를 집계해, 인덱스를 타지 못하고 테이블을 처음부터 끝까지 훑는 방식(Parallel Seq Scan)으로 실행됐습니다</dd></div>
+        <div><dt>해결</dt><dd>집계 CTE 에 계약 조건을 추가해 스캔 범위를 계약 단위로 좁혔습니다 / (cntrct_no, dlt_yn) 복합 인덱스를 함께 제안하고 실행계획으로 개선 전후를 확인했습니다</dd></div>
+        <div><dt>결과</dt><dd><b>집계 구간 998ms → 115ms (약 8.7배)</b> / 이후 모든 대량 집계 화면에 “계약으로 먼저 좁힌다”를 점검 기준으로 적용하고 있습니다</dd></div>
       </div>
     </div>
 
@@ -893,10 +1010,10 @@ footer{
       <div class="case-h"><b>정합성</b><span>액티비티를 지웠는데 작업내역이 되살아남</span></div>
       <div class="dl">
         <div><dt>한 줄 요약</dt><dd><b>일괄 삭제 경로만 고치고 개별 삭제 경로를 빠뜨린</b> 케이스입니다</dd></div>
-        <div><dt>문제</dt><dd>금일작업 수정 화면에서 액티비티를 행별로 하나씩 삭제하면 연결된 CBS 작업내역이 일부 남음. 상단 일괄삭제는 정상이라 재현 조건을 좁히기 어려웠음</dd></div>
-        <div><dt>원인</dt><dd>행별 삭제 경로가 고아 CBS 제거와 자원 재계산을 수행하지 않았음 / 보할 재파생 로직이 수동 삭제한 액티비티 ID 를 일부 분기에서만 제외해, 삭제한 항목이 캐시된 CBS 를 통해 되살아났음</dd></div>
-        <div><dt>해결</dt><dd>행별 삭제를 일괄삭제와 동일하게 보정 / 보할 재계산의 모든 분기에서 수동 삭제 ID 를 제외해 부활 경로를 차단</dd></div>
-        <div><dt>결과</dt><dd>삭제 방식과 무관하게 작업내역·자원 수량이 일치 / 원인과 재현 조건을 결함 이력 문서에 남겨 “일괄 경로만 보정된 로직”을 점검 대상으로 등록</dd></div>
+        <div><dt>문제</dt><dd>금일작업 수정 화면에서 액티비티를 행별로 하나씩 삭제하면 연결된 CBS 작업내역이 일부 남았습니다. 상단 일괄삭제는 정상이라 재현 조건을 좁히기 어려웠습니다</dd></div>
+        <div><dt>원인</dt><dd>행별 삭제 경로가 고아 CBS 제거와 자원 재계산을 수행하지 않았습니다 / 보할 재파생 로직이 수동 삭제한 액티비티 ID 를 일부 분기에서만 제외해, 삭제한 항목이 캐시된 CBS 를 통해 되살아났습니다</dd></div>
+        <div><dt>해결</dt><dd>행별 삭제를 일괄삭제와 동일하게 보정했습니다 / 보할 재계산의 모든 분기에서 수동 삭제 ID 를 제외해 부활 경로를 차단했습니다</dd></div>
+        <div><dt>결과</dt><dd>삭제 방식과 무관하게 작업내역·자원 수량이 일치합니다 / 원인과 재현 조건을 결함 이력 문서에 남겨 “일괄 경로만 보정된 로직”을 점검 대상으로 등록했습니다</dd></div>
       </div>
     </div>
 
@@ -904,11 +1021,11 @@ footer{
       <div class="case-h"><b>업무 기준</b><span>공정률이 며칠씩 밀려 현장이 화면 숫자를 믿지 않음</span></div>
       <div class="dl">
         <div><dt>한 줄 요약</dt><dd>코드가 아니라 <b>“실적을 언제 확정으로 볼 것인가”라는 업무 기준</b>을 바꿔 해결한 건입니다</dd></div>
-        <div><dt>문제</dt><dd>현장은 오늘 작업을 입력했는데 공정률에 반영되지 않음. 며칠 뒤에야 숫자가 움직이니 <b>현장이 화면 숫자를 믿지 않고 별도 엑셀을 따로 관리</b>하는 상황이 됐음. 시스템을 쓸수록 일이 늘어나는 상태</dd></div>
-        <div><dt>원인</dt><dd>실적이 확정되는 시점을 <b>전자결재 승인 시점</b>으로 잡아둔 설계 때문. 결재는 현장 소장 일정에 따라 며칠씩 밀리는데, 그동안 입력된 실적은 어디에도 반영되지 않았음. 버그가 아니라 <b>기준 자체가 현장 리듬과 맞지 않았던 것</b></dd></div>
-        <div><dt>판단</dt><dd>현업과 실제 작성 절차를 따라가며 확인한 결과, 결재는 <b>“맞는지 확인하는 절차”이지 “실적이 생기는 시점”이 아니었음.</b> 두 가지를 분리하기로 함 — 실적은 입력 즉시 반영하고, 결재는 확정·책임 절차로만 남긴다</dd></div>
-        <div><dt>해결</dt><dd>실적 산정에서 전자결재 의존을 제거하고 <b>입력 즉시 공정률이 재계산</b>되도록 변경 / 실적이 100% 에 도달하면 액티비티를 자동 종료 처리해 현장이 별도로 닫지 않아도 되게 함</dd></div>
-        <div><dt>결과</dt><dd>입력한 날 바로 공정률에 반영 — 현장이 화면 숫자를 근거로 쓰기 시작 / 이 결정이 이후 주간·월간 공정보고와 대시보드의 실시간성까지 함께 살렸음</dd></div>
+        <div><dt>문제</dt><dd>현장은 오늘 작업을 입력했는데 공정률에 반영되지 않았습니다. 며칠 뒤에야 숫자가 움직이니 <b>현장이 화면 숫자를 믿지 않고 별도 엑셀을 따로 관리</b>하는 상황이 됐습니다. 시스템을 쓸수록 일이 늘어나는 상태였습니다</dd></div>
+        <div><dt>원인</dt><dd>실적이 확정되는 시점을 <b>전자결재 승인 시점</b>으로 잡아둔 설계 때문이었습니다. 결재는 현장 소장 일정에 따라 며칠씩 밀리는데, 그동안 입력된 실적은 어디에도 반영되지 않았습니다. 버그가 아니라 <b>기준 자체가 현장 리듬과 맞지 않았던 것</b>입니다</dd></div>
+        <div><dt>판단</dt><dd>현업과 실제 작성 절차를 따라가며 확인한 결과, 결재는 <b>“맞는지 확인하는 절차”이지 “실적이 생기는 시점”이 아니었습니다.</b> 두 가지를 분리하기로 했습니다 — 실적은 입력 즉시 반영하고, 결재는 확정·책임 절차로만 남기는 것입니다</dd></div>
+        <div><dt>해결</dt><dd>실적 산정에서 전자결재 의존을 제거하고 <b>입력 즉시 공정률이 재계산</b>되도록 변경했습니다 / 실적이 100% 에 도달하면 액티비티를 자동 종료 처리해 현장이 별도로 닫지 않아도 되게 했습니다</dd></div>
+        <div><dt>결과</dt><dd>입력한 날 바로 공정률에 반영됩니다 — 현장이 화면 숫자를 근거로 쓰기 시작했습니다 / 이 결정이 이후 주간·월간 공정보고와 대시보드의 실시간성까지 함께 살렸습니다</dd></div>
       </div>
     </div>
   </div>
@@ -917,14 +1034,16 @@ footer{
   <div id="d8" data-title="GaiA&amp;CaiRos(PMIS) — 기성관리" data-sub="2026.02 ~ 현재 · 아이디어정보기술 / GaiA-CaiRos · 유레카 연동 4종">
     <h3>Environment</h3>
     <div class="dl">
-      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, MapStruct, Pebble(SSR), TUI Grid, 전자결재, UbiReport</dd></div>
+      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, Pebble(SSR), TUI Grid, UbiReport</dd></div>
       <div><dt>연동 대상</dt><dd>유레카(Eureca) — 기성내역서 작성요청 · 작성완료 조회 · 결재 상태 통보 · 기성 삭제 4종<br>공공가이아(PGaiA) — 결재 연동</dd></div>
       <div><dt>실적 근거</dt><dd>작업일지의 작업 실적 수량 × 단가 — 기성 청구의 원천 데이터 (<code>cw_daily_report_qdb.work_qty</code>)</dd></div>
       <div><dt>이 문서의 용어</dt><dd><ul>
-        <li><b>기성</b> — 공사가 진행된 만큼 나눠 청구하는 공사대금 (1차·2차… 회차로 청구)</li>
-        <li><b>기성내역서</b> — 이번 회차에 무엇을 얼마나 해서 얼마를 청구하는지 적은 문서</li>
-        <li><b>원가계산서</b> — 그 금액이 어떻게 산출됐는지 근거를 푼 문서</li>
-        <li><b>선급금 · 공제금</b> — 미리 받은 돈과 이번 청구에서 빼야 할 돈</li>
+        <li><b>기성:</b>  공사가 진행된 만큼 나눠 청구하는 공사대금 (1차·2차… 회차로 청구)</li>
+        <li><b>기성내역서:</b>  이번 회차에 무엇을 얼마나 해서 얼마를 청구하는지 적은 문서</li>
+        <li><b>원가계산서:</b>  그 금액이 어떻게 산출됐는지 근거를 푼 문서</li>
+        <li><b>선급금 · 공제금:</b>  미리 받은 돈과 이번 청구에서 빼야 할 돈</li>
+        <li><b>카이로스:</b>  이 프로젝트에서 개발하는 PMIS 본체. 계약 · 작업일지 · 기성 같은 현장 업무 화면이 여기 있습니다</li>
+        <li><b>유레카:</b>  공사 금액을 계산하는 외부 시스템. 기성내역서와 원가계산서를 만들어 카이로스로 돌려줍니다</li>
       </ul></dd></div>
       <div><dt>인력 · 기여도</dt><dd>백엔드 중심 풀스택 — 단독 개발/보수</dd></div>
     </div>
@@ -934,12 +1053,12 @@ footer{
     <p>이 업무의 특징은 <b>카이로스 혼자 끝낼 수 없다</b>는 점입니다. 얼마나 했는지(실적)는 작업일지에서 올라오고, 그게 얼마인지(금액) 계산한 내역서와 원가계산서는 외부 시스템인 <b>유레카</b>가 만듭니다. 카이로스는 그 사이에서 회차를 관리하고 받아온 내역을 결재에 올려 확정합니다. 그래서 <b>외부 시스템이 응답하지 않을 때 업무를 어떻게 지킬 것인가</b>가 이 메뉴의 핵심 난이도였습니다.</p>
     <p>기성은 카이로스 혼자 끝낼 수 없는 업무입니다. 회차를 열고 → 유레카에 내역서를 만들어 달라고 요청하고 → 유레카가 작성을 끝내면 그 결과를 받아와 → 결재에 올려 확정하는 <b>왕복 구조</b>입니다.</p>
     <div class="dl">
-      <div><dt>1. 기성 등록</dt><dd>계약·변경계약과 기성 회차를 지정해 기성을 생성. 작업일지 실적과 선급금·공제금을 함께 불러온다</dd></div>
-      <div><dt>2. 내역서 작성요청</dt><dd><code>CAEU0013 registerPrgpymntDtls</code> — 해당 회차의 기성내역서를 작성해 달라고 유레카에 요청</dd></div>
-      <div><dt>3. 작성완료 수신</dt><dd><code>CAEU0014 retrievePrgpymntDtls</code> — 유레카가 작성한 <b>기성내역서와 원가계산서</b>를 받아 화면·DB 에 반영</dd></div>
-      <div><dt>4. 결재 · 확정</dt><dd>전자결재 요청 → 승인·반려. 결과는 <code>CAEU0001 updatePrgpymntAprv</code> 로 유레카에 통보해 양쪽 상태를 맞춘다</dd></div>
-      <div><dt>5. 승인 PDF</dt><dd>승인되면 기성 PDF 를 자동 생성해 통합문서관리에 저장 (단건 · 다건 재생성 지원)</dd></div>
-      <div><dt>삭제</dt><dd><code>CAEU0009 deletePrgpymnt</code> — 기성을 지우면 유레카 쪽 내역서도 함께 정리</dd></div>
+      <div><dt>1. 기성 등록</dt><dd>계약·변경계약과 기성 회차를 지정해 기성을 생성합니다. 작업일지 실적과 선급금·공제금을 함께 불러옵니다</dd></div>
+      <div><dt>2. 내역서 작성요청</dt><dd>해당 회차의 기성내역서를 작성해 달라고 유레카에 요청합니다</dd></div>
+      <div><dt>3. 작성완료 수신</dt><dd>유레카가 작성한 <b>기성내역서와 원가계산서</b>를 받아 화면·DB 에 반영합니다</dd></div>
+      <div><dt>4. 결재 · 확정</dt><dd>전자결재 요청 → 승인·반려. 결과를 유레카에 통보해 양쪽 상태를 맞춥니다</dd></div>
+      <div><dt>5. 승인 PDF</dt><dd>승인되면 기성 PDF 를 자동 생성해 통합문서관리에 저장합니다 (단건 · 다건 재생성 지원)</dd></div>
+      <div><dt>삭제</dt><dd>기성을 지우면 유레카 쪽 내역서도 함께 정리합니다</dd></div>
     </div>
 
     <h3>개발 항목</h3>
@@ -949,16 +1068,16 @@ footer{
       <div><dt>하도급 기성</dt><dd>하도급 업체별 기성 청구·지급 관리</dd></div>
       <div><dt>유레카 연동</dt><dd>내역서 작성요청·수신·상태통보·삭제 4종 개발 및 운영 테스트, API 명세서 작성</dd></div>
       <div><dt>전자결재</dt><dd>기성 결재요청·승인·반려 핸들러 개발, 결재취소 시 데이터 정리</dd></div>
-      <div><dt>리포트</dt><dd>UbiReport 를 대체하는 자체 PDF 서비스로 기성 리포트 전환, 다건 재생성에 실시간 완료 알림(SSE) 적용</dd></div>
+      <div><dt>리포트</dt><dd>기성 리포트 생성 개발, 다건 재생성에 실시간 완료 알림(SSE) 적용</dd></div>
       <div><dt>대시보드 반영</dt><dd>관리기준 성과분석에 기성 집행 현황 표시</dd></div>
     </div>
 
     <h3>성과</h3>
     <ul class="mlist">
-      <li><b>연동 실패가 업무 저장을 되돌리지 않게 됨</b> — 외부 송신을 커밋 이후 실행으로 옮겨, 유레카가 응답하지 않아도 기성 저장은 유지</li>
-      <li><b>모든 기성 송신이 이력에 남음</b> — 요청·응답·성공여부가 자동 적재되어 실패한 건만 골라 재전송할 수 있게 됨</li>
-      <li><b>운영 기성·계약내역서 화면 정상 오픈</b> — 환경별 도메인 설정을 4종(local·dev·test·prod)으로 정리해 이후 변경은 프로퍼티만 수정</li>
-      <li><b>UbiReport 라이선스 의존 제거</b> — 기성 리포트를 자체 PDF 서비스로 전환하고 다건 재생성에 실시간 완료 알림(SSE) 적용</li>
+      <li><b>연동 실패가 업무 저장을 되돌리지 않게 됨</b> — 외부 송신을 커밋 이후 실행으로 옮겨, 유레카가 응답하지 않아도 기성 저장은 유지됩니다</li>
+      <li><b>모든 기성 송신이 이력에 남음</b> — 요청·응답·성공여부가 자동 적재되어 실패한 건만 골라 재전송할 수 있습니다</li>
+      <li><b>운영 기성·계약내역서 화면 정상 오픈</b> — 환경별 도메인 설정을 4종(local·dev·test·prod)으로 정리해 이후 변경은 프로퍼티만 고치면 됩니다</li>
+      <li><b>기성 리포트 다건 재생성 개선</b> — 여러 회차를 한 번에 다시 만들 때 실시간 완료 알림(SSE)으로 진행 상황을 바로 확인할 수 있습니다</li>
     </ul>
 
     <h3>문제 해결</h3>
@@ -966,30 +1085,20 @@ footer{
     <div class="case">
       <div class="case-h"><b>운영 장애</b><span>운영에서 기성·계약내역서 유레카 화면이 열리지 않음</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>운영에서 기성 화면의 「계약내역서 보기」를 누르면 유레카 화면이 뜨지 않음. 개발·테스트 환경에서는 정상이라 코드 문제로 보이지 않았음</dd></div>
-        <div><dt>원인</dt><dd>유레카는 <b>API 를 호출하는 주소와 화면을 띄우는 주소가 다르다</b>. 그런데 운영 설정의 <code>eureca.contractListViewDomain</code>·<code>eureca.paymentListViewDomain</code> 에 API 도메인 값이 들어가 있어, 화면 요청이 화면을 서비스하지 않는 주소로 나갔음</dd></div>
-        <div><dt>해결</dt><dd>운영 프로퍼티의 화면 열기 도메인을 실제 화면 서비스 주소로 정정 / 업무별로 열어야 하는 주소가 다른 점(기성·계약내역서 ↔ 실정보고)을 <b>설정 키로 분리</b>해 한쪽을 고쳐도 다른 쪽이 깨지지 않게 함</dd></div>
-        <div><dt>결과</dt><dd>운영 기성·계약내역서 화면 정상 오픈 / 환경별 도메인 설정이 4종(local·dev·test·prod)으로 정리되어 이후 도메인 변경은 프로퍼티만 고치면 됨</dd></div>
+        <div><dt>문제</dt><dd>운영에서 기성 화면의 「계약내역서 보기」를 누르면 유레카 화면이 뜨지 않았습니다. 개발·테스트 환경에서는 정상이라 코드 문제로 보이지 않았습니다</dd></div>
+        <div><dt>원인</dt><dd>유레카는 <b>API 를 호출하는 주소와 화면을 띄우는 주소가 다릅니다</b>. 그런데 운영 설정의 <code>eureca.contractListViewDomain</code>·<code>eureca.paymentListViewDomain</code> 에 API 도메인 값이 들어가 있어, 화면 요청이 화면을 서비스하지 않는 주소로 나갔습니다</dd></div>
+        <div><dt>해결</dt><dd>운영 프로퍼티의 화면 열기 도메인을 실제 화면 서비스 주소로 정정했습니다 / 업무별로 열어야 하는 주소가 다른 점(기성·계약내역서 ↔ 실정보고)을 <b>설정 키로 분리</b>해 한쪽을 고쳐도 다른 쪽이 깨지지 않게 했습니다</dd></div>
+        <div><dt>결과</dt><dd>운영 기성·계약내역서 화면이 정상적으로 열립니다 / 환경별 도메인 설정이 4종(local·dev·test·prod)으로 정리되어, 이후 도메인 변경은 프로퍼티만 고치면 됩니다</dd></div>
       </div>
     </div>
 
     <div class="case">
       <div class="case-h"><b>구조</b><span>연동 실패가 업무 저장을 되돌리는 문제</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>기성·계약 정보를 외부로 보내는 경로가 메뉴마다 흩어져 있어 어떤 건 연동 이력이 남고 어떤 건 남지 않았음. 유레카가 응답하지 않으면 업무 저장까지 함께 실패하는 흐름도 있었음</dd></div>
-        <div><dt>원인</dt><dd>각 메뉴가 REST 클라이언트를 직접 호출했고, 이력 적재가 개발자 재량이었음 / 외부 호출이 업무 트랜잭션 안에 있어 상대 시스템 상태가 우리 업무에 직접 영향을 줬음</dd></div>
-        <div><dt>해결</dt><dd>계약·기성 대외송신을 <b>공통 창구 하나로 통합</b>해 이력이 자동으로 쌓이게 함 / 외부 송신을 <b>커밋 이후 실행</b>으로 옮겨 전송이 실패해도 업무 저장은 유지되게 함</dd></div>
-        <div><dt>결과</dt><dd>모든 기성 송신이 요청·응답·성공여부와 함께 이력에 남아, 실패한 건만 골라 다시 보낼 수 있게 됨 (자세한 내용은 「시스템 API 연계」 참조)</dd></div>
-      </div>
-    </div>
-
-    <div class="case">
-      <div class="case-h"><b>발견 · 기록</b><span>연동 이력에서 계약 삭제와 기성 삭제를 구분할 수 없다</span></div>
-      <div class="dl">
-        <div><dt>문제</dt><dd>연동 이력을 보면 <code>CAEU0009</code> 로 남은 건이 <b>계약 삭제인지 기성 삭제인지 알 수 없음</b>. 장애 추적 시 어느 업무에서 나간 요청인지 특정이 안 됨</dd></div>
-        <div><dt>원인</dt><dd>계약 삭제(<code>deleteCnstwk</code>)와 기성 삭제(<code>deletePrgpymnt</code>)가 같은 인터페이스 식별값을 쓰고 있었음</dd></div>
-        <div><dt>판단</dt><dd>인터페이스 식별값은 <b>상대 시스템과 합의한 외부 계약</b>이라 임의로 바꾸면 유레카 쪽 처리가 깨질 수 있음. 코드를 고치지 않고 <b>연동 인벤토리 문서에 「확인 필요」로 등재</b>해 유레카와 합의 후 정정하도록 남김</dd></div>
-        <div><dt>결과</dt><dd>추측으로 외부 규격을 건드리지 않으면서도 문제가 잊히지 않게 기록 / 같은 기준으로 연동 전수를 훑어 확인 필요 항목을 함께 정리</dd></div>
+        <div><dt>문제</dt><dd>기성·계약 정보를 외부로 보내는 경로가 메뉴마다 흩어져 있어 어떤 건 연동 이력이 남고 어떤 건 남지 않았습니다. 유레카가 응답하지 않으면 업무 저장까지 함께 실패하는 흐름도 있었습니다</dd></div>
+        <div><dt>원인</dt><dd>각 메뉴가 REST 클라이언트를 직접 호출했고, 이력 적재가 개발자 재량이었습니다 / 외부 호출이 업무 트랜잭션 안에 있어 상대 시스템 상태가 우리 업무에 직접 영향을 줬습니다</dd></div>
+        <div><dt>해결</dt><dd>계약·기성 대외송신을 <b>공통 창구 하나로 통합</b>해 이력이 자동으로 쌓이게 했습니다 / 외부 송신을 <b>커밋 이후 실행</b>으로 옮겨 전송이 실패해도 업무 저장은 유지되게 했습니다</dd></div>
+        <div><dt>결과</dt><dd>모든 기성 송신이 요청·응답·성공여부와 함께 이력에 남아, 실패한 건만 골라 다시 보낼 수 있게 됐습니다 (자세한 내용은 「시스템 API 연계」 참조)</dd></div>
       </div>
     </div>
   </div>
@@ -998,14 +1107,14 @@ footer{
   <div id="d9" data-title="GaiA&amp;CaiRos(PMIS) — 계약관리" data-sub="2026.02 ~ 현재 · 아이디어정보기술 / GaiA-CaiRos · 외부 3개 시스템 규격 통일">
     <h3>Environment</h3>
     <div class="dl">
-      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, MapStruct, Pebble(SSR), TUI Grid</dd></div>
+      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, Pebble(SSR), TUI Grid</dd></div>
       <div><dt>연동 대상</dt><dd>유레카(Eureca) · PAD(PAD+S) · PNS — 계약 등록 · 수정 · 변경계약 등록 · 수정 · 삭제 · 도급사 · 하도급</dd></div>
-      <div><dt>데이터 규모</dt><dd>운영 계약 658건 — 이 계약을 기준으로 기성 · 실정보고 · 작업일지 · 공정보고가 파생된다</dd></div>
+      <div><dt>데이터 규모</dt><dd>운영 계약 658건 — 이 계약을 기준으로 기성 · 실정보고 · 작업일지 · 공정보고가 파생됩니다</dd></div>
       <div><dt>인력 · 기여도</dt><dd>백엔드 중심 풀스택 — 단독 개발/보수</dd></div>
       <div><dt>이 문서의 용어</dt><dd><ul>
-        <li><b>변경계약</b> — 공사 중 금액·기간이 바뀌면 원계약을 고치지 않고 차수를 더해 관리한다</li>
-        <li><b>도급사</b> — 발주처와 직접 계약한 시공사 / <b>하도급</b> — 도급사가 다시 맡긴 협력업체</li>
-        <li><b>유레카 · PAD · PNS</b> — 계약정보를 함께 써야 하는 사내·외부 시스템 3곳</li>
+        <li><b>변경계약:</b>  공사 중 금액·기간이 바뀌면 원계약을 고치지 않고 차수를 더해 관리</li>
+        <li><b>도급사:</b>  발주처와 직접 계약한 시공사 / <b>하도급</b> — 도급사가 다시 맡긴 협력업체</li>
+        <li><b>유레카 · PAD · PNS:</b>  계약정보를 함께 써야 하는 사내·외부 시스템 3곳</li>
       </ul></dd></div>
     </div>
 
@@ -1015,34 +1124,34 @@ footer{
     <p>계약 화면에서 저장 한 번을 누르면 세 시스템으로 요청이 나갑니다. 그런데 세 시스템이 요구하는 <b>항목 이름·일시 형식·필수값·도급사 처리 방식이 모두 달랐습니다.</b> 그래서 메뉴마다 각 시스템용 요청 값을 따로 만들고 있었고, 계약 항목이 하나 늘면 세 곳을 각각 고쳐야 했습니다. 한 곳을 빠뜨리면 그 시스템만 조용히 옛 값을 받았습니다.</p>
     <div class="dl">
       <div><dt>통일 전</dt><dd><ul>
-        <li>같은 계약정보인데 <b>시스템별로 요청 값을 만드는 코드가 따로</b> 있었다</li>
-        <li>항목이 겹치는데도 이름과 일시 형식이 서로 달라, 어느 쪽이 정본인지 코드만 봐서는 알 수 없었다</li>
-        <li>도급사를 몇 건 보내는지, 어떤 도급사를 보내는지 기준이 흐렸다</li>
-        <li>PAD 로 나가는 요청이 아이큐브와 사실상 같은 자료인데도 별도 규격으로 관리됐다</li>
+        <li>같은 계약정보인데 <b>시스템별로 요청 값을 만드는 코드가 따로</b> 있었습니다</li>
+        <li>항목이 겹치는데도 이름과 일시 형식이 서로 달라, 어느 쪽이 정본인지 코드만 봐서는 알 수 없었습니다</li>
+        <li>도급사를 몇 건 보내는지, 어떤 도급사를 보내는지 기준이 흐렸습니다</li>
+        <li>PAD 로 나가는 요청이 아이큐브와 사실상 같은 자료인데도 별도 규격으로 관리됐습니다</li>
       </ul></dd></div>
       <div><dt>통일 후</dt><dd><ul>
-        <li><b>보낼 값의 정의를 <code>ContractSyncData</code> 한 곳에 모았다</b> — 계약·공사·프로젝트 원본을 담아두고, 각 시스템이 요구하는 모양은 여기서 만들어 준다</li>
-        <li>일시 형식을 명세서가 요구하는 <code>yyyyMMddHHmmss</code> 하나로 통일했다</li>
-        <li><b>도급사는 한 건만 보낸다</b>로 규칙을 정했다 — 신규 등록은 그때 등록한 대표 도급사, 그 외에는 계약의 대표 도급사</li>
-        <li>PAD 요청을 아이큐브와 같은 요청 자료로 통합했다</li>
-        <li>공사담당자 ID 기본값처럼 <b>실행 환경(운영/개발)에 따라 달라지는 값</b>은 값을 만드는 쪽이 아니라 보내는 쪽에서 정하도록 책임을 분리했다</li>
+        <li><b>보낼 값의 정의를 <code>ContractSyncData</code> 한 곳에 모았습니다</b> — 계약·공사·프로젝트 원본을 담아두고, 각 시스템이 요구하는 모양은 여기서 만들어 줍니다</li>
+        <li>일시 형식을 명세서가 요구하는 <code>yyyyMMddHHmmss</code> 하나로 통일했습니다</li>
+        <li><b>도급사는 한 건만 보낸다</b>로 규칙을 정했습니다 — 신규 등록은 그때 등록한 대표 도급사, 그 외에는 계약의 대표 도급사</li>
+        <li>PAD 요청을 아이큐브와 같은 요청 자료로 통합했습니다</li>
+        <li>공사담당자 ID 기본값처럼 <b>실행 환경(운영/개발)에 따라 달라지는 값</b>은 값을 만드는 쪽이 아니라 보내는 쪽에서 정하도록 책임을 분리했습니다</li>
       </ul></dd></div>
     </div>
 
     <h4>송신 흐름</h4>
     <p>네 가지 업무 행위를 <code>ContractSyncComponent.sync()</code> 한 곳으로 모았습니다. 순서에 의존하는 부분이 하나 있어 그것만 명시적으로 다룹니다.</p>
     <div class="dl">
-      <div><dt>송신 트리거 4종</dt><dd><code>CREATE_CONTRACT</code> 계약등록 · <code>UPDATE_CONTRACT</code> 계약수정 · <code>CREATE_CHANGE</code> 변경계약등록 · <code>UPDATE_CHANGE</code> 변경계약수정</dd></div>
-      <div><dt>아이큐브(PNS) 먼저</dt><dd>PNS 코드를 아이큐브가 발급하므로 먼저 보내 받아둔다. 그 값을 PAD 요청에 함께 넘긴다</dd></div>
-      <div><dt>PAD 다음</dt><dd>아이큐브 전송이 실패해 PNS 코드를 받지 못하면 <b>그 자리를 빈값으로 두고 PAD 전송은 그대로 진행</b>한다 — 한 곳이 실패해도 나머지는 멈추지 않는다</dd></div>
-      <div><dt>유레카</dt><dd>요구 규격이 다른 계통이라 계약 화면이 직접 보낸다 (<code>CAEU0007 registerCnstwk</code> · <code>CAEU0008 registerCntrct</code> · <code>CAEU0009 deleteCnstwk</code>)</dd></div>
-      <div><dt>실행 시점</dt><dd>모든 송신은 <b>업무 저장이 커밋된 뒤</b> 실행한다. 외부 시스템이 응답하지 않아도 계약 저장은 유지된다</dd></div>
+      <div><dt>송신 트리거 4종</dt><dd>계약등록 · 계약수정 · 변경계약등록 · 변경계약수정</dd></div>
+      <div><dt>아이큐브(PNS) 먼저</dt><dd>PNS 코드를 아이큐브가 발급하므로 먼저 보내 받아둡니다. 그 값을 PAD 요청에 함께 넘깁니다</dd></div>
+      <div><dt>PAD 다음</dt><dd>아이큐브 전송이 실패해 PNS 코드를 받지 못하면 <b>그 자리를 빈값으로 두고 PAD 전송은 그대로 진행</b>합니다 — 한 곳이 실패해도 나머지는 멈추지 않습니다</dd></div>
+      <div><dt>유레카</dt><dd>요구 규격이 다른 계통이라 계약 화면이 직접 보냅니다 (공사 등록 · 계약 등록 · 공사 삭제)</dd></div>
+      <div><dt>실행 시점</dt><dd>모든 송신은 <b>업무 저장이 커밋된 뒤</b> 실행합니다. 외부 시스템이 응답하지 않아도 계약 저장은 유지됩니다</dd></div>
     </div>
 
     <h3>개발 항목</h3>
     <div class="dl">
       <div><dt>계약 관리</dt><dd>계약 목록 · 상세 · 등록 · 수정 · 삭제, 변경계약(차수) 관리, 장기계속계약 처리</dd></div>
-      <div><dt>도급사 · 하도급</dt><dd>도급사 등록 · 수정 · 삭제, 하도급 계약 등록 및 PAD 송신(<code>CAPD0003</code> · <code>CAPD0004</code>)</dd></div>
+      <div><dt>도급사 · 하도급</dt><dd>도급사 등록 · 수정 · 삭제, 하도급 계약 등록 및 PAD 송신</dd></div>
       <div><dt>대외 송신</dt><dd>유레카 · PAD · PNS 3개 시스템 송신 개발, 요청 자료 규격 통합, 시스템별 전송 클라이언트 분리</dd></div>
       <div><dt>연동 이력</dt><dd>모든 계약 송신이 이력에 자동으로 남게 창구 일원화, 이력에 남는 개인정보 · 금융정보 마스킹 적용</dd></div>
       <div><dt>대시보드</dt><dd>계약현황 표시 및 자동배치 안정화</dd></div>
@@ -1050,10 +1159,10 @@ footer{
 
     <h3>성과</h3>
     <ul class="mlist">
-      <li><b>계약 항목이 늘어도 고칠 곳이 한 군데</b> — 세 시스템으로 흩어져 있던 요청 값 정의를 한 곳으로 모아, 한쪽만 빠뜨려 옛 값이 나가는 누락이 재발하지 않는 구조로 전환</li>
-      <li><b>계약 저장 교착 재발 없음</b> — 외부 송신을 커밋 이후 실행으로 옮겨 “트랜잭션 안에서 외부 시스템을 호출하지 않는다”를 팀 규칙으로 문서화</li>
-      <li><b>필수값 누락 · 보증금 미입력 · PNS 등록 오류 해소</b> — 시스템별 필수값을 요청 생성 지점에서 함께 채우도록 정리</li>
-      <li><b>어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됨</b> — 클래스명 · 설정 · 연동 이력의 시스템 이름을 일치시킴</li>
+      <li><b>계약 항목이 늘어도 고칠 곳이 한 군데</b> — 세 시스템으로 흩어져 있던 요청 값 정의를 한 곳으로 모아, 한쪽만 빠뜨려 옛 값이 나가는 누락이 재발하지 않는 구조로 바꿨습니다</li>
+      <li><b>계약 저장 교착 재발 없음</b> — 외부 송신을 커밋 이후 실행으로 옮겨 “트랜잭션 안에서 외부 시스템을 호출하지 않는다”를 팀 규칙으로 문서화했습니다</li>
+      <li><b>필수값 누락 · 보증금 미입력 · PNS 등록 오류 해소</b> — 시스템별 필수값을 요청 생성 지점에서 함께 채우도록 정리했습니다</li>
+      <li><b>어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됨</b> — 클래스명 · 설정 · 연동 이력의 시스템 이름을 일치시켰습니다</li>
     </ul>
 
     <h3>문제 해결</h3>
@@ -1061,30 +1170,30 @@ footer{
     <div class="case">
       <div class="case-h"><b>구조</b><span>이름과 실체가 다른 연동 — 아이큐브 이름으로 PNS 로 나가고 있었다</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>계약 등록·변경 전송이 <b>아이큐브 이름으로 관리되고 있었지만 실제로는 PNS 로 나가고</b> 있었음. 코드를 처음 보는 사람은 어느 시스템으로 무엇이 가는지 알 수 없었고, 연동 이력의 시스템 이름도 실제와 달랐음</dd></div>
-        <div><dt>원인</dt><dd>연동 대상이 바뀌는 과정에서 클라이언트 클래스명과 설정 파일만 그대로 남았음 — 이름은 관성으로 유지되고 실체만 옮겨간 상태</dd></div>
-        <div><dt>해결</dt><dd>로그인 · 토큰 · 계약등록 로직을 <code>PnsClient</code> 로 분리하고 전용 설정 파일(<code>pns-*.properties</code>)을 신설 / 같은 기준으로 연동 전수를 훑어, 수집처가 바뀐 CSI 사고사례 연동도 함께 정리</dd></div>
-        <div><dt>결과</dt><dd>클래스명 · 설정 · 연동 이력의 시스템 이름이 일치 / 어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됨</dd></div>
+        <div><dt>문제</dt><dd>계약 등록·변경 전송이 <b>아이큐브 이름으로 관리되고 있었지만 실제로는 PNS 로 나가고</b> 있었습니다. 코드를 처음 보는 사람은 어느 시스템으로 무엇이 가는지 알 수 없었고, 연동 이력의 시스템 이름도 실제와 달랐습니다</dd></div>
+        <div><dt>원인</dt><dd>연동 대상이 바뀌는 과정에서 클라이언트 클래스명과 설정 파일만 그대로 남았습니다 — 이름은 관성으로 유지되고 실체만 옮겨간 상태였습니다</dd></div>
+        <div><dt>해결</dt><dd>로그인 · 토큰 · 계약등록 로직을 <code>PnsClient</code> 로 분리하고 전용 설정 파일(<code>pns-*.properties</code>)을 신설했습니다 / 같은 기준으로 연동 전수를 훑어, 수집처가 바뀐 CSI 사고사례 연동도 함께 정리했습니다</dd></div>
+        <div><dt>결과</dt><dd>클래스명 · 설정 · 연동 이력의 시스템 이름이 일치합니다 / 어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됐습니다</dd></div>
       </div>
     </div>
 
     <div class="case">
       <div class="case-h"><b>장애</b><span>계약 저장이 응답 없이 멈춤 (자기 교착)</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>계약 수정 저장이 응답 없이 멈추고, 같은 계약을 저장한 이후 요청들이 뒤에 줄줄이 매달림(8건). 사용자에게는 화면이 영원히 로딩 중으로 보였음</dd></div>
-        <div><dt>원인</dt><dd>계약 행을 잠근 <b>미확정 트랜잭션 상태에서 외부 3개 시스템을 호출</b>하고, 응답값을 저장하는 처리가 별도 커넥션에서 같은 행을 UPDATE 해 자기 교착이 발생</dd></div>
-        <div><dt>해결</dt><dd>외부 송신 전체를 커밋 이후 실행으로 옮기고 4개 흐름에 모두 적용 (진단 과정과 상세는 「서비스 운영 및 장애 대응」 참조)</dd></div>
-        <div><dt>결과</dt><dd>교착 재발 없음 / <b>“트랜잭션 안에서 외부 시스템을 호출하지 않는다”</b>를 팀 규칙으로 문서화</dd></div>
+        <div><dt>문제</dt><dd>계약 수정 저장이 응답 없이 멈추고, 같은 계약을 저장한 이후 요청들이 뒤에 줄줄이 매달렸습니다(8건). 사용자에게는 화면이 영원히 로딩 중으로 보였습니다</dd></div>
+        <div><dt>원인</dt><dd>계약 행을 잠근 <b>미확정 트랜잭션 상태에서 외부 3개 시스템을 호출</b>하고, 응답값을 저장하는 처리가 별도 커넥션에서 같은 행을 UPDATE 해 자기 교착이 발생했습니다</dd></div>
+        <div><dt>해결</dt><dd>외부 송신 전체를 커밋 이후 실행으로 옮기고 4개 흐름에 모두 적용했습니다 (진단 과정과 상세는 「서비스 운영 및 장애 대응」 참조)</dd></div>
+        <div><dt>결과</dt><dd>이후 교착이 재발하지 않았습니다 / <b>“트랜잭션 안에서 외부 시스템을 호출하지 않는다”</b>를 팀 규칙으로 문서화했습니다</dd></div>
       </div>
     </div>
 
     <div class="case">
       <div class="case-h"><b>연동 결함</b><span>필수값 누락·예외 케이스로 전송이 실패하던 건</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>계약 저장은 되는데 외부 전송만 실패하는 건들이 있었음 — 상대 시스템이 요구하는 필수값이 비어 나가거나, 계약보증금처럼 값이 없을 수 있는 항목에서 오류가 났음</dd></div>
-        <div><dt>원인</dt><dd>세 시스템의 필수값 기준이 서로 달라 한 시스템 기준으로만 채워 보내고 있었음 / 값이 없을 수 있는 항목을 없다고 가정하지 않은 코드가 남아 있었음</dd></div>
-        <div><dt>해결</dt><dd>규격을 통일하면서 <b>시스템별 필수값을 요청 생성 지점에서 함께 채우도록</b> 정리 / 값이 없을 수 있는 항목은 기본값 처리, 연동 이력에서 실패 사유를 바로 볼 수 있게 로그 보강</dd></div>
-        <div><dt>결과</dt><dd>필수값 누락 · 보증금 미입력 · PNS 등록 오류 건 해소 / 항목이 하나 늘어도 <b>고칠 곳이 한 군데</b>라 같은 유형의 누락이 재발하지 않는 구조가 됨</dd></div>
+        <div><dt>문제</dt><dd>계약 저장은 되는데 외부 전송만 실패하는 건들이 있었습니다 — 상대 시스템이 요구하는 필수값이 비어 나가거나, 계약보증금처럼 값이 없을 수 있는 항목에서 오류가 났습니다</dd></div>
+        <div><dt>원인</dt><dd>세 시스템의 필수값 기준이 서로 달라 한 시스템 기준으로만 채워 보내고 있었습니다 / 값이 없을 수 있는 항목을 없다고 가정하지 않은 코드가 남아 있었습니다</dd></div>
+        <div><dt>해결</dt><dd>규격을 통일하면서 <b>시스템별 필수값을 요청 생성 지점에서 함께 채우도록</b> 정리했습니다 / 값이 없을 수 있는 항목은 기본값으로 처리하고, 연동 이력에서 실패 사유를 바로 볼 수 있게 로그를 보강했습니다</dd></div>
+        <div><dt>결과</dt><dd>필수값 누락 · 보증금 미입력 · PNS 등록 오류 건을 해소했습니다 / 항목이 하나 늘어도 <b>고칠 곳이 한 군데</b>라 같은 유형의 누락이 재발하지 않는 구조가 됐습니다</dd></div>
       </div>
     </div>
   </div>
@@ -1093,17 +1202,17 @@ footer{
   <div id="d10" data-title="GaiA&amp;CaiRos(PMIS) — 위험성평가" data-sub="2026.06 ~ 2026.08 · 아이디어정보기술 / GaiA-CaiRos · 신규 메뉴 단독 구축 후 인수인계">
     <h3>Environment</h3>
     <div class="dl">
-      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, MapStruct, Pebble(SSR), TUI Grid, 전자결재, 공공가이아 연동</dd></div>
+      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, Pebble(SSR), TUI Grid, 전자결재, 공공가이아 연동</dd></div>
       <div><dt>데이터 규모</dt><dd>표준 위험요인 라이브러리 28,678행 (국토안전관리원 원본 CSV 55,546행을 코드 체계로 치환)<br>계약 공종 ↔ 표준 공종 매핑 976행 / 수집된 CSI 사고사례 2,831건 / 화면이 쓰는 API 엔드포인트 30종</dd></div>
       <div><dt>법적 근거</dt><dd>산업안전보건법 제36조 — 위험성평가 실시 · 기록 · 보존 의무</dd></div>
-      <div><dt>인력 · 기여도</dt><dd>백엔드 중심 풀스택 — 신규 메뉴를 0 에서 단독 구축(2026.06 ~ 08)한 뒤 다음 담당자에게 인수인계<br>업무 설명서 3종을 함께 남겨 인수인계 후에도 그 문서를 기준으로 개발이 이어짐</dd></div>
+      <div><dt>인력 · 기여도</dt><dd>백엔드 중심 풀스택 — 신규 메뉴를 0 에서 단독 구축(2026.06 ~ 08)한 뒤 다음 담당자에게 인수인계<br>업무 설명서 3종을 함께 남겨 인수인계 후에도 그 문서를 기준으로 개발이 이어집니다</dd></div>
       <div><dt>이 문서의 용어</dt><dd><ul>
-        <li><b>위험성평가</b> — 작업을 시작하기 전에 어떤 위험이 있는지 미리 찾아 적고 대책을 세우는 법정 문서</li>
-        <li><b>위험요인</b> — 그 작업에서 사람이 다칠 수 있는 구체적인 상황 (예: 개구부 주변 추락)</li>
-        <li><b>공종(CBS)</b> — 평가 대상이 되는 작업 단위. 계약 내역의 말단 항목</li>
-        <li><b>위험성 = 빈도 × 강도</b> — 얼마나 자주 일어나는지 × 일어나면 얼마나 크게 다치는지</li>
-        <li><b>CSI 사고사례</b> — 한국산업안전보건공단이 공개한 실제 건설 사고 기록</li>
-        <li><b>TBM</b> — 매일 작업 직전 5~15분, 그날 조심할 위험을 작업자에게 알려주는 현장 미팅</li>
+        <li><b>위험성평가:</b>  작업을 시작하기 전에 어떤 위험이 있는지 미리 찾아 적고 대책을 세우는 법정 문서</li>
+        <li><b>위험요인:</b>  그 작업에서 사람이 다칠 수 있는 구체적인 상황 (예: 개구부 주변 추락)</li>
+        <li><b>공종(CBS):</b>  평가 대상이 되는 작업 단위. 계약 내역의 말단 항목</li>
+        <li><b>위험성 = 빈도 × 강도:</b>  얼마나 자주 일어나는지 × 일어나면 얼마나 크게 다치는지</li>
+        <li><b>CSI 사고사례:</b>  한국산업안전보건공단이 공개한 실제 건설 사고 기록</li>
+        <li><b>TBM:</b>  매일 작업 직전 5~15분, 그날 조심할 위험을 작업자에게 알려주는 현장 미팅</li>
       </ul></dd></div>
     </div>
 
@@ -1128,24 +1237,30 @@ footer{
 
     <h3>개발 항목</h3>
     <div class="dl">
-      <div><dt>평가 작성 · 관리</dt><dd><ul>
-        <li>목록 화면 — 리스크 매트릭스 · 위험요인 · 평가 탭, 하도급사별 공종 배정 현황</li>
-        <li>2단계 작성 위저드 — 대상 공종 선택 후 공종별 위험요인 작성</li>
+      <div><dt>설계</dt><dd><ul>
+        <li>업무 흐름 — 현장이 쓰던 평가표와 위험요인 목록을 분석해 작성 → 결재 → 산출물 경로를 정의</li>
+        <li>표준 코드 매핑 — 국토안전관리원 위험요소와 공단 사고사례를 사내 공통코드로 연결 (공종 47종 크로스워크)</li>
+        <li>DB — 평가 · 위험요인 · 표준 라이브러리 · 사고사례 테이블. 계약 공종 매핑은 별도 테이블로 분리</li>
+        <li>화면 · 리포트 — 목록 · 2단계 작성 위저드 · 가져오기 팝업 4종, 법정 평가표 PDF 양식</li>
+      </ul></dd></div>
+      <div><dt>평가 작성</dt><dd><ul>
+        <li>목록 — 리스크 매트릭스 · 위험요인 · 평가 탭, 하도급사별 공종 배정 현황</li>
+        <li>2단계 위저드 — 대상 공종을 고른 뒤 공종별로 위험요인 작성</li>
+        <li>위험성 점수 개편 — 3×3 에서 빈도 5단계로. 점수는 백엔드가 빈도 × 강도로 산정, 등급 구간은 공통코드에서 조회</li>
         <li>조회 전용 화면 분리, 평가 복사 · 삭제, 변경 내역 감사 이력</li>
-        <li>위험성 매트릭스를 3×3 에서 빈도 5단계 기반 점수 체계로 개편 — 점수는 백엔드가 빈도 × 강도로 산정하고 등급 구간은 공통코드 설정값 참조</li>
       </ul></dd></div>
-      <div><dt>평가의 입력 원천</dt><dd><ul>
-        <li>표준 위험요인 라이브러리 구축 — 국토안전관리원 자료를 공통코드 체계로 치환해 적재하고 계약 공종과 매핑</li>
-        <li>CSI 사고사례 — 수집 배치, 우리 현장 사례 / 전체 토글, 심각도 탭, 공종 · 사고유형 분포 차트</li>
-        <li>현장 위험발굴 자료 연계 — 평가에 반영되면 원본에 반영 이력을 남기고, 평가에서 빼면 다시 후보로 복원</li>
-        <li>직접입력 포함 4종의 출처를 한 화면에서 섞어 쓸 수 있게 구성</li>
+      <div><dt>입력 원천</dt><dd><ul>
+        <li>표준 위험요인 라이브러리 — 국토안전관리원 자료를 공통코드로 치환해 적재하고 계약 공종과 매핑</li>
+        <li>CSI 사고사례 — 사고 발생일 기간 단위로 모아 마지막에 한 번에 저장. 수집하는 동안 기존 자료는 그대로 유지</li>
+        <li>현장 위험발굴 — 평가에 넣으면 원본에 이력을 남기고, 평가에서 빼면 다시 후보로 복원</li>
+        <li>직접입력까지 네 가지 출처를 한 화면에서 함께 사용</li>
       </ul></dd></div>
-      <div><dt>결재 · 산출물 · 연계</dt><dd><ul>
-        <li>전자결재 요청 · 승인 · 반려, 공종 재작성요청 흐름</li>
-        <li>승인 시 평가표 PDF 자동 생성 후 통합문서관리 저장, 미리보기(단건 · 다건), 결재취소 시 문서 연결 보존</li>
-        <li>하도급 위험성평가 메뉴 신설 — 협력사가 배정받은 공종만 작성</li>
-        <li>공공가이아 결재 연동, 수집한 사고사례를 공공가이아로 전달</li>
-        <li>안전 기초데이터 관리 메뉴 — 사고가능성 · 심각성 · 등급 구간을 화면에서 설정</li>
+      <div><dt>결재 · 산출물</dt><dd><ul>
+        <li>전자결재 요청 · 승인 · 반려, 공종 재작성요청</li>
+        <li>승인하면 평가표 PDF 가 자동 생성돼 통합문서관리에 저장. 결재를 취소해도 문서 연결은 유지</li>
+        <li>하도급 위험성평가 메뉴 — 협력사가 배정받은 공종만 작성</li>
+        <li>공공가이아 결재 연동, 수집한 사고사례 전달</li>
+        <li>안전 기초데이터 관리 — 사고가능성 · 심각성 · 등급 구간을 화면에서 설정</li>
       </ul></dd></div>
     </div>
 
@@ -1153,17 +1268,17 @@ footer{
 
     <h4>현업 성과 — 사람이 하던 일이 어떻게 바뀌었나</h4>
     <ul class="mlist">
-      <li><b>백지에서 시작하지 않게 됨</b> — 공종을 고르면 그 공종의 표준 위험요인과 실제 사고사례가 후보로 뜹니다. 안전관리자가 <b>기억에 의존해 떠올리던 작업이 고르고 다듬는 작업</b>으로 바뀌었고, 현장마다 다르던 평가 수준이 같은 자료 위에서 출발하게 됨</li>
-      <li><b>법정 서식이 그대로 산출됨</b> — 결재가 승인되면 평가표 PDF 가 자동 생성돼 통합문서관리에 저장됩니다. 승인과 별개로 문서를 따로 만들어 보관하던 작업이 사라짐</li>
-      <li><b>평가가 현장까지 도달함</b> — 위험요인이 TBM · 일일점검으로 흘러가, <b>문서로만 남던 평가 결과가 매일 아침 작업자에게 전달되는 경로</b>가 생김</li>
-      <li><b>협력사도 시스템 안에서 작성</b> — 하도급 메뉴를 신설해, 배정받은 공종을 협력사가 직접 작성하고 원도급이 그것을 모아 결재로 올림</li>
+      <li><b>백지에서 시작하지 않게 됨</b> — 공종을 고르면 그 공종의 표준 위험요인과 실제 사고사례가 후보로 뜹니다. 안전관리자가 <b>기억에 의존해 떠올리던 작업이 고르고 다듬는 작업</b>으로 바뀌었고, 현장마다 다르던 평가 수준이 같은 자료 위에서 출발합니다</li>
+      <li><b>법정 서식이 그대로 산출됨</b> — 결재가 승인되면 평가표 PDF 가 자동 생성돼 통합문서관리에 저장됩니다. 승인과 별개로 문서를 따로 만들어 보관하던 작업이 사라졌습니다</li>
+      <li><b>평가가 현장까지 도달함</b> — 위험요인이 TBM · 일일점검으로 흘러가, <b>문서로만 남던 평가 결과가 매일 아침 작업자에게 전달되는 경로</b>가 생겼습니다</li>
+      <li><b>협력사도 시스템 안에서 작성</b> — 하도급 메뉴를 신설해, 배정받은 공종을 협력사가 직접 작성하고 원도급이 그것을 모아 결재로 올립니다</li>
     </ul>
 
     <h4>시스템 성과</h4>
     <ul class="mlist">
       <li><b>표준 라이브러리 조회 177ms → 10ms (약 18배)</b> — 계약 공종으로 좁혀 보는 경로는 <b>3,728ms → 129ms (약 29배)</b></li>
-      <li><b>위험요인 원장을 한 곳으로 고정</b> — 위험요인은 위험성평가에서만 생성하고 TBM · 일일점검은 참조만 하도록 정리. 같은 위험요인이 메뉴마다 따로 생겨 서로 어긋나는 구조를 <b>처음부터 차단</b></li>
-      <li><b>구축 후 인수인계 완료</b> — 업무 프로세스 · 도메인 관통 흐름 · 표준 데이터 유래 3종을 문서로 남겨, <b>다음 담당자가 코드를 역추적하지 않고 이어받음</b></li>
+      <li><b>위험요인 원장을 한 곳으로 고정</b> — 위험요인은 위험성평가에서만 생성하고 TBM · 일일점검은 참조만 하도록 정리했습니다. 같은 위험요인이 메뉴마다 따로 생겨 서로 어긋나는 구조를 <b>처음부터 차단했습니다</b></li>
+      <li><b>구축 후 인수인계 완료</b> — 업무 프로세스 · 도메인 관통 흐름 · 표준 데이터 유래 3종을 문서로 남겨, <b>다음 담당자가 코드를 역추적하지 않고 이어받았습니다</b></li>
     </ul>
 
     <h3>문제 해결</h3>
@@ -1171,21 +1286,21 @@ footer{
     <div class="case">
       <div class="case-h"><b>데이터 설계</b><span>국토안전관리원 자료를 우리 현장 공종에 어떻게 붙일 것인가</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>국토안전관리원 위험요소 자료는 <b>55,546행짜리 CSV</b> 인데 컬럼이 전부 한글 이름(공종명 · 사고대상명 …)이었음. 카이로스 계약 공종과 이름만으로는 이어지지 않아, 평가 화면에서 “이 공종의 위험요인”을 뽑아낼 방법이 없었음</dd></div>
-        <div><dt>초기 설계</dt><dd>양쪽을 잇는 <b>자체 코드 체계를 새로 만드는</b> 방향으로 설계했음</dd></div>
-        <div><dt>판단</dt><dd>자체 코드는 우리만 아는 값이라 <b>다른 안전 데이터가 들어올 때마다 매핑표를 새로 만들어야</b> 함. 확인해 보니 <b>공단 사고사례가 이미 종합정보망 공통코드를 쓰고 있었음</b> — 그 코드를 쓰면 위험요소와 사고사례를 같은 키로 묶을 수 있음. 자체 코드를 <b>전면 폐기</b>하고 공통코드 단일키로 통일하기로 함</dd></div>
-        <div><dt>해결</dt><dd>원본 CSV 의 한글 이름을 공통코드로 치환해 28,678행 적재 / 공종 47종 크로스워크를 만들어 <b>미매핑 0건</b> 확인 / 계약 공종과의 매핑은 별도 테이블로 분리해 계약마다 다른 공종 구성을 수용</dd></div>
-        <div><dt>결과</dt><dd>표준 위험요인과 사고사례가 <b>같은 키로 조회됨</b> — 공종을 고르면 두 자료가 함께 후보로 올라옴 / 원본 파일 위치 · 치환 규칙 · 결정 이유를 별도 문서로 남겨, 자료가 갱신돼도 같은 절차로 다시 적재할 수 있게 함</dd></div>
+        <div><dt>문제</dt><dd>국토안전관리원 위험요소 자료는 <b>55,546행짜리 CSV</b> 인데 컬럼이 전부 한글 이름(공종명 · 사고대상명 …)이었습니다. 카이로스 계약 공종과 이름만으로는 이어지지 않아, 평가 화면에서 “이 공종의 위험요인”을 뽑아낼 방법이 없었습니다</dd></div>
+        <div><dt>초기 설계</dt><dd>양쪽을 잇는 <b>자체 코드 체계를 새로 만드는</b> 방향으로 설계했습니다</dd></div>
+        <div><dt>판단</dt><dd>자체 코드는 우리만 아는 값이라 <b>다른 안전 데이터가 들어올 때마다 매핑표를 새로 만들어야</b> 합니다. 확인해 보니 <b>공단 사고사례가 이미 종합정보망 공통코드를 쓰고 있었습니다</b> — 그 코드를 쓰면 위험요소와 사고사례를 같은 키로 묶을 수 있습니다. 자체 코드를 <b>전면 폐기</b>하고 공통코드 단일키로 통일하기로 했습니다</dd></div>
+        <div><dt>해결</dt><dd>원본 CSV 의 한글 이름을 공통코드로 치환해 28,678행을 적재했습니다 / 공종 47종 크로스워크를 만들어 <b>미매핑 0건</b>을 확인했습니다 / 계약 공종과의 매핑은 별도 테이블로 분리해 계약마다 다른 공종 구성을 수용하게 했습니다</dd></div>
+        <div><dt>결과</dt><dd>표준 위험요인과 사고사례가 <b>같은 키로 조회됩니다</b> — 공종을 고르면 두 자료가 함께 후보로 올라옵니다 / 원본 파일 위치 · 치환 규칙 · 결정 이유를 별도 문서로 남겨, 자료가 갱신돼도 같은 절차로 다시 적재할 수 있게 했습니다</dd></div>
       </div>
     </div>
 
     <div class="case">
       <div class="case-h"><b>성능</b><span>표준 위험요인 라이브러리 팝업이 멈춤</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>작성 화면에서 표준 위험요인 라이브러리를 열고 「중대재해만」을 켜면 응답이 눈에 띄게 느렸고, <b>계약 공종으로 좁혀 보는 경로는 약 3.7초</b>가 걸려 현장이 팝업을 쓰지 않게 됨</dd></div>
-        <div><dt>원인</dt><dd>28,679행 테이블에 기본 키 외 인덱스가 없어 매 조회가 전체 스캔 / 「중대재해만」 조건이 행을 좁히기 전에 전 행에 적용됨 / <b>계약 공종 경로는 상관 서브쿼리 단독이라 인덱스를 탈 수 없는 형태</b>였음</dd></div>
-        <div><dt>해결</dt><dd>조회 조건에 맞춘 부분 인덱스와 코드명 디코딩 조인용 인덱스를 추가 / <b>계약 공종 경로는 쿼리 자체를 인덱스를 탈 수 있는 형태로 고쳐 씀</b> — 인덱스만 만들고 쿼리를 그대로 두면 효과가 없다는 것을 실행계획으로 확인</dd></div>
-        <div><dt>결과</dt><dd><b>177ms → 10ms (약 18배)</b>, 계약 공종 경로 <b>3,728ms → 129ms (약 29배)</b> / 인덱스 스크립트에 배경 · 실측값 · 운영 반영 시 락을 줄이는 방법까지 함께 적어, 다른 환경에 적용할 때 판단이 필요 없게 함</dd></div>
+        <div><dt>문제</dt><dd>작성 화면에서 표준 위험요인 라이브러리를 열고 「중대재해만」을 켜면 응답이 눈에 띄게 느렸고, <b>계약 공종으로 좁혀 보는 경로는 약 3.7초</b>가 걸려 현장이 팝업을 쓰지 않게 됐습니다</dd></div>
+        <div><dt>원인</dt><dd>28,679행 테이블에 기본 키 외 인덱스가 없어 조회할 때마다 전체를 훑었습니다 / 「중대재해만」 조건이 행을 좁히기 전에 전 행에 적용됐습니다 / <b>계약 공종 경로는 상관 서브쿼리 단독이라 인덱스를 탈 수 없는 형태</b>였습니다</dd></div>
+        <div><dt>해결</dt><dd>조회 조건에 맞춘 부분 인덱스와 코드명 디코딩 조인용 인덱스를 추가했습니다 / <b>계약 공종 경로는 쿼리 자체를 인덱스를 탈 수 있는 형태로 고쳐 썼습니다</b> — 인덱스만 만들고 쿼리를 그대로 두면 효과가 없다는 것을 실행계획으로 확인했습니다</dd></div>
+        <div><dt>결과</dt><dd><b>177ms → 10ms (약 18배)</b>, 계약 공종 경로 <b>3,728ms → 129ms (약 29배)</b> / 인덱스 스크립트에 배경 · 실측값 · 운영 반영 시 락을 줄이는 방법까지 함께 적어, 다른 환경에 적용할 때 판단이 필요 없게 했습니다</dd></div>
       </div>
     </div>
 
@@ -1193,11 +1308,11 @@ footer{
       <div class="case-h"><b>인수인계</b><span>코드만 읽으면 반드시 틀리는 지점을 남기고 넘기기</span></div>
       <div class="dl">
         <div><dt>한 줄 요약</dt><dd>되돌리는 비용이 더 큰 불일치를 <b>고치는 대신 문서로 고정</b>해 넘긴 건입니다</dd></div>
-        <div><dt>문제</dt><dd>구축을 마치고 다음 담당자에게 넘겨야 했는데, 개발 중 업무 의미가 바뀌면서 <b>화면 라벨과 DB 저장값이 서로 반대가 된 지점</b>이 남았음. 코드에서 저장값을 보고 화면 라벨대로 읽으면 <b>평가 기간 계산과 중복 제한이 통째로 틀림</b></dd></div>
-        <div><dt>원인</dt><dd>두 평가 유형의 업무 의미가 서로 바뀌었을 때 <b>화면 라벨만 맞바꾸고 저장값과 기간 계산은 건드리지 않는 쪽</b>을 골랐음. 이미 쌓인 데이터와 결재 문서에 나간 값이 있어 저장값을 뒤집는 비용이 더 컸음</dd></div>
-        <div><dt>판단</dt><dd>되돌리는 대신 <b>“코드만 읽으면 틀리는 지점”을 업무 설명서 한 곳에 모아</b> 남기기로 함. 각 항목마다 <b>정본이 어느 파일 몇 줄인지</b>까지 적어, 다음 사람이 무엇을 믿어야 하는지 헷갈리지 않게 함</dd></div>
-        <div><dt>해결</dt><dd>업무 설명서에 「용어 · 업무 약속」 절을 만들어 비자명 규칙을 정리 — 라벨과 저장값이 반대인 지점, 평가일과 작성일은 다른 날짜라는 것, 공종은 레벨이 아니라 말단 여부로 판정한다는 것, 위험요인 출처별로 같은 컬럼을 재사용한다는 것 등</dd></div>
-        <div><dt>결과</dt><dd>인수인계 후 다음 담당자가 <b>결재 단위 개편과 평가표 실물화까지 이어서 진행</b> / 그 문서가 코드 변경마다 함께 갱신되는 기준 문서로 유지되고 있음</dd></div>
+        <div><dt>문제</dt><dd>구축을 마치고 다음 담당자에게 넘겨야 했는데, 개발 중 업무 의미가 바뀌면서 <b>화면 라벨과 DB 저장값이 서로 반대가 된 지점</b>이 남았습니다. 코드에서 저장값을 보고 화면 라벨대로 읽으면 <b>평가 기간 계산과 중복 제한이 통째로 틀립니다</b></dd></div>
+        <div><dt>원인</dt><dd>두 평가 유형의 업무 의미가 서로 바뀌었을 때 <b>화면 라벨만 맞바꾸고 저장값과 기간 계산은 건드리지 않는 쪽</b>을 골랐습니다. 이미 쌓인 데이터와 결재 문서에 나간 값이 있어 저장값을 뒤집는 비용이 더 컸습니다</dd></div>
+        <div><dt>판단</dt><dd>되돌리는 대신 <b>“코드만 읽으면 틀리는 지점”을 업무 설명서 한 곳에 모아</b> 남기기로 했습니다. 각 항목마다 <b>정본이 어느 파일 몇 줄인지</b>까지 적어, 다음 사람이 무엇을 믿어야 하는지 헷갈리지 않게 했습니다</dd></div>
+        <div><dt>해결</dt><dd>업무 설명서에 「용어 · 업무 약속」 절을 만들어 비자명 규칙을 정리 — 라벨과 저장값이 반대인 지점, 평가일과 작성일은 다른 날짜라는 것, 공종은 레벨이 아니라 말단 여부로 판정한다는 것, 위험요인 출처별로 같은 컬럼을 재사용한다는 것 등을 적었습니다</dd></div>
+        <div><dt>결과</dt><dd>인수인계 후 다음 담당자가 <b>결재 단위 개편과 평가표 실물화까지 이어서 진행</b> / 그 문서가 코드 변경마다 함께 갱신되는 기준 문서로 유지되고 있습니다</dd></div>
       </div>
     </div>
   </div>
@@ -1206,12 +1321,12 @@ footer{
   <div id="d2" data-title="시스템 API 연계 · 송신 창구 일원화" data-sub="2025.05 ~ 현재 · 유레카 · PAD · PNS · 아이큐브 · 공공가이아">
     <h3>Environment</h3>
     <div class="dl">
-      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, MapStruct, RESTful API, JWT, ApiDog</dd></div>
+      <div><dt>개발 환경</dt><dd>Java 21, Spring Boot 3.3.1, PostgreSQL, MyBatis, RESTful API, JWT</dd></div>
       <div><dt>연동 대상</dt><dd>유레카(Eureca) · PAD(PAD+S) · PNS · 아이큐브 · 공공가이아(PGaiA) — 송신(OUT) · 수신(IN) 양방향</dd></div>
       <div><dt>인력 · 기여도</dt><dd>백엔드 중심 풀스택 — 단독 개발/보수</dd></div>
       <div><dt>이 문서의 용어</dt><dd><ul>
-        <li><b>송신 창구</b> — 외부로 나가는 모든 요청이 반드시 지나가는 공통 통로</li>
-        <li><b>연동 이력</b> — 언제 · 어디로 · 무엇을 보냈고 상대가 뭐라 답했는지 남기는 기록</li>
+        <li><b>송신 창구:</b>  외부로 나가는 모든 요청이 반드시 지나가는 공통 통로</li>
+        <li><b>연동 이력:</b>  언제 · 어디로 · 무엇을 보냈고 상대가 뭐라 답했는지 남기는 기록</li>
       </ul></dd></div>
     </div>
 
@@ -1245,10 +1360,10 @@ footer{
 
     <h3>성과</h3>
     <ul class="mlist">
-      <li><b>이력 적재를 잊을 수 없는 구조로 전환</b> — 모든 외부 송신이 공통 창구를 지나며 요청·응답·성공여부와 함께 자동으로 남고, 신규 연동은 창구 사용이 기본값이 됨</li>
-      <li><b>실패한 건만 골라 재전송 가능</b> — 장애 시 무엇을 보냈는지 확인할 수 없던 상태를 해소</li>
-      <li><b>SSO 무중단 전환</b> — JWT 우선 검증 + 기존 TokenID 폴백으로 이미 로그인해 있는 사용자를 끊지 않고 이행</li>
-      <li><b>어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됨</b> — 클래스명 · 설정 · 연동 이력의 시스템 이름을 일치시킴</li>
+      <li><b>이력 적재를 잊을 수 없는 구조로 전환</b> — 모든 외부 송신이 공통 창구를 지나며 요청·응답·성공여부와 함께 자동으로 남고, 신규 연동은 창구 사용이 기본값이 됐습니다</li>
+      <li><b>실패한 건만 골라 재전송 가능</b> — 장애 시 무엇을 보냈는지 확인할 수 없던 상태를 해소했습니다</li>
+      <li><b>SSO 무중단 전환</b> — JWT 우선 검증 + 기존 TokenID 폴백으로 이미 로그인해 있는 사용자를 끊지 않고 이행했습니다</li>
+      <li><b>어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됨</b> — 클래스명 · 설정 · 연동 이력의 시스템 이름을 일치시켰습니다</li>
     </ul>
 
     <h3>문제 해결</h3>
@@ -1256,20 +1371,20 @@ footer{
     <div class="case">
       <div class="case-h"><b>구조</b><span>이력이 남지 않는 송신 경로</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>계약 정보를 외부로 보내는 경로가 메뉴마다 흩어져 있어 어떤 건 연동 이력이 남고 어떤 건 남지 않음 / 장애가 나도 무엇을 보냈는지 확인할 수 없어, 실패한 건만 골라 재전송하는 것도 불가능</dd></div>
-        <div><dt>원인</dt><dd>각 메뉴가 REST 클라이언트를 직접 호출했고, 이력 적재는 개발자가 기억해서 붙이는 선택 사항이었음 / 사람이 보지 않는 배치·스케줄러 송신일수록 누락이 많았음</dd></div>
-        <div><dt>해결</dt><dd>공통 송신 창구를 만들어 창구를 통과하면 이력이 자동으로 쌓이는 구조로 전환 / 계약 등록·수정, 계약변경 등록·수정 4개 흐름을 모두 이관 / 이력에 남는 개인정보·금융정보 마스킹을 함께 적용</dd></div>
-        <div><dt>결과</dt><dd>모든 외부 송신이 요청·응답·성공여부와 함께 이력에 남음 / 신규 연동은 창구를 쓰는 것이 기본값이 되어, <b>이력 적재를 잊을 수 없는 상태</b>가 됨</dd></div>
+        <div><dt>문제</dt><dd>계약 정보를 외부로 보내는 경로가 메뉴마다 흩어져 있어 어떤 건 연동 이력이 남고 어떤 건 남지 않았습니다 / 장애가 나도 무엇을 보냈는지 확인할 수 없어, 실패한 건만 골라 재전송하는 것도 불가능했습니다</dd></div>
+        <div><dt>원인</dt><dd>각 메뉴가 REST 클라이언트를 직접 호출했고, 이력 적재는 개발자가 기억해서 붙이는 선택 사항이었습니다 / 사람이 보지 않는 배치·스케줄러 송신일수록 누락이 많았습니다</dd></div>
+        <div><dt>해결</dt><dd>공통 송신 창구를 만들어 창구를 통과하면 이력이 자동으로 쌓이는 구조로 바꿨습니다 / 계약 등록·수정, 계약변경 등록·수정 4개 흐름을 모두 이관했습니다 / 이력에 남는 개인정보·금융정보 마스킹을 함께 적용했습니다</dd></div>
+        <div><dt>결과</dt><dd>모든 외부 송신이 요청·응답·성공여부와 함께 이력에 남습니다 / 신규 연동은 창구를 쓰는 것이 기본값이 되어, <b>이력 적재를 잊을 수 없는 상태</b>가 됐습니다</dd></div>
       </div>
     </div>
 
     <div class="case">
       <div class="case-h"><b>구조</b><span>이름과 실체가 다른 연동</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>계약 등록·변경 전송이 아이큐브 이름으로 관리되고 있었지만 실제로는 PNS 로 나가고 있었음 / 코드를 처음 보는 사람은 어느 시스템으로 무엇이 가는지 알 수 없었음</dd></div>
-        <div><dt>원인</dt><dd>연동 대상이 바뀌는 과정에서 클라이언트 클래스명과 설정 파일만 그대로 남음 — 이름은 관성으로 유지되고 실체만 옮겨간 상태</dd></div>
-        <div><dt>해결</dt><dd>로그인·토큰·계약등록 로직을 PnsClient 로 분리하고 전용 설정 파일을 신설 / CSI 사고사례 수집처가 보탈에서 아이큐브로 바뀐 건도 같은 기준으로 클라이언트를 정리</dd></div>
-        <div><dt>결과</dt><dd>클래스명·설정·연동 이력의 시스템 이름이 일치 / <b>어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됨</b></dd></div>
+        <div><dt>문제</dt><dd>계약 등록·변경 전송이 아이큐브 이름으로 관리되고 있었지만 실제로는 PNS 로 나가고 있었습니다 / 코드를 처음 보는 사람은 어느 시스템으로 무엇이 가는지 알 수 없었습니다</dd></div>
+        <div><dt>원인</dt><dd>연동 대상이 바뀌는 과정에서 클라이언트 클래스명과 설정 파일만 그대로 남았습니다 — 이름은 관성으로 유지되고 실체만 옮겨간 상태였습니다</dd></div>
+        <div><dt>해결</dt><dd>로그인·토큰·계약등록 로직을 PnsClient 로 분리하고 전용 설정 파일을 신설했습니다 / CSI 사고사례 수집처가 보탈에서 아이큐브로 바뀐 건도 같은 기준으로 클라이언트를 정리했습니다</dd></div>
+        <div><dt>결과</dt><dd>클래스명·설정·연동 이력의 시스템 이름이 일치합니다 / <b>어느 시스템으로 무엇이 나가는지 코드만 보고 알 수 있게 됐습니다</b></dd></div>
       </div>
     </div>
   </div>
@@ -1304,11 +1419,11 @@ footer{
     <div class="case">
       <div class="case-h"><b>구조</b><span>데이터 접근 계층 이원화 — JPA 와 MyBatis 가 같은 테이블을 함께 쓰던 문제</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>같은 엔티티를 JPA Repository 와 MyBatis 가 함께 쓰고 있었음. 한 트랜잭션 안에서 MyBatis 로 수정한 값이 조회 시 반영되지 않거나, 저장 직후 옛 값으로 되돌아가는 현상이 있었음 / 등록·수정 이력(<code>rgst_dt</code> · <code>chg_dt</code> · <code>rgstr_id</code> · <code>chg_id</code>)도 어느 경로로 저장했느냐에 따라 채워지기도 하고 비어 있기도 했음</dd></div>
-        <div><dt>원인</dt><dd>감사 컬럼을 JPA 수명주기 콜백(<code>@PrePersist</code> · <code>@PreUpdate</code>)에서 채우고 있었는데, 이 콜백은 JPA 를 통과할 때만 실행되므로 MyBatis 로 저장하면 호출조차 되지 않았음 / JPA 로 읽은 엔티티는 트랜잭션 동안 영속성 컨텍스트에 남는다. 그 사이 MyBatis 가 DB 를 직접 수정해도 JPA 는 알지 못하고, 커밋 시점의 변경 감지가 캐시에 있던 옛 값으로 UPDATE 를 다시 날려 <b>방금 쓴 값을 덮었음</b> / 변경되지 않은 컬럼까지 UPDATE 문에 포함되는 것이 기본 동작이라 덮어쓰는 범위가 넓었음. <code>@DynamicUpdate</code> 는 문제가 드러난 6개 엔티티에만 개별로 붙어 있는 상태였음</dd></div>
-        <div><dt>판단</dt><dd>두 계층이 같은 테이블을 쓰는 한 개별 대응으로는 해소되지 않는 <b>구조적 문제</b>로 보고, 접근 계층을 MyBatis 하나로 통일하기로 결정</dd></div>
-        <div><dt>해결</dt><dd>4단계로 나눠 진행 — ① <code>@Mapper</code> 어노테이션 정리 ② Mapper 인터페이스·XML 네이밍 정규화 ③ <code>mybatisSession</code> 직접 호출을 Mapper 인터페이스로 전환 ④ JPA Repository 및 잔존 인프라 제거 / 감사 컬럼은 XML 에 명시적으로 기록하도록 옮겨 저장 경로와 무관하게 같은 값이 남게 함 / 엔티티는 JPA 어노테이션 없는 순수 POJO 로 정리하고 매핑은 XML 이 전담</dd></div>
-        <div><dt>결과</dt><dd><b>JPA Repository 0개</b> — 미사용 44개 → system 6개 → 잔여 6개 순으로 단계적 제거 / <b>어노테이션·의존성 완전 제거 — 82개 파일 / -688줄</b> (<code>@Column</code> 188, <code>@Id</code> 100, <code>@Entity</code> 58, <code>@GeneratedValue</code> 21, <code>@PrePersist</code>·<code>@PreUpdate</code> 9, <code>@DynamicUpdate</code> 6) / 저장 경로가 하나뿐이라 “어느 쪽으로 저장했는가”에 따라 결과가 달라지는 경우가 사라짐 / 신규 개발 기준을 문서로 고정 — 엔티티는 순수 POJO, 데이터 접근은 Mapper 인터페이스만, 감사 컬럼은 XML 에 명시</dd></div>
+        <div><dt>문제</dt><dd>같은 엔티티를 JPA Repository 와 MyBatis 가 함께 쓰고 있었습니다. 한 트랜잭션 안에서 MyBatis 로 수정한 값이 조회할 때 반영되지 않거나, 저장 직후 옛 값으로 되돌아가는 현상이 있었습니다 / 등록·수정 이력(<code>rgst_dt</code> · <code>chg_dt</code> · <code>rgstr_id</code> · <code>chg_id</code>)도 어느 경로로 저장했느냐에 따라 채워지기도 하고 비어 있기도 했습니다</dd></div>
+        <div><dt>원인</dt><dd>감사 컬럼을 JPA 수명주기 콜백(<code>@PrePersist</code> · <code>@PreUpdate</code>)에서 채우고 있었는데, 이 콜백은 JPA 를 통과할 때만 실행되므로 MyBatis 로 저장하면 호출조차 되지 않았습니다 / JPA 로 읽은 엔티티는 트랜잭션 동안 영속성 컨텍스트에 남습니다. 그 사이 MyBatis 가 DB 를 직접 수정해도 JPA 는 알지 못하고, 커밋 시점의 변경 감지가 캐시에 있던 옛 값으로 UPDATE 를 다시 날려 <b>방금 쓴 값을 덮었습니다</b> / 변경되지 않은 컬럼까지 UPDATE 문에 포함되는 것이 기본 동작이라 덮어쓰는 범위가 넓었습니다. <code>@DynamicUpdate</code> 는 문제가 드러난 6개 엔티티에만 개별로 붙어 있는 상태였습니다</dd></div>
+        <div><dt>판단</dt><dd>두 계층이 같은 테이블을 쓰는 한 개별 대응으로는 해소되지 않는 <b>구조적 문제</b>로 보고, 접근 계층을 MyBatis 하나로 통일하기로 결정했습니다</dd></div>
+        <div><dt>해결</dt><dd>4단계로 나눠 진행 — ① <code>@Mapper</code> 어노테이션 정리 ② Mapper 인터페이스·XML 네이밍 정규화 ③ <code>mybatisSession</code> 직접 호출을 Mapper 인터페이스로 전환 ④ JPA Repository 및 잔존 인프라 제거 / 감사 컬럼은 XML 에 명시적으로 기록하도록 옮겨 저장 경로와 무관하게 같은 값이 남게 했습니다 / 엔티티는 JPA 어노테이션 없는 순수 POJO 로 정리하고 매핑은 XML 이 전담하게 했습니다</dd></div>
+        <div><dt>결과</dt><dd><b>JPA Repository 0개</b> — 미사용 44개 → system 6개 → 잔여 6개 순으로 단계적 제거 / <b>어노테이션·의존성 완전 제거 — 82개 파일 / -688줄</b> (<code>@Column</code> 188, <code>@Id</code> 100, <code>@Entity</code> 58, <code>@GeneratedValue</code> 21, <code>@PrePersist</code>·<code>@PreUpdate</code> 9, <code>@DynamicUpdate</code> 6) / 저장 경로가 하나뿐이라 “어느 쪽으로 저장했는가”에 따라 결과가 달라지는 경우가 사라졌습니다 / 신규 개발 기준을 문서로 고정했습니다 — 엔티티는 순수 POJO, 데이터 접근은 Mapper 인터페이스만, 감사 컬럼은 XML 에 명시입니다</dd></div>
       </div>
     </div>
     <p>어느 쪽으로 저장했느냐에 따라 결과가 달라지는 상태에서는 개별 증상을 하나씩 막아도 다음 증상이 다시 나옵니다. <b>저장 경로를 하나로 만들자</b> 덮어쓰기와 감사 컬럼 누락이 함께 사라졌습니다.</p>
@@ -1316,11 +1431,11 @@ footer{
     <div class="case">
       <div class="case-h"><b>장애</b><span>계약 저장이 멈추고, 뒤따른 요청 8건이 연쇄로 매달림</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>계약 수정 저장 요청이 응답 없이 멈추고, 같은 계약을 저장한 이후 요청들이 그 뒤에 줄줄이 매달림 (로컬·개발서버 합쳐 8건) / 사용자에게는 화면이 영원히 로딩 중으로 보였음</dd></div>
-        <div><dt>진단</dt><dd><code>pg_blocking_pids()</code> 로 어느 세션이 어느 세션을 막고 있는지 뿌리까지 추적 / <code>jstack</code> 으로 애플리케이션 스레드가 어느 호출에서 멈춰 있는지 확인 / 잠금 보유자가 DB 대기가 아니라 <code>idle in transaction</code> 상태임을 확인</dd></div>
-        <div><dt>원인</dt><dd>계약 저장 로직이 계약 행을 잠근 미확정 트랜잭션 상태에서 유레카·아이큐브·PAD 를 호출하고, 응답으로 받은 값을 저장하는 처리가 별도 커넥션에서 같은 행을 UPDATE 했음 / 바깥은 안쪽이 끝나기를, 안쪽은 바깥의 잠금 해제를 기다리는 <b>자기 교착(self-deadlock)</b> / 양쪽 다 DB 대기가 아니라 PostgreSQL 교착 감지에 걸리지 않고, 관련 타임아웃이 모두 무한이라 스스로 풀리지도 않았음</dd></div>
-        <div><dt>해결</dt><dd>외부 송신 전체를 커밋 이후에 실행하도록 공통 헬퍼로 감싸고, 계약 등록·수정 및 계약변경 등록·수정 4개 흐름에 모두 적용 / 송신 로직 자체는 내용을 바꾸지 않고 실행 시점만 옮겨, 기능 변경 없이 구조만 교정 / 같은 도메인에 이미 있던 선례 패턴을 그대로 따름</dd></div>
-        <div><dt>결과</dt><dd>교착 재발 없음. 멈춘 트랜잭션은 즉시 정리해 서비스를 복구 / <b>“트랜잭션 안에서 외부 시스템을 호출하지 않는다”</b>를 팀 규칙으로 문서화 / 남은 위험(아직 트랜잭션 안에 있는 송신 1건)까지 함께 기록해 후속 과제로 남김</dd></div>
+        <div><dt>문제</dt><dd>계약 수정 저장 요청이 응답 없이 멈추고, 같은 계약을 저장한 이후 요청들이 그 뒤에 줄줄이 매달렸습니다 (로컬·개발서버 합쳐 8건) / 사용자에게는 화면이 영원히 로딩 중으로 보였습니다</dd></div>
+        <div><dt>진단</dt><dd><code>pg_blocking_pids()</code> 로 어느 세션이 어느 세션을 막고 있는지 뿌리까지 추적했습니다 / <code>jstack</code> 으로 애플리케이션 스레드가 어느 호출에서 멈춰 있는지 확인했습니다 / 잠금 보유자가 DB 대기가 아니라 <code>idle in transaction</code> 상태임을 확인했습니다</dd></div>
+        <div><dt>원인</dt><dd>계약 저장 로직이 계약 행을 잠근 미확정 트랜잭션 상태에서 유레카·아이큐브·PAD 를 호출하고, 응답으로 받은 값을 저장하는 처리가 별도 커넥션에서 같은 행을 UPDATE 했습니다 / 바깥은 안쪽이 끝나기를, 안쪽은 바깥의 잠금 해제를 기다리는 <b>자기 교착(self-deadlock)</b> / 양쪽 다 DB 대기가 아니라 PostgreSQL 교착 감지에 걸리지 않고, 관련 타임아웃이 모두 무한이라 스스로 풀리지도 않았습니다</dd></div>
+        <div><dt>해결</dt><dd>외부 송신 전체를 커밋 이후에 실행하도록 공통 헬퍼로 감싸고, 계약 등록·수정 및 계약변경 등록·수정 4개 흐름에 모두 적용했습니다 / 송신 로직 자체는 내용을 바꾸지 않고 실행 시점만 옮겨, 기능 변경 없이 구조만 교정했습니다 / 같은 도메인에 이미 있던 선례 패턴을 그대로 따랐습니다</dd></div>
+        <div><dt>결과</dt><dd>이후 교착이 재발하지 않았습니다. 멈춘 트랜잭션은 즉시 정리해 서비스를 복구했습니다 / <b>“트랜잭션 안에서 외부 시스템을 호출하지 않는다”</b>를 팀 규칙으로 문서화했습니다 / 남은 위험(아직 트랜잭션 안에 있는 송신 1건)까지 함께 기록해 후속 과제로 남겼습니다</dd></div>
       </div>
     </div>
     <p>교착의 원인은 외부 시스템이 느린 것이 아니라, <b>행을 잠근 채로 외부를 호출한 것</b>이었습니다. 송신을 커밋 이후로 옮기자 잠금 구간과 외부 호출 구간이 겹치지 않게 되어 교착 조건 자체가 사라집니다.</p>
@@ -1328,33 +1443,33 @@ footer{
     <div class="case">
       <div class="case-h"><b>운영 개선</b><span>지운 첨부파일이 디스크에 계속 남아 용량을 잠식</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>운영 서버 디스크가 차오르는 문제가 반복됐음. 원인을 보니 <b>화면에서 첨부파일이나 통합문서를 삭제해도 자료에는 삭제 표시만 남고 서버의 실제 파일은 그대로 남아</b> 있었음. 쓰지 않는 파일이 계속 쌓이는데 지울 방법이 없었음</dd></div>
-        <div><dt>고민</dt><dd>지우면 되돌릴 수 없다는 점이 문제였음. 사용자가 실수로 지운 파일을 되살려 달라는 요청이 실제로 있어, <b>즉시 삭제는 위험</b>했음. 반대로 안 지우면 디스크가 계속 찼음</dd></div>
-        <div><dt>해결</dt><dd><b>보관기간(기본 90일)을 둔 물리삭제 배치</b>를 만들었음. 자료 행은 지우지 않고 파일 실물만 지우므로, 보관기간 안에는 삭제 표시를 되돌려 화면에서 다시 볼 수 있음<br>
-          지우기 전에 <b>세 가지를 확인</b>한다 — ① 업로드 폴더 안에 있는 파일인가(경로 이탈 방지) ② 아직 그 파일을 쓰고 있는 자료가 있는가 ③ 파일이 실제로 존재하는가<br>
-          배치가 실패했을 때 운영자가 직접 돌릴 수 있는 <b>수동 실행 스크립트</b>(개발·운영 각각)와 관리 엔드포인트를 함께 만들었음</dd></div>
-        <div><dt>결과</dt><dd>쌓여 있던 미사용 파일을 회수해 디스크 여유를 확보하고, 이후로는 자동으로 정리됨 / 실행 결과는 <b>사용자 로그에 남는다</b>(실행 주체 <code>BATCH</code>, 업무구분 「첨부파일 물리삭제 배치」) — 사람이 보지 않는 배치라 무엇을 몇 건 지웠는지가 유일한 단서이기 때문<br>
-          <b>“되돌릴 수 없는 작업에는 되돌릴 수 있는 기간을 둔다”</b>가 이 작업에서 얻은 기준</dd></div>
+        <div><dt>문제</dt><dd>운영 서버 디스크가 차오르는 문제가 반복됐습니다. 원인을 보니 <b>화면에서 첨부파일이나 통합문서를 삭제해도 자료에는 삭제 표시만 남고 서버의 실제 파일은 그대로 남아</b> 있었습니다. 쓰지 않는 파일이 계속 쌓이는데 지울 방법이 없었습니다</dd></div>
+        <div><dt>고민</dt><dd>지우면 되돌릴 수 없다는 점이 문제였습니다. 사용자가 실수로 지운 파일을 되살려 달라는 요청이 실제로 있어, <b>즉시 삭제는 위험</b>했습니다. 반대로 안 지우면 디스크가 계속 찼습니다</dd></div>
+        <div><dt>해결</dt><dd><b>보관기간(기본 90일)을 둔 물리삭제 배치</b>를 만들었습니다. 자료 행은 지우지 않고 파일 실물만 지우므로, 보관기간 안에는 삭제 표시를 되돌려 화면에서 다시 볼 수 있습니다<br>
+          지우기 전에 <b>세 가지를 확인</b>합니다 — ① 업로드 폴더 안에 있는 파일인가(경로 이탈 방지) ② 아직 그 파일을 쓰고 있는 자료가 있는가 ③ 파일이 실제로 존재하는가<br>
+          배치가 실패했을 때 운영자가 직접 돌릴 수 있는 <b>수동 실행 스크립트</b>(개발·운영 각각)와 관리 엔드포인트를 함께 만들었습니다</dd></div>
+        <div><dt>결과</dt><dd>쌓여 있던 미사용 파일을 회수해 디스크 여유를 확보했고, 이후로는 자동으로 정리됩니다 / 실행 결과는 <b>사용자 로그에 남습니다</b>(실행 주체 <code>BATCH</code>, 업무구분 「첨부파일 물리삭제 배치」) — 사람이 보지 않는 배치라 무엇을 몇 건 지웠는지가 유일한 단서이기 때문입니다<br>
+          <b>“되돌릴 수 없는 작업에는 되돌릴 수 있는 기간을 둔다”</b>가 이 작업에서 얻은 기준입니다</dd></div>
       </div>
     </div>
 
     <div class="case">
       <div class="case-h"><b>성능</b><span>대시보드 관리기준 성과분석 조회가 수십 초</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>경영진이 보는 관리기준 성과분석 대시보드가 열리는 데 수십 초가 걸림 / 데이터가 늘어날수록 악화되는 형태였음</dd></div>
-        <div><dt>원인</dt><dd>작업일지 실적원가를 집계하는 CTE 가 본문 조회에서 참조될 때, 대공종(WBS 레벨1) 한 건마다 통째로 다시 계산되고 있었음 / 대공종이 늘어나면 같은 집계가 그 수만큼 반복되는 구조</dd></div>
-        <div><dt>해결</dt><dd>해당 CTE 를 <code>AS MATERIALIZED</code> 로 선언해 한 번만 계산하고 재사용하도록 변경 / 왜 이 힌트가 필요한지를 쿼리 주석으로 남겨 나중에 무심코 제거되지 않게 함</dd></div>
-        <div><dt>결과</dt><dd>대공종 건수와 무관하게 집계는 1회 / 조회 시간이 정상 범위로 회복되고, 데이터가 늘어도 같은 방식으로 악화되지 않음</dd></div>
+        <div><dt>문제</dt><dd>경영진이 보는 관리기준 성과분석 대시보드가 열리는 데 수십 초가 걸렸습니다 / 데이터가 늘어날수록 악화되는 형태였습니다</dd></div>
+        <div><dt>원인</dt><dd>작업일지 실적원가를 집계하는 CTE 가 본문 조회에서 참조될 때, 대공종(WBS 레벨1) 한 건마다 통째로 다시 계산되고 있었습니다 / 대공종이 늘어나면 같은 집계가 그 수만큼 반복되는 구조였습니다</dd></div>
+        <div><dt>해결</dt><dd>해당 CTE 를 <code>AS MATERIALIZED</code> 로 선언해 한 번만 계산하고 재사용하도록 바꿨습니다 / 왜 이 힌트가 필요한지를 쿼리 주석으로 남겨 나중에 무심코 제거되지 않게 했습니다</dd></div>
+        <div><dt>결과</dt><dd>대공종 건수와 무관하게 집계는 한 번만 돕니다 / 조회 시간이 정상 범위로 회복됐고, 데이터가 늘어도 같은 방식으로 악화되지 않습니다</dd></div>
       </div>
     </div>
 
     <div class="case">
       <div class="case-h"><b>운영 데이터</b><span>새로고침하면 상단 계약명이 “데이터 없음”</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>계약을 선택하고 메뉴에 들어간 뒤 새로고침하면 상단 헤더의 계약명이 사라짐 / 한 번 발생하면 그 탭의 모든 메뉴에서 재현되고, 일반 사용자는 스스로 복구할 방법이 없었음</dd></div>
-        <div><dt>원인</dt><dd>일부 화면이 공통 컨텍스트에 계약명을 빈 값으로 덮어쓰고 있었음 / 그 값을 쓴 화면은 멀쩡해 보이고 다음 화면 로드부터 깨져서 원인 화면을 특정하기 어려웠음 / 복구 경로가 관리자 권한 안에만 있어 일반 사용자는 고착됨</dd></div>
-        <div><dt>해결</dt><dd>계약명을 보존하는 공통 헬퍼를 만들어 직접 덮어쓰던 화면들을 교체 / 헤더 쪽에 3단계 복구 로직(세션 → 공통 데이터 → 조회 후 세션 보정)을 추가 / 조회 실패 시 화면이 영구 대기하던 문제도 함께 해소</dd></div>
-        <div><dt>결과</dt><dd>재현 불가 / <b>“공통 컨텍스트에 표시용 값을 빈 값으로 덮어쓰지 않는다”</b>를 팀 안티패턴 목록에 등재해 다른 도메인에서의 재발을 차단</dd></div>
+        <div><dt>문제</dt><dd>계약을 선택하고 메뉴에 들어간 뒤 새로고침하면 상단 헤더의 계약명이 사라졌습니다 / 한 번 발생하면 그 탭의 모든 메뉴에서 재현되고, 일반 사용자는 스스로 복구할 방법이 없었습니다</dd></div>
+        <div><dt>원인</dt><dd>일부 화면이 공통 컨텍스트에 계약명을 빈 값으로 덮어쓰고 있었습니다 / 그 값을 쓴 화면은 멀쩡해 보이고 다음 화면 로드부터 깨져서 원인 화면을 특정하기 어려웠습니다 / 복구 경로가 관리자 권한 안에만 있어 일반 사용자는 빠져나올 수 없었습니다</dd></div>
+        <div><dt>해결</dt><dd>계약명을 보존하는 공통 헬퍼를 만들어 직접 덮어쓰던 화면들을 교체했습니다 / 헤더 쪽에 3단계 복구 로직(세션 → 공통 데이터 → 조회 후 세션 보정)을 추가했습니다 / 조회 실패 시 화면이 영구 대기하던 문제도 함께 해소했습니다</dd></div>
+        <div><dt>결과</dt><dd>이후 재현되지 않았습니다 / <b>“공통 컨텍스트에 표시용 값을 빈 값으로 덮어쓰지 않는다”</b>를 팀 안티패턴 목록에 등재해 다른 도메인에서의 재발을 차단했습니다</dd></div>
       </div>
     </div>
   </div>
@@ -1379,10 +1494,10 @@ footer{
 
     <h3>성과</h3>
     <ul class="mlist">
-      <li><b>녹취 파일 청취 기능 추가</b> — 서버에 저장된 녹취 파일을 스트리밍 방식으로 제공해 관리자 페이지에서 직접 청취</li>
-      <li><b>Embedded DB 도입</b> — 조회 테이블을 Embedded DB 로 구성해 코드 수정 없이 설정 파일만으로 컬럼 반영</li>
-      <li>사용자·관리자·운영자 매뉴얼 제작 및 교육 진행, <b>고객사 내 PostgreSQL 도입 성공</b></li>
-      <li>관리 효율성·유지보수 부담 개선에 기여하여 <b>프로젝트 추가 계약 성사</b></li>
+      <li><b>녹취 파일 청취 기능 추가</b> — 서버에 저장된 녹취 파일을 스트리밍 방식으로 제공해 관리자 페이지에서 직접 청취할 수 있게 했습니다</li>
+      <li><b>Embedded DB 도입</b> — 조회 테이블을 Embedded DB 로 구성해 코드 수정 없이 설정 파일만으로 컬럼을 반영합니다</li>
+      <li>사용자·관리자·운영자 매뉴얼을 제작하고 교육을 진행해 <b>고객사 내 PostgreSQL 도입에 성공했습니다</b></li>
+      <li>관리 효율성·유지보수 부담 개선에 기여해 <b>프로젝트 추가 계약이 성사됐습니다</b></li>
     </ul>
 
     <h3>화면</h3>
@@ -1416,9 +1531,9 @@ footer{
 
     <h3>성과</h3>
     <ul class="mlist">
-      <li>완성도 높은 클라이언트 구축으로 사용자 경험(UX) 및 기능성 향상</li>
-      <li>영업 부서에서 본 솔루션으로 <b>1년간 3건 계약 성사</b> — 제품의 실질적 가치 입증</li>
-      <li>실시간 상태 모니터링 도입으로 이상 발생 시 신속 대응 가능</li>
+      <li>완성도 높은 클라이언트 구축으로 사용자 경험(UX)과 기능성을 높였습니다</li>
+      <li>영업 부서에서 본 솔루션으로 <b>1년간 3건 계약이 성사돼</b> 제품의 실질적 가치를 입증했습니다</li>
+      <li>실시간 상태 모니터링 도입으로 이상 발생 시 신속하게 대응할 수 있게 됐습니다</li>
     </ul>
 
     <h3>화면 — 로그인 개편 전후</h3>
@@ -1464,8 +1579,8 @@ footer{
 
     <h3>성과</h3>
     <ul class="mlist">
-      <li>동일 ID 중복 로그인 차단 및 IP 추적으로 <b>안전한 서비스 이용 환경 확보</b></li>
-      <li>기존 고객사 클라이언트와 연동하여 더 직관적이고 편리한 서비스 제공</li>
+      <li>동일 ID 중복 로그인 차단 및 IP 추적으로 <b>안전한 서비스 이용 환경을 확보했습니다</b></li>
+      <li>기존 고객사 클라이언트와 연동해 더 직관적이고 편리한 서비스를 제공했습니다</li>
     </ul>
 
     <h3>화면</h3>
@@ -1508,9 +1623,9 @@ footer{
     <div class="case">
       <div class="case-h"><b>일정</b><span>마감을 앞두고 계속 들어오는 추가 요구</span></div>
       <div class="dl">
-        <div><dt>문제</dt><dd>마감 기한이 얼마 남지 않은 상황에서 고객 측의 추가 개발 요구가 지속적으로 발생 / 요청이 인터뷰 과정에서 누락되거나 후반부에 새로 제기되는 경우가 많아 지연 가능성이 높았음</dd></div>
-        <div><dt>해결</dt><dd>매일 고객 컨택을 진행해 놓친 요구사항이 없는지 확인하고, 추가 요구를 미리 예측해 선제적으로 개선안을 제시 / 우선순위를 명확히 정리해 핵심 기능에 집중하고 테스트·피드백 주기를 단축</dd></div>
-        <div><dt>결과</dt><dd>마감 기한 내 완료, <b>연 2만 업무 시간 절감</b> / 자동화 성공 사례로 인정받아 추가 프로세스 자동화 과제 수주</dd></div>
+        <div><dt>문제</dt><dd>마감 기한이 얼마 남지 않은 상황에서 고객 측의 추가 개발 요구가 계속 들어왔습니다 / 요청이 인터뷰 과정에서 누락되거나 후반부에 새로 제기되는 경우가 많아 지연 가능성이 높았습니다</dd></div>
+        <div><dt>해결</dt><dd>매일 고객 컨택을 진행해 놓친 요구사항이 없는지 확인하고, 추가 요구를 미리 예측해 선제적으로 개선안을 제시했습니다 / 우선순위를 명확히 정리해 핵심 기능에 집중하고 테스트·피드백 주기를 단축했습니다</dd></div>
+        <div><dt>결과</dt><dd>마감 기한 안에 완료했고 <b>연 2만 업무 시간을 절감</b>했습니다 / 자동화 성공 사례로 인정받아 추가 프로세스 자동화 과제를 수주했습니다</dd></div>
       </div>
     </div>
 
@@ -1518,6 +1633,37 @@ footer{
     <div class="slots">
       <figure class="slot"><img src="images/lotte-rpa-news.png" alt="롯데손해보험 RPA 도입 완료 기사"><figcaption>롯데손해보험, 로봇 프로세스 자동화(RPA) 도입 완료 — 연 2만 시간 절감</figcaption></figure>
     </div>
+  </div>
+
+  <!-- ═══ D11 : AI 개발 환경 ═══ -->
+  <div id="d11" data-title="AI 개발 환경 — 만든 것과 활용하는 방식" data-sub="2026.01 ~ 현재 · 아이디어정보기술 / GaiA-CaiRos">
+    <h3>Environment</h3>
+    <div class="dl">
+      <div><dt>사용 도구</dt><dd>Claude Code, 슬래시 명령어, Node.js(내장 모듈만), 컨텍스트 문서</dd></div>
+      <div><dt>만든 것</dt><dd>테스트케이스 생성 명령어 — 명령 명세 285줄 + Node 생성기 659줄<br>연동 표준 문서 4종과 연동 · 인증 가이드<br>외부 리포트 솔루션을 대신하는 자체 리포트 추출</dd></div>
+      <div><dt>인력 · 기여도</dt><dd>팀이 만든 AI 하네스 위에서 제 몫의 컨텍스트와 명령어를 담당</dd></div>
+    </div>
+
+    <h3>프로젝트 설명</h3>
+    <p>AI 로 코드를 빨리 쓰는 것보다 <b>매번 같은 결과가 나오게 만드는 것</b>이 어려웠습니다. 원인은 AI 에게 읽히는 자료가 사람마다 달랐다는 점이었습니다.</p>
+    <p>그래서 두 가지로 나눠 정리했습니다. <b>반복 작업은 절차를 명령어로 고정</b>하고, <b>설계에서 알게 된 것은 AI 가 읽을 문서로 남겼습니다.</b></p>
+
+    <h3>개발 항목</h3>
+    <ul class="mlist">
+      <li><b>자체 리포트 추출 개발</b> — 외부 리포트 솔루션을 대신할 리포트 추출 방식을 <b>AI 개발 환경으로 직접 만들어</b> 업무에 쓸 수 있는 수준인지 확인한 뒤 제안했습니다. 솔루션 없이 화면에서 바로 문서를 뽑아내는 방식입니다</li>
+      <li><b>반복 업무 명령어 제작</b> — 손으로 반복하던 절차를 명령어로 고정해 씁니다. 제가 만든 <b>테스트케이스 생성 명령어</b>는 신규 메뉴 개발 후 손으로 만들던 테스트케이스 엑셀을 명령어 한 줄로 대체합니다. 코드를 분석해 화면·단계를 파악하고 Pass·Fail·N/A 드롭다운이 들어간 엑셀을 만듭니다 (명령 명세 285줄 + Node 생성기 659줄). 결재 계열 명령어처럼 동료가 만든 것도 팀에서 함께 씁니다</li>
+      <li><b>사람이 입력한 결과를 보존</b> — 코드가 바뀌어 다시 만들 때 이미 채워 넣은 성공여부·실제결과를 그대로 남기고 변경분만 반영하며, 이력 시트에 변경 이력을 한 줄 남깁니다</li>
+      <li><b>설치 없이 도는 생성기</b> — Node 내장 모듈만으로 작성해 별도 설치가 필요 없고, 런타임이 없으면 분석·파일 생성을 하지 않고 안내만 남기고 멈춥니다</li>
+      <li><b>설계를 컨텍스트로 남김</b> — 외부 시스템 10곳 · 인터페이스 40건을 어느 코드에서 어느 설정으로 나가는지까지 한 표로 정리하고, 연동·인증 가이드를 함께 남겼습니다</li>
+    </ul>
+
+    <h3>성과</h3>
+    <ul class="mlist">
+      <li><b>외부 리포트 솔루션 비용 절감</b> — AI 개발 환경으로 만든 자체 리포트 추출을 제안해 <b>신규 메뉴는 자체 리포트 추출로 전환하는 데 성공</b>했습니다. 남은 화면도 곧 걷어낼 예정이라 <b>솔루션 라이선스 비용이 사라집니다</b></li>
+      <li><b>이미 해둔 테스트를 처음부터 다시 하지 않음</b> — 코드가 바뀌어도 사람이 채운 결과가 남으므로, 테스트케이스를 다시 만들 때 변경분만 확인하면 됩니다</li>
+      <li><b>사람은 인수 없이 읽고, AI 는 코드를 처음부터 훑지 않음</b> — 연동 표를 근거로 답하게 되어 <b>추측으로 코드가 만들어지는 일이 줄었습니다</b></li>
+      <li><b>활용 방식</b> — 작업할 메뉴의 명세 한 파일만 읽히고, 요구가 두 가지로 읽히면 멈추게 하고, 새로 만들기 전에 기존 공통 코드를 먼저 찾게 합니다. 규칙 파일 · 스킬 · 결재 계열 명령어는 동료들이 만든 것을 함께 씁니다</li>
+    </ul>
   </div>
 
 </div>
@@ -1597,7 +1743,7 @@ footer{
     var targets = document.querySelectorAll(
       '.hero-tag, .hero h1, .hero-role, .hero-lede, .hero-cta, .hero-stats,' +
       '.sec-head, .about-body, .caps, .job, .srow, .pcard, .win, .closing,' +
-      '.ebox, .cbig, .clist'
+      '.trait, .ebox, .cbig, .clist'
     );
     if(!targets.length) return;
 
