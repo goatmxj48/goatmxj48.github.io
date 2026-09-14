@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
@@ -428,10 +428,10 @@
         안정적으로 돌아가게 만드는 것에 가치를 둡니다.
       </p>
       <ul>
-        <li><strong>외부 연동:</strong>  외부 시스템 10곳 · 인터페이스 40건 연동 구축과 안정화 (RESTful API 송신 · 수신 양방향)</li>
+        <li><strong>외부 연동:</strong>  외부 서비스 8곳 · 인터페이스 40건 연동 구축과 안정화 (RESTful API 송신 · 수신 양방향)</li>
         <li><strong>업무 분석 · 설계:</strong>  현장 실무 문서 기반 요구사항 정의, UML · ERD 설계, 신규 도메인 end-to-end 구축</li>
         <li><strong>데이터 접근 · 튜닝:</strong>  MyBatis 기반 접근 계층 설계, PostgreSQL · MariaDB · Oracle 쿼리 작성 및 튜닝</li>
-        <li><strong>운영 · 장애 대응:</strong>  Jenkins · Git 기반 배포, 서버 8대 용량 · 로그 관리, DB Lock · 조회 지연 원인 단위 해소</li>
+        <li><strong>운영 · 장애 대응:</strong>  Jenkins · Git 기반 배포, 서버 8대 용량 · 로그 관리, 4개 부서가 쓰는 클라우드 보안그룹 정리, DB Lock · 조회 지연 원인 단위 해소</li>
         <li><strong>AI 개발 환경 활용:</strong>  반복 업무 명령어를 만들고, 연동 설계 내용을 AI 가 읽을 컨텍스트 문서로 남겨 추측으로 코드가 만들어지는 것을 줄이는 개발 환경 운영</li>
         <li><strong>문서화:</strong>  결함 이력을 메뉴별로 체계화하고 재발 확인된 것만 팀 안티패턴으로 승격하는 2단 구조 운영</li>
       </ul>
@@ -586,10 +586,10 @@
         <div class="metric"><span class="v">당일</span><span class="k">공정률 반영 (결재 대기 없음)</span></div>
       </div>
       <ul>
-        <li><strong>작성 시간 단축:</strong>  공정률 자동 계산과 연관 CBS 자동 매핑으로 현장은 작업 내용만 입력합니다. 5개 현장 기준 월 약 50시간의 현장 시간을 회수했습니다.</li>
+        <li><strong>작성 시간 단축:</strong>  공정률과 관련 항목을 시스템이 자동으로 계산 · 연결해 현장은 작업 내용만 입력합니다. 작성 시간이 40분에서 10분으로 줄어, 운영 현장 5곳 기준 월 약 50시간의 현장 시간을 회수했습니다.</li>
         <li><strong>이중 입력 제거:</strong>  한 번 입력하면 21개 메뉴가 채워집니다. 문서마다 같은 수량을 다시 옮겨 적던 작업이 사라지고, 문서 간 숫자가 어긋날 여지 자체를 없앴습니다.</li>
         <li><strong>공정률 반영 지연 해소:</strong>  실적 확정 시점을 전자결재 승인에서 입력 즉시로 바꿔, 결재가 밀려도 공정률이 당일 반영됩니다.</li>
-        <li><strong>조회 성능:</strong>  집계 구간이 계약 필터 없이 전체를 스캔하던 것을 계약 단위로 좁히고 복합 인덱스를 추가했습니다.</li>
+        <li><strong>조회 성능:</strong>  조건 없이 전체를 집계하던 구간을 조회 대상부터 먼저 좁히도록 바꾸고 복합 인덱스를 더해 998ms 에서 115ms 로 줄였습니다.</li>
       </ul>
       <div class="card flat" style="border:1px solid var(--line);">
         <h4>사용 기술</h4>
@@ -600,11 +600,61 @@
     </div>
   </section>
 
-  <!-- ============ 07 PROJECT 02 · 위험성평가 ============ -->
+  <!-- ============ 07 PROJECT 02 · 기성관리 ============ -->
   <section class="sec">
     <div class="rail"><span class="num">07</span><span class="lbl">Project 02</span><span class="tick"></span></div>
     <div class="body-col">
-      <h4>Project 02 · 2026.06 ~ 2026.08 · 단독 구축</h4>
+      <h4>Project 02 · 2026.02 ~ 2026.10</h4>
+      <h2>기성관리 — 외부 서비스 연동 4종</h2>
+      <p class="lede">
+        공사가 진행된 만큼 나눠 청구하는 <strong>공사대금(기성)</strong> 메뉴입니다.
+        금액을 산출하는 외부 서비스는 원가 · 설계 담당자가 쓰는 곳이라 현장에는 열려 있지 않은데,
+        이번 회차에 얼마나 했는지를 아는 사람은 현장입니다.
+      </p>
+      <div class="metrics three">
+        <div class="metric"><span class="v">4</span><span class="k">외부로 나가는 송신 연동</span></div>
+        <div class="metric"><span class="v">2</span><span class="k">외부에서 받는 수신 연동</span></div>
+        <div class="metric"><span class="v">100%</span><span class="k">요청 · 응답 · 성공여부 이력 적재</span></div>
+      </div>
+      <ul>
+        <li><strong>현장이 별도 계정 없이 내역서를 확인:</strong>  기성 · 계약내역서 화면을 우리 시스템 안에서 열고, 열 때 플랫폼 공통 아이디를 함께 보내 외부 서비스가 우리 시스템에 열람 권한을 물어볼 수 있게 했습니다.</li>
+        <li><strong>주고받는 양쪽이 모두 이력에:</strong>  송신 4종과 외부 서비스가 되돌려 보내는 수신을 같은 창구로 묶어, 요청 · 응답 · 성공여부가 자동 적재되고 실패한 건만 골라 다시 보낼 수 있습니다.</li>
+        <li><strong>연동 실패가 업무 저장을 되돌리지 않음:</strong>  외부 송신을 커밋 이후 실행으로 옮겨, 외부 서비스가 응답하지 않아도 기성 저장은 유지됩니다.</li>
+        <li><strong>청구 금액 오차 교정:</strong>  전 회차 누계를 자르는 기준이 지급일자였던 것을 기성일자로 바로잡았습니다. 지급이 끝나지 않은 회차가 누계에서 빠지던 문제였습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 08 PROJECT 03 · 계약관리 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">08</span><span class="lbl">Project 03</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h4>Project 03 · 2026.02 ~ 2026.10</h4>
+      <h2>계약관리 — 외부 서비스 3곳 규격 통일</h2>
+      <p class="lede">
+        계약은 모든 업무의 시작점입니다. 계약 저장 한 번이 <strong>외부 서비스 세 곳</strong>으로 함께 나가는데,
+        세 곳이 같은 계약정보를 서로 다른 규격으로 요구했습니다.
+      </p>
+      <div class="metrics">
+        <div class="metric"><span class="v">658</span><span class="k">등록 계약 (건)</span></div>
+        <div class="metric"><span class="v">3</span><span class="k">동시에 나가는 외부 서비스</span></div>
+        <div class="metric"><span class="v">8</span><span class="k">해소한 계약 저장 무응답 (건)</span></div>
+        <div class="metric"><span class="v">4</span><span class="k">팀 규칙을 적용한 흐름</span></div>
+      </div>
+      <ul>
+        <li><strong>고칠 곳이 한 군데:</strong>  서비스별로 흩어져 있던 요청 값 정의를 한 곳에 모아, 계약 항목이 하나 늘어도 한 군데만 고치면 됩니다. 한쪽을 빠뜨려 옛 값이 나가는 누락이 재발하지 않습니다.</li>
+        <li><strong>계약 저장 무응답(8건) 해소:</strong>  계약 행을 잠근 미확정 트랜잭션에서 외부 서비스 세 곳을 호출해 자기 교착이 발생하던 구조를, 외부 송신을 커밋 이후 실행으로 옮겨 해소했습니다.</li>
+        <li><strong>팀 규칙으로 승격:</strong>  “트랜잭션 안에서 외부 서비스를 호출하지 않는다”를 문서화하고, 4개 흐름에 모두 적용했습니다.</li>
+        <li><strong>필수값 누락 · 등록 오류 해소:</strong>  서비스별 필수값을 요청 생성 지점에서 함께 채우고, 값이 없을 수 있는 항목은 기본값으로 처리했습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 09 PROJECT 04 · 위험성평가 ============ -->
+  <section class="sec">
+    <div class="rail"><span class="num">09</span><span class="lbl">Project 04</span><span class="tick"></span></div>
+    <div class="body-col">
+      <h4>Project 04 · 2026.06 ~ 2026.08 · 단독 구축</h4>
       <h2>위험성평가 — 신규 도메인 0 → 1 구축</h2>
       <p class="lede">
         작업 전 위험을 미리 찾아 점수를 매기고 대책을 세워 결재받는 <strong>법정 안전 활동</strong>을,
@@ -617,63 +667,13 @@
         <div class="metric"><span class="v">0 → 1</span><span class="k">신규 도메인 단독 구축</span></div>
       </div>
       <ul>
-        <li><strong>표준 데이터를 평가의 입력 원천으로:</strong>  국토안전관리원 위험요소를 종합정보망 공통코드로 치환해 28,678행 적재했습니다. 국토안전관리원 공종 47종을 그 공통코드에 이어 붙이고, 카이로스 계약 공종도 같은 코드로 연결해 계약의 공종만 고르면 그에 맞는 표준 위험요인이 따라오게 했습니다.</li>
-        <li><strong>CSI 사고사례 연계 개발:</strong>  국토안전관리원 CSI(건설공사 안전관리 종합정보망)의 실제 사고사례를 위험성평가로 끌어오는 연계를 신규로 개발했습니다. 전용 연동 창구와 매일 새벽 도는 수집 배치, 기간을 지정해 다시 받는 수동 실행 경로까지 함께 만들었습니다. 가져온 사고사례는 위험성평가의 유사 사고 참고자료와 대시보드 안전 통계에 쓰입니다.</li>
+        <li><strong>표준 데이터를 평가의 입력 원천으로:</strong>  국토안전관리원 위험요소를 공공 공통코드로 치환해 28,678행 적재했습니다. 국토안전관리원 공종 47종을 그 공통코드에 이어 붙이고, 우리 계약의 공종도 같은 코드로 연결해 계약의 공종만 고르면 그에 맞는 표준 위험요인이 따라오게 했습니다.</li>
+        <li><strong>사고사례 연계 개발:</strong>  건설공사 안전관리 종합정보망의 실제 사고사례를 위험성평가로 끌어오는 연계를 신규로 개발했습니다. 전용 연동 창구와 매일 새벽 도는 수집 배치, 기간을 지정해 다시 받는 수동 실행 경로까지 함께 만들었습니다. 가져온 사고사례는 위험성평가의 유사 사고 참고자료와 대시보드 안전 통계에 쓰입니다.</li>
         <li><strong>누락을 실측해 수집 주기를 설계:</strong>  한 달 표본을 대조해 상대 쪽 473건 대비 291건만 적재돼 있고 그 이전 구간은 비어 있다는 것을 찾아냈습니다. 사고는 발생일과 등재일이 달라 뒤늦게 올라오는 건이 많다는 점을 확인하고, 최근 6일치를 매일 겹쳐 받아 덮어쓰도록 설계했습니다. 수집이 하루 실패해도 다음 회차에 저절로 메워지고, 등재 뒤 갱신되는 조사 결과까지 따라옵니다.</li>
         <li><strong>수집이 업무를 방해하지 않게:</strong>  받는 일과 저장하는 일을 떼어 놓았습니다. 자료를 여러 번에 나눠 전부 받아온 뒤에 한 번에 저장합니다. 받는 도중에 저장을 시작하면 같은 자료를 쓰려는 다른 작업이 계속 기다리게 되기 때문입니다. 저장 중 실패하면 그 회차 전체를 취소해 절반만 저장된 상태를 남기지 않고, 연동 설정이 비어 있는 환경에서는 오류를 쌓지 않고 수집을 건너뜁니다.</li>
         <li><strong>조회 성능:</strong>  인덱스만 만들지 않고, 쿼리 자체를 인덱스를 타는 형태로 함께 고쳤습니다. 실행계획으로 개선 전후를 확인했습니다.</li>
         <li><strong>위험요인 원장 단일화:</strong>  위험요인은 위험성평가에서만 생성하고 TBM · 일일점검은 참조만 하도록 정리해, 메뉴마다 따로 생겨 어긋나는 구조를 처음부터 차단했습니다.</li>
-        <li><strong>협력사까지 시스템 안으로:</strong>  하도급 위험성평가 메뉴를 신설해 배정받은 공종을 협력사가 직접 작성하고 원도급이 모아 결재로 올립니다.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ============ 08 PROJECT 03 · 계약관리 ============ -->
-  <section class="sec">
-    <div class="rail"><span class="num">08</span><span class="lbl">Project 03</span><span class="tick"></span></div>
-    <div class="body-col">
-      <h4>Project 03 · 2026.02 ~ 2026.10</h4>
-      <h2>계약관리 — 외부 3개 시스템 규격 통일</h2>
-      <p class="lede">
-        계약은 모든 업무의 시작점입니다. 계약 저장 한 번이 <strong>유레카 · PAD · PNS</strong> 세 시스템으로 함께 나가는데,
-        세 시스템이 같은 계약정보를 서로 다른 규격으로 요구했습니다.
-      </p>
-      <div class="metrics">
-        <div class="metric"><span class="v">658</span><span class="k">운영 계약 (건)</span></div>
-        <div class="metric"><span class="v">3</span><span class="k">동시에 나가는 외부 시스템</span></div>
-        <div class="metric"><span class="v">8</span><span class="k">해소한 계약 저장 무응답 (건)</span></div>
-        <div class="metric"><span class="v">4</span><span class="k">팀 규칙을 적용한 흐름</span></div>
-      </div>
-      <ul>
-        <li><strong>고칠 곳이 한 군데:</strong>  시스템별로 흩어져 있던 요청 값 정의를 한 곳에 모아, 계약 항목이 하나 늘어도 한 군데만 고치면 됩니다. 한쪽을 빠뜨려 옛 값이 나가는 누락이 재발하지 않습니다.</li>
-        <li><strong>계약 저장 무응답(8건) 해소:</strong>  계약 행을 잠근 미확정 트랜잭션에서 외부 3개 시스템을 호출해 자기 교착이 발생하던 구조를, 외부 송신을 커밋 이후 실행으로 옮겨 해소했습니다.</li>
-        <li><strong>팀 규칙으로 승격:</strong>  “트랜잭션 안에서 외부 시스템을 호출하지 않는다”를 문서화하고, 4개 흐름에 모두 적용했습니다.</li>
-        <li><strong>필수값 누락 · PNS 등록 오류 해소:</strong>  시스템별 필수값을 요청 생성 지점에서 함께 채우고, 값이 없을 수 있는 항목은 기본값으로 처리했습니다.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ============ 09 PROJECT 04 · 기성관리 ============ -->
-  <section class="sec">
-    <div class="rail"><span class="num">09</span><span class="lbl">Project 04</span><span class="tick"></span></div>
-    <div class="body-col">
-      <h4>Project 04 · 2026.02 ~ 2026.10</h4>
-      <h2>기성관리 — 유레카 연동</h2>
-      <p class="lede">
-        공사가 진행된 만큼 나눠 청구하는 <strong>공사대금(기성)</strong> 메뉴입니다.
-        금액을 산출하는 유레카는 원가 · 설계 담당자가 쓰는 시스템이라 현장에는 열려 있지 않은데,
-        이번 회차에 얼마나 했는지를 아는 사람은 현장입니다.
-      </p>
-      <div class="metrics three">
-        <div class="metric"><span class="v">4</span><span class="k">유레카로 나가는 송신 연동</span></div>
-        <div class="metric"><span class="v">2</span><span class="k">유레카에서 받는 수신 연동</span></div>
-        <div class="metric"><span class="v">100%</span><span class="k">요청 · 응답 · 성공여부 이력 적재</span></div>
-      </div>
-      <ul>
-        <li><strong>현장이 유레카 계정 없이 내역서를 확인:</strong>  기성 · 계약내역서 화면을 카이로스 안에서 열고, 열 때 플랫폼 공통 아이디를 함께 보내 유레카가 카이로스에 열람 권한을 물어볼 수 있게 했습니다.</li>
-        <li><strong>주고받는 양쪽이 모두 이력에:</strong>  송신 4종과 유레카가 되돌려 보내는 수신을 같은 창구로 묶어, 요청 · 응답 · 성공여부가 자동 적재되고 실패한 건만 골라 다시 보낼 수 있습니다.</li>
-        <li><strong>연동 실패가 업무 저장을 되돌리지 않음:</strong>  외부 송신을 커밋 이후 실행으로 옮겨, 유레카가 응답하지 않아도 기성 저장은 유지됩니다.</li>
-        <li><strong>청구 금액 오차 교정:</strong>  전 회차 누계를 자르는 기준이 지급일자였던 것을 기성일자로 바로잡았습니다. 지급이 끝나지 않은 회차가 누계에서 빠지던 문제였습니다.</li>
+        <li><strong>협력사까지 시스템 안으로:</strong>  하도급 위험성평가 메뉴를 신설해 배정받은 공종을 협력사가 직접 작성하고 원청이 모아 결재로 올립니다.</li>
       </ul>
     </div>
   </section>
@@ -685,12 +685,12 @@
       <h4>Project 05 · 2025.05 ~ 2026.10</h4>
       <h2>SSO 무중단 전환 — 시스템 API 연계</h2>
       <p class="lede">
-        포털에서 카이로스로 넘어오는 로그인을 매번 포털에 물어보는 방식에서,
-        포털이 서명한 신분증(JWT)을 <strong>카이로스가 공개키로 직접 검증</strong>하는 방식으로 옮겼습니다.
+        포털에서 우리 시스템으로 넘어오는 로그인을 매번 포털에 물어보는 방식에서,
+        포털이 서명한 신분증(JWT)을 <strong>우리 시스템이 공개키로 직접 검증</strong>하는 방식으로 옮겼습니다.
         로그인은 실패하면 현장 전체가 멈추는 지점입니다.
       </p>
       <div class="metrics">
-        <div class="metric"><span class="v">10</span><span class="k">연동 외부 시스템</span></div>
+        <div class="metric"><span class="v">8</span><span class="k">연동 외부 서비스</span></div>
         <div class="metric"><span class="v">40</span><span class="k">인터페이스 (건)</span></div>
         <div class="metric"><span class="v">1줄</span><span class="k">전환 · 되돌림 스위치 (공개키 경로 설정)</span></div>
         <div class="metric"><span class="v">4</span><span class="k">인증 실패를 나눠 남긴 단계</span></div>
@@ -698,7 +698,7 @@
       <ul>
         <li><strong>로그인을 끊지 않고 인증 방식 전환:</strong>  새 방식 우선 + 기존 방식 폴백으로 이어, 어느 쪽이든 같은 지점으로 합류하게 했습니다. 로그인 본체는 손대지 않았습니다.</li>
         <li><strong>배포 시점과 전환 시점 분리:</strong>  공개키 경로 설정 한 줄이 스위치입니다. 운영 공개키가 도착하기 전에 코드를 먼저 올려두고, 되돌릴 때도 그 한 줄을 비우면 됩니다.</li>
-        <li><strong>포털 왕복 제거:</strong>  요청마다 포털에 사용자를 조회하던 호출이 사라져, 포털 응답 상태가 카이로스 로그인에 직접 영향을 주지 않습니다.</li>
+        <li><strong>포털 왕복 제거:</strong>  요청마다 포털에 사용자를 조회하던 호출이 사라져, 포털 응답 상태가 우리 시스템 로그인에 직접 영향을 주지 않습니다.</li>
         <li><strong>실패 구간을 로그로 식별:</strong>  인증 실패를 공개키 미설정 · 키 로드 실패 · 신분증 무효 · 검증 통과 네 단계로 나눠 남겨, 문의가 오면 원인을 바로 가릅니다.</li>
         <li><strong>송신 창구 일원화:</strong>  메뉴마다 흩어져 있던 외부 송신을 공통 창구 하나로 모아 이력이 자동으로 쌓이게 하고, 개인정보 · 금융정보 마스킹을 함께 적용했습니다.</li>
       </ul>
@@ -724,9 +724,10 @@
       </div>
       <ul>
         <li><strong>배포 실패의 원인을 추적해 복구:</strong>  실패 이유를 가리키는 메시지가 없고 로그조차 남지 않는 상황에서, 끊기는 단계를 좁혀 디스크 용량이 원인임을 찾아 정리 후 배포를 성공시켰습니다. 이어서 지워지지 않고 남는 첨부파일을 보관기간 90일 물리삭제 배치로 자동 정리하게 만들어 재발을 막았습니다.</li>
-        <li><strong>대시보드 조회 수십 초 → 정상:</strong>  대공종 한 건마다 통째로 다시 계산되던 집계를 한 번만 계산해 재사용하도록 바꿨습니다.</li>
+        <li><strong>대시보드 조회 수십 초 → 정상:</strong>  상위 분류 한 건마다 통째로 다시 계산되던 집계를 한 번만 계산해 재사용하도록 바꿨습니다.</li>
         <li><strong>데이터 접근 경로 단일화:</strong>  JPA 와 MyBatis 가 같은 테이블을 함께 써서 방금 저장한 값이 옛 값으로 되돌아가던 문제를, JPA 를 4단계로 걷어내 해소했습니다 (82개 파일 / -688줄).</li>
         <li><strong>배포 · 형상관리 정비:</strong>  SVN → Git 전환, Jenkins 다중 서버 배포 체계 정비, 서버 8대의 용량 · 로그 관리를 점검 항목으로 문서화했습니다.</li>
+        <li><strong>클라우드 보안그룹 정리:</strong>  오라클 클라우드의 개발 서버 접근이 필요한 경로만이 아니라 사실상 열려 있었습니다. 열려 있던 규칙을 닫아 필요한 경로만 남겼고, 이후 포트를 열고 닫는 요청과 외부 연동 주소 등록을 규칙으로 반영합니다. 4개 부서가 함께 쓰는 환경이라 개발 서버 9대 · 운영 서버 13대(보안그룹 개발 9개 · 운영 13개)를 함께 봐야 했습니다.</li>
       </ul>
     </div>
   </section>
@@ -753,7 +754,7 @@
         <li><strong>반복 업무 명령어 제작:</strong>  손으로 반복하던 절차를 명령어로 고정해 씁니다. 제가 만든 테스트케이스 생성 명령어는 신규 메뉴 개발 후 손으로 만들던 테스트케이스 엑셀을 명령어 한 줄로 대체합니다. 코드를 분석해 화면 · 단계를 파악하고 Pass · Fail · N/A 드롭다운이 들어간 엑셀을 만듭니다 (명령 명세 285줄 + Node 생성기 659줄). 결재 계열 명령어처럼 동료가 만든 것도 팀에서 함께 씁니다.</li>
         <li><strong>사람이 입력한 결과를 보존:</strong>  코드가 바뀌어 다시 만들 때 이미 채워 넣은 성공여부 · 실제결과를 그대로 남기고 변경분만 반영하며, 이력 시트에 변경 이력을 한 줄 남깁니다. 이미 해둔 테스트를 처음부터 다시 하지 않게 만든 부분입니다.</li>
         <li><strong>설치 없이 도는 생성기:</strong>  Node 내장 모듈만으로 작성해 별도 설치가 필요 없고, 런타임이 없으면 분석 · 파일 생성을 하지 않고 안내만 남기고 멈춥니다.</li>
-        <li><strong>설계를 컨텍스트로 남김:</strong>  외부 시스템 10곳 · 인터페이스 40건을 어느 코드에서 어느 설정으로 나가는지까지 한 표로 정리하고, 연동 · 인증 가이드를 함께 남겼습니다. 사람은 인수 없이 읽고, AI 는 코드를 처음부터 훑지 않고 이 표를 근거로 답합니다.</li>
+        <li><strong>설계를 컨텍스트로 남김:</strong>  외부 서비스 8곳 · 인터페이스 40건을 어느 코드에서 어느 설정으로 나가는지까지 한 표로 정리하고, 연동 · 인증 가이드를 함께 남겼습니다. 사람은 인수 없이 읽고, AI 는 코드를 처음부터 훑지 않고 이 표를 근거로 답합니다.</li>
         <li><strong>활용 방식:</strong>  작업할 메뉴의 명세 한 파일만 읽히고, 요구가 두 가지로 읽히면 멈추게 하고, 새로 만들기 전에 기존 공통 코드를 먼저 찾게 합니다. 규칙 파일 · 스킬 · 결재 계열 명령어는 동료들이 만든 것을 함께 씁니다.</li>
       </ul>
       <div class="card flat" style="border:1px solid var(--line);">
@@ -823,13 +824,13 @@
       <h2>업무 성과</h2>
       <div class="metrics">
         <div class="metric"><span class="v">10</span><span class="k">단독 담당 업무 메뉴</span></div>
-        <div class="metric"><span class="v">10</span><span class="k">연동 외부 시스템</span></div>
+        <div class="metric"><span class="v">8</span><span class="k">연동 외부 서비스</span></div>
         <div class="metric"><span class="v">40</span><span class="k">연동 인터페이스 (건)</span></div>
         <div class="metric"><span class="v">8</span><span class="k">운영 관리 서버</span></div>
       </div>
       <ul>
         <li><strong>신규 도메인 end-to-end 구축:</strong>  안전관리 · 위험성평가, 실정보고를 현장 실무 문서 분석 기반으로 요구사항 정의 → UML · DB 설계 → 화면 · API · 전자결재 · 리포트까지 직접 구축했습니다.</li>
-        <li><strong>대외 연동 구조 정비:</strong>  흩어진 송신 경로를 공통 창구로 통합해 연동 이력 누락을 해소하고, 이름과 실체가 어긋난 연동(아이큐브 ↔ PNS)도 분리했습니다.</li>
+        <li><strong>대외 연동 구조 정비:</strong>  흩어진 송신 경로를 공통 창구로 통합해 연동 이력 누락을 해소하고, 이름과 실체가 어긋난 연동도 분리했습니다.</li>
         <li><strong>외부 리포트 솔루션 비용 절감:</strong>  외부 리포트 솔루션을 대신할 자체 리포트 추출을 파일럿으로 만들어 제안했습니다. 신규 메뉴는 자체 리포트 추출로 전환하는 데 성공했고, 남은 화면도 곧 걷어낼 예정입니다.</li>
         <li><strong>운영 안정성 확보:</strong>  SVN → Git 전환, Jenkins 다중 서버 배포 정비, 서버 8대 용량 · 로그 관리, DB Lock · 조회 지연 장애를 원인 단위로 해소했습니다.</li>
         <li><strong>AI 컨텍스트로 팀 지식 자산화:</strong>  팀이 만든 AI 하네스 위에서 제 몫의 컨텍스트를 채웠습니다. 연동 표준 문서 4종과 반복 업무를 자동화하는 명령어 3종을 만들고, 결함은 메뉴별 파일에 누적해 재발이 확인된 것만 공통 안티패턴으로 승격합니다.</li>
